@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/scrollView1">
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <LinearLayout android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <TextView android:text="Channel test1" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+        <ToggleButton android:text="ToggleButton" android:id="@+id/toggleButton1" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <TextView android:text="Channel test2" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+        <ToggleButton android:text="ToggleButton" android:id="@+id/toggleButton2" android:layout_width="wrap_content" android:layout_height="wrap_content"></ToggleButton>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayout3" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <TextView android:text="Channel name" android:id="@+id/textView3" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+        <EditText android:imeOptions="actionNext" android:text="test1" android:layout_height="wrap_content" android:id="@+id/channel_name" android:layout_width="wrap_content" android:layout_weight="1">
+            <requestFocus></requestFocus>
+        </EditText>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayout4" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <TextView android:text="Event Name" android:id="@+id/textView4" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+        <EditText android:imeOptions="actionNext" android:text="client-" android:layout_height="wrap_content" android:id="@+id/event_name" android:layout_width="wrap_content" android:layout_weight="1"></EditText>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayout6" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <TextView android:layout_height="wrap_content" android:id="@+id/textView5" android:layout_width="wrap_content" android:text="Event Data"></TextView>
+        <EditText android:imeOptions="actionDone" android:layout_height="wrap_content" android:id="@+id/event_data" android:layout_width="wrap_content" android:layout_weight="1"></EditText>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayout7" android:layout_height="wrap_content" android:layout_width="fill_parent" android:layout_gravity="right">
+        <Button android:layout_height="wrap_content" android:text="Send Event" android:layout_width="wrap_content" android:id="@+id/send_button" android:layout_gravity="right"></Button>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

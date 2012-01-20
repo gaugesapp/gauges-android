@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      android:versionCode="1"
+      android:versionName="1.0"
+      package="com.github.mobile.guages">
+
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14"/>
+    <uses-feature android:name="android.software.live_wallpaper" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+
+        <service
+                android:label="@string/wallpaper_name"
+                android:name="com.github.mobile.gauges.AirTrafficWallpaper"
+                android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data android:name="android.service.wallpaper" android:resource="@xml/gauges_wallpaper" />
+        </service>
+
+    </application>
+</manifest>
