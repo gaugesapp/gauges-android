@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import com.emorym.android_pusher.Pusher;
 import com.emorym.android_pusher.PusherCallback;
-import com.github.mobile.guages.R;
+import com.github.mobile.gauges.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
