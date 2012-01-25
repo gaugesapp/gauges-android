@@ -1,0 +1,7 @@
+<resources>
+
+    <color name="background">#000</color>
+    <color name="text">#FFF</color>
+    <color name="text_light">#999</color>
+
+</resources>
