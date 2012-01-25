@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="wallpaper_name">Guages AirTraffic</string>
-    <string name="app_name">Guages AirTraffic Wallpaper</string>
+    <string name="wallpaper_name">Gauges AirTraffic</string>
+    <string name="app_name">Gauges</string>
+    <string name="views">views</string>
+    <string name="people">people</string>
 </resources>
