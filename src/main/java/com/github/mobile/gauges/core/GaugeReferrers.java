@@ -26,6 +26,7 @@ public class GaugeReferrers implements Iterable<Referrer> {
 		this.referrers = referrers;
 	}
 
+	@Override
 	public Iterator<Referrer> iterator() {
 		return getReferrers().iterator();
 	}
