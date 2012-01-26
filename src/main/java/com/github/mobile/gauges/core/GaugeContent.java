@@ -28,8 +28,8 @@ public class GaugeContent implements Iterable<PageContent> {
 				.<PageContent> emptyList();
 	}
 
+	@Override
 	public Iterator<PageContent> iterator() {
 		return getContent().iterator();
 	}
-
 }
