@@ -16,6 +16,9 @@
 			</intent-filter>
 		</activity>
 
+		<activity android:name=".ui.GaugeViewActivity">
+		</activity>
+
 		<service android:label="@string/wallpaper_name"
 			android:name="com.github.mobile.gauges.AirTrafficWallpaper"
 			android:permission="android.permission.BIND_WALLPAPER">

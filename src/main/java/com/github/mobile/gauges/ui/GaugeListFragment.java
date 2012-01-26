@@ -1,8 +1,11 @@
 package com.github.mobile.gauges.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.view.View;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
@@ -12,6 +15,7 @@ import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +36,12 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 				}
 			}
 		};
+	}
+
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		Intent i = new Intent(getActivity(), GaugeViewActivity.class);
+		i.putExtra("gauge", (Serializable) l.getItemAtPosition(position));
+		startActivity(i);
 	}
 
 	protected ListAdapter adapterFor(List<Gauge> items) {
