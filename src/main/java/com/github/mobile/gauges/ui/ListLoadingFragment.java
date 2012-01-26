@@ -11,7 +11,7 @@ import roboguice.fragment.RoboListFragment;
 
 /**
  * List loading fragment for a specific type
- * 
+ *
  * @param <E>
  */
 public abstract class ListLoadingFragment<E> extends RoboListFragment implements
@@ -21,7 +21,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setListShown(false);
-		refresh();
+		getLoaderManager().initLoader(0, null, this);
 	}
 
 	/**
@@ -42,7 +42,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
 
 	/**
 	 * Create adapter for list of items
-	 * 
+	 *
 	 * @param items
 	 * @return list adapter
 	 */
