@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="wallpaper_name">Gauges AirTraffic</string>
     <string name="app_name">Gauges</string>
     <string name="views">views</string>
     <string name="people">people</string>
+    <string name="page_content">Content</string>
+    <string name="page_traffic">Traffic</string>
+    <string name="page_referrers">Referrers</string>
+
 </resources>

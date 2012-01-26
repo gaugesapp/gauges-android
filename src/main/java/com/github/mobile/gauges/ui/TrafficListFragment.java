@@ -1,5 +1,6 @@
 package com.github.mobile.gauges.ui;
 
+import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 
@@ -19,8 +20,7 @@ public class TrafficListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setListAdapter(new ViewHoldingListAdapter<DatedViewSummary>(
-				((Gauge) getArguments().getSerializable("gauge"))
-						.getRecentDays(),
+				((Gauge) getArguments().getSerializable(GAUGE)).getRecentDays(),
 				ViewInflator.viewInflatorFor(getActivity(),
 						layout.traffic_list_item), ReflectiveHolderFactory
 						.reflectiveFactoryFor(TrafficViewHolder.class)));

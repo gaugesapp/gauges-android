@@ -1,9 +1,13 @@
 package com.github.mobile.gauges.ui;
 
+import static com.github.mobile.gauges.IntentConstants.GAUGE;
+import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import com.github.mobile.gauges.R.string;
 import android.support.v4.view.ViewPager;
 
 import com.github.mobile.gauges.R;
@@ -25,19 +29,22 @@ public class GaugeViewActivity extends RoboFragmentActivity {
 	public static class PagerAdapter extends FragmentPagerAdapter implements
 			TitleProvider {
 
-		private static final String[] TITLES = { "Content", "Traffic",
-				"Referrers" };
+		private final Context context;
 
 		private final Gauge gauge;
 
 		/**
 		 * Create pager adapter
 		 *
+		 * @param context
+		 *
 		 * @param gauge
 		 * @param fragmentManager
 		 */
-		public PagerAdapter(Gauge gauge, FragmentManager fragmentManager) {
+		public PagerAdapter(Context context, Gauge gauge,
+				FragmentManager fragmentManager) {
 			super(fragmentManager);
+			this.context = context;
 			this.gauge = gauge;
 		}
 
@@ -49,8 +56,8 @@ public class GaugeViewActivity extends RoboFragmentActivity {
 		@Override
 		public Fragment getItem(int position) {
 			Bundle bundle = new Bundle();
-			bundle.putSerializable("gauge", gauge);
-			bundle.putString("gaugeId", gauge.getId());
+			bundle.putSerializable(GAUGE, gauge);
+			bundle.putString(GAUGE_ID, gauge.getId());
 			switch (position) {
 			case 0:
 				ContentListFragment contentFragment = new ContentListFragment();
@@ -70,7 +77,16 @@ public class GaugeViewActivity extends RoboFragmentActivity {
 		}
 
 		public String getTitle(int position) {
-			return TITLES[position];
+			switch (position) {
+			case 0:
+				return context.getString(string.page_content);
+			case 1:
+				return context.getString(string.page_traffic);
+			case 2:
+				return context.getString(string.page_referrers);
+			default:
+				return null;
+			}
 		}
 	}
 
@@ -79,10 +95,11 @@ public class GaugeViewActivity extends RoboFragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.gauge_view);
 
-		Gauge gauge = (Gauge) getIntent().getSerializableExtra("gauge");
+		Gauge gauge = (Gauge) getIntent().getSerializableExtra(GAUGE);
 
 		ViewPager pager = (ViewPager) findViewById(id.vp_pages);
-		pager.setAdapter(new PagerAdapter(gauge, getSupportFragmentManager()));
+		pager.setAdapter(new PagerAdapter(getApplicationContext(), gauge,
+				getSupportFragmentManager()));
 
 		((TitlePageIndicator) findViewById(id.tpi_header)).setViewPager(pager);
 		pager.setCurrentItem(1);
