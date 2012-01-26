@@ -13,7 +13,7 @@ public class Gauges implements Iterable<Gauge> {
 
 	/**
 	 * Is collection empty?
-	 * 
+	 *
 	 * @return true if empty, false otherwise
 	 */
 	public boolean isEmpty() {
@@ -28,8 +28,6 @@ public class Gauges implements Iterable<Gauge> {
 	}
 
 	public Iterator<Gauge> iterator() {
-		if (gauges == null)
-			return Collections.<Gauge> emptyList().iterator();
-		return gauges.iterator();
+		return getGauges().iterator();
 	}
 }

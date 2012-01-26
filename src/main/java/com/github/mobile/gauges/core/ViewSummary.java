@@ -1,9 +1,14 @@
 package com.github.mobile.gauges.core;
 
+import java.io.Serializable;
+
 /**
  * View summary
  */
-public class ViewSummary {
+public class ViewSummary implements Serializable {
+
+	/** serialVersionUID */
+	private static final long serialVersionUID = 1916316095553659715L;
 
 	private long people;
 

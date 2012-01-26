@@ -7,6 +7,9 @@ import java.util.Date;
  */
 public class DatedViewSummary extends ViewSummary {
 
+	/** serialVersionUID */
+	private static final long serialVersionUID = 7356147548009255795L;
+
 	private Date date;
 
 	/**
