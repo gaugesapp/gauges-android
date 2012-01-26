@@ -226,5 +226,30 @@
 				<jsse.jar.path>${java.home}/jre/lib/jsse.jar</jsse.jar.path>
 			</properties>
 		</profile>
+		<profile>
+            <id>ci</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>downloads-maven-plugin</artifactId>
+                        <version>0.4</version>
+                        <configuration>
+                            <description>${project.name} ${project.version}</description>
+                            <override>true</override>
+                            <includeAttached>false</includeAttached>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>upload</goal>
+                                </goals>
+                                <phase>install</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 	</profiles>
 </project>
