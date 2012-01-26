@@ -1,5 +1,6 @@
 package com.github.mobile.gauges.ui;
 
+import static android.content.Intent.ACTION_VIEW;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import java.util.List;
  */
 public class ContentListFragment extends ListLoadingFragment<PageContent> {
 
+	private static final String TAG = "CLA";
+
 	/**
 	 * Create content list fragment
 	 */
@@ -41,8 +44,7 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 					return service.getContent(getArguments().getString(
 							"gaugeId"));
 				} catch (IOException e) {
-					Log.d(getClass().getName(),
-							"Exception getting page content", e);
+					Log.d(TAG, "Exception getting page content", e);
 					return Collections.emptyList();
 				}
 			}
@@ -59,7 +61,6 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		String url = ((PageContent) l.getItemAtPosition(position)).getUrl();
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-		startActivity(intent);
+		startActivity(new Intent(ACTION_VIEW, Uri.parse(url)));
 	}
 }
