@@ -7,6 +7,7 @@
 	<artifactId>gauges-android</artifactId>
 	<packaging>apk</packaging>
 	<name>Gauges Android app</name>
+	<url>https://github.com/github/gauges-android</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<android.version>3.2_r1</android.version>
