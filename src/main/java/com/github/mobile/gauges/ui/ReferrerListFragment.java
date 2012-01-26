@@ -1,6 +1,7 @@
 package com.github.mobile.gauges.ui;
 
 import static android.content.Intent.ACTION_VIEW;
+import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,7 +42,7 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
 				GaugesService service = new GaugesService(null, null);
 				try {
 					return service.getReferrers(getArguments().getString(
-							"gaugeId"));
+							GAUGE_ID));
 				} catch (IOException e) {
 					Log.d(TAG, "Exception getting referrers", e);
 					return Collections.emptyList();

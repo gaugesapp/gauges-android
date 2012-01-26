@@ -1,5 +1,6 @@
 package com.github.mobile.gauges.ui;
 
+import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -40,7 +41,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent i = new Intent(getActivity(), GaugeViewActivity.class);
-		i.putExtra("gauge", (Serializable) l.getItemAtPosition(position));
+		i.putExtra(GAUGE, (Serializable) l.getItemAtPosition(position));
 		startActivity(i);
 	}
 
