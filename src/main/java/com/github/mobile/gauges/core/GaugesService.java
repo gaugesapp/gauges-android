@@ -1,7 +1,5 @@
 package com.github.mobile.gauges.core;
 
-import android.util.Log;
-
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.google.gson.FieldNamingPolicy;
@@ -52,7 +50,6 @@ public class GaugesService {
 	 * @throws IOException
 	 */
 	protected HttpRequest execute(HttpRequest request) throws IOException {
-		Log.d(getClass().getName(), "Request: " + request);
 		if (!request.basic(username, password).ok())
 			throw new IOException("Unexpected response code: " + request.code());
 		return request;
