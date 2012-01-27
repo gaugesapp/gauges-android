@@ -3,7 +3,7 @@ package com.github.mobile.gauges.authenticator;
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
-import static com.github.mobile.gauges.authenticator.Constants.GAUGES_ACCOUNT_TYPE;
+import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.authenticator.GaugesAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE;
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
@@ -79,7 +79,7 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public String getAuthTokenLabel(String authTokenType) {
-        if (authTokenType.equals(Constants.AUTHTOKEN_TYPE)) {
+        if (authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE)) {
             return authTokenType;
         }
         return null;
