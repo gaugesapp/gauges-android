@@ -4,7 +4,6 @@ import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,17 +16,33 @@ import java.util.List;
  */
 public class GaugesService {
 
-	static final String URL_BASE = "https://secure.gaug.es/";
+	/**
+	 * Base URL
+	 */
+	public static final String URL_BASE = "https://secure.gaug.es/";
 
-	private static final String URL_GAUGES = URL_BASE + "gauges/";
+	/**
+	 * Gauges URL
+	 */
+	public static final String URL_GAUGES = URL_BASE + "gauges/";
 
-	private static final String URL_EMBEDDED = URL_GAUGES + "embedded";
+	/**
+	 * Embedded URL
+	 */
+	public static final String URL_EMBEDDED = URL_GAUGES + "embedded";
 
-	private final Gson gson= new GsonBuilder()
-					.setDateFormat("yyyy-MM-dd")
-					.setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+	/**
+	 * GSON instance to use for all request
+	 */
+	public static final Gson GSON = new GsonBuilder()
+			.setDateFormat("yyyy-MM-dd")
+			.setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
 
-	private String username, password, apiKey;
+	private final String apiKey;
+
+	private final String username;
+
+	private final String password;
 
 	/**
 	 * Create gauges service
@@ -38,11 +53,19 @@ public class GaugesService {
 	public GaugesService(final String username, final String password) {
 		this.username = username;
 		this.password = password;
+		this.apiKey = null;
 	}
 
-    public GaugesService(String apiKey) {
-        this.apiKey = apiKey;
-    }
+	/**
+	 * Create gauges service
+	 *
+	 * @param apiKey
+	 */
+	public GaugesService(final String apiKey) {
+		this.apiKey = apiKey;
+		this.username = null;
+		this.password = null;
+	}
 
 	/**
 	 * Execute request
@@ -57,15 +80,14 @@ public class GaugesService {
 		return request;
 	}
 
-    private HttpRequest addCredentialsTo(HttpRequest request) {
-        if (apiKey!=null) {
-            return request.header("X-Gauges-Token", apiKey);
-        } else {
-            return request.basic(username, password);
-        }
-    }
+	private HttpRequest addCredentialsTo(HttpRequest request) {
+		if (apiKey != null)
+			return request.header("X-Gauges-Token", apiKey);
+		else
+			return request.basic(username, password);
+	}
 
-    /**
+	/**
 	 * Get all gauges
 	 *
 	 * @return non-null but possibly empty list of gauges
@@ -74,7 +96,7 @@ public class GaugesService {
 	public List<Gauge> getGauges() throws IOException {
 		try {
 			HttpRequest request = execute(HttpRequest.get(URL_EMBEDDED));
-			Gauges gauges = gson.fromJson(request.reader(), Gauges.class);
+			Gauges gauges = GSON.fromJson(request.reader(), Gauges.class);
 			return gauges != null ? gauges.getGauges() : Collections
 					.<Gauge> emptyList();
 		} catch (HttpRequestException e) {
@@ -93,7 +115,7 @@ public class GaugesService {
 		try {
 			HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId
 					+ "/content"));
-			GaugeContent content = gson.fromJson(request.reader(),
+			GaugeContent content = GSON.fromJson(request.reader(),
 					GaugeContent.class);
 			return content != null ? content.getContent() : Collections
 					.<PageContent> emptyList();
@@ -113,7 +135,7 @@ public class GaugesService {
 		try {
 			HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId
 					+ "/referrers"));
-			GaugeReferrers referrers = gson.fromJson(request.reader(),
+			GaugeReferrers referrers = GSON.fromJson(request.reader(),
 					GaugeReferrers.class);
 			return referrers != null ? referrers.getReferrers() : Collections
 					.<Referrer> emptyList();

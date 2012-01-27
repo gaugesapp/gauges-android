@@ -4,6 +4,7 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -27,26 +28,27 @@ import java.util.List;
  */
 public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
-    private final static String TAG = "GLF";
+	private final static String TAG = "GLF";
 
-    @Inject ApiKeyProvider apiKeyProvider;
+	@Inject
+	ApiKeyProvider apiKeyProvider;
 
 	public Loader<List<Gauge>> onCreateLoader(int id, Bundle args) {
 		return new AsyncLoader<List<Gauge>>(getActivity()) {
 
 			public List<Gauge> loadInBackground() {
-                GaugesService service = new GaugesService(apiKeyProvider.getAuthKey());
 				try {
-					return service.getGauges();
+					return new GaugesService(apiKeyProvider.getAuthKey())
+							.getGauges();
 				} catch (IOException e) {
+					Log.d(TAG, "Exception getting gauges", e);
 					return Collections.emptyList();
 				}
 			}
 		};
 	}
 
-
-    public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent i = new Intent(getActivity(), GaugeViewActivity.class);
 		i.putExtra(GAUGE, (Serializable) l.getItemAtPosition(position));
 		startActivity(i);
