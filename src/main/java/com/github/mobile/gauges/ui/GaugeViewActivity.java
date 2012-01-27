@@ -4,6 +4,7 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import android.content.Context;
 import android.os.Bundle;
+import com.github.mobile.gauges.R.color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -102,7 +103,10 @@ public class GaugeViewActivity extends RoboFragmentActivity {
 		pager.setAdapter(new PagerAdapter(getApplicationContext(), gauge,
 				getSupportFragmentManager()));
 
-		((TitlePageIndicator) findViewById(id.tpi_header)).setViewPager(pager);
+		TitlePageIndicator indicator = (TitlePageIndicator) findViewById(id.tpi_header);
+		indicator.setTextColor(getResources().getColor(color.text_light));
+		indicator.setFooterColor(getResources().getColor(color.text_light));
+		indicator.setViewPager(pager);
 		pager.setCurrentItem(1);
 	}
 }
