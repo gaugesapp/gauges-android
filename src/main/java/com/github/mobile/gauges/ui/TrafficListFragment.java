@@ -3,9 +3,11 @@ package com.github.mobile.gauges.ui;
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.ui.BarGraphDrawable.COLOR_PEOPLE_WEEKDAY;
 import static com.github.mobile.gauges.ui.BarGraphDrawable.COLOR_VIEWS_WEEKDAY;
+import android.R;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.widget.ListView;
 
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
@@ -15,6 +17,7 @@ import com.madgag.android.listviews.ReflectiveHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +32,8 @@ public class TrafficListFragment extends ListFragment {
 
 		Gauge gauge = (Gauge) getArguments().getSerializable(GAUGE);
 
-		final List<DatedViewSummary> recentDays = gauge.getRecentDays();
+		final List<DatedViewSummary> recentDays = new ArrayList<DatedViewSummary>(
+				gauge.getRecentDays());
 		final DatedViewSummary[] graphDays = recentDays
 				.toArray(new DatedViewSummary[recentDays.size()]);
 		final long[][] data = new long[graphDays.length][];
@@ -44,7 +48,16 @@ public class TrafficListFragment extends ListFragment {
 				layout.traffic_graph, null);
 		view.findViewById(id.ll_bars).setBackgroundDrawable(
 				new BarGraphDrawable(data, colors));
-		getListView().addHeaderView(view);
+
+		ListView listView = getListView();
+
+		listView.addHeaderView(view);
+		listView.addHeaderView(getLayoutInflater(savedInstanceState).inflate(
+				layout.traffic_list_item_labels, null));
+
+		listView.setSelector(R.color.transparent);
+		listView.setCacheColorHint(getResources().getColor(R.color.transparent));
+		listView.setDrawSelectorOnTop(false);
 
 		setListAdapter(new ViewHoldingListAdapter<DatedViewSummary>(recentDays,
 				ViewInflator.viewInflatorFor(getActivity(),
