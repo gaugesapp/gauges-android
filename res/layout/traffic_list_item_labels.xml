@@ -9,25 +9,25 @@
         android:id="@+id/tv_traffic_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="40"
+        android:layout_weight="60"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text_light" />
 
     <TextView
-        android:id="@+id/tv_traffic_views"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="30"
         android:gravity="right"
+        android:text="Views"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text" />
 
     <TextView
-        android:id="@+id/tv_traffic_people"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="30"
         android:gravity="right"
+        android:text="People"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text" />
 
