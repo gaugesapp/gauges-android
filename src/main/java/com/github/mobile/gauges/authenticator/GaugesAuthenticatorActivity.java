@@ -4,6 +4,7 @@ import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static android.text.TextUtils.isEmpty;
 import static com.github.kevinsawicki.http.HttpRequest.post;
 import static com.github.mobile.gauges.authenticator.Constants.GAUGES_ACCOUNT_TYPE;
+import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
@@ -59,8 +60,6 @@ public class GaugesAuthenticatorActivity extends
 	public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
 
 	private static final String TAG = "GaugesAuthActivity";
-
-	private static final String GAUGES_AUTH_URL = "https://secure.gaug.es/authenticate";
 
 	private AccountManager accountManager;
 
@@ -192,7 +191,7 @@ public class GaugesAuthenticatorActivity extends
 
 			authenticationTask = new RoboAsyncTask<Boolean>(this) {
 				public Boolean call() throws Exception {
-					int response = post(GAUGES_AUTH_URL).send(
+					int response = post(URL_AUTH).send(
 							"email=" + email + "&password=" + password).code();
 					Log.d(TAG, "response=" + response);
 					return response == 200;
@@ -246,11 +245,10 @@ public class GaugesAuthenticatorActivity extends
 		Log.i(TAG, "finishLogin()");
 		final Account account = new Account(email, GAUGES_ACCOUNT_TYPE);
 
-		if (requestNewAccount) {
+		if (requestNewAccount)
 			accountManager.addAccountExplicitly(account, password, null);
-		} else {
+		else
 			accountManager.setPassword(account, password);
-		}
 		final Intent intent = new Intent();
 		authToken = password;
 		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, email);
