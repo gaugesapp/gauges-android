@@ -11,6 +11,10 @@
     <uses-feature android:name="android.software.live_wallpaper" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
 
     <application
         android:name=".GaugesApplication"
@@ -39,6 +43,24 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/gauges_wallpaper" />
         </service>
-    </application>
+        
+        
+        <service android:name=".authenticator.AccountAuthenticatorService"
+                 android:exported="true" android:process=":auth">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator"/>
+        </service>
 
+        <activity
+                android:name=".authenticator.GaugesAuthenticatorActivity"
+                android:excludeFromRecents="true"
+                >
+            <!--
+                No intent-filter here! This activity is only ever launched by
+                someone who explicitly knows the class name
+            -->
+        </activity>
+    </application>
 </manifest>

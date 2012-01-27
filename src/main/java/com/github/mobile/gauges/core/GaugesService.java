@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class GaugesService {
 
-	private static final String URL_BASE = "https://secure.gaug.es/";
+	static final String URL_BASE = "https://secure.gaug.es/";
 
 	private static final String URL_GAUGES = URL_BASE + "gauges/";
 

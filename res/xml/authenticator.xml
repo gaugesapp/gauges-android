@@ -1,0 +1,7 @@
+<account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
+                       android:accountType="com.github.gauges"
+                       android:icon="@drawable/icon"
+                       android:smallIcon="@drawable/icon"
+                       android:label="@string/app_name"
+        />
+

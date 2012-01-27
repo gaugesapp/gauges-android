@@ -11,4 +11,15 @@
     <string name="page_traffic">Traffic</string>
     <string name="page_referrers">Referrers</string>
 
+    <!-- AuthenticatorActivity -->
+
+    <string name="login_activity_username_label">Username</string>
+    <string name="login_activity_password_label">Password</string>
+    <string name="login_activity_ok_button">Sign in</string>
+
+    <string name="sign_in_username_field_hint">Username</string>
+    <string name="sign_in_password_field_hint">Password</string>
+
+    <string name="blank_field_warning">Please populate this field</string>
+
 </resources>
