@@ -10,6 +10,7 @@
     <string name="page_content">Content</string>
     <string name="page_traffic">Traffic</string>
     <string name="page_referrers">Referrers</string>
+    <string name="refresh_action">Refresh</string>
 
     <!-- AuthenticatorActivity -->
 
