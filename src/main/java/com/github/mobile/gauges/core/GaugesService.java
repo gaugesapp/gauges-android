@@ -1,5 +1,7 @@
 package com.github.mobile.gauges.core;
 
+import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.google.gson.FieldNamingPolicy;
@@ -21,11 +23,11 @@ public class GaugesService {
 
 	private static final String URL_EMBEDDED = URL_GAUGES + "embedded";
 
-	private final Gson gson;
+	private final Gson gson= new GsonBuilder()
+					.setDateFormat("yyyy-MM-dd")
+					.setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
 
-	private final String password;
-
-	private final String username;
+	private String username, password, apiKey;
 
 	/**
 	 * Create gauges service
@@ -36,11 +38,11 @@ public class GaugesService {
 	public GaugesService(final String username, final String password) {
 		this.username = username;
 		this.password = password;
-		gson = new GsonBuilder()
-				.setDateFormat("yyyy-MM-dd")
-				.setFieldNamingPolicy(
-						FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 	}
+
+    public GaugesService(String apiKey) {
+        this.apiKey = apiKey;
+    }
 
 	/**
 	 * Execute request
@@ -50,12 +52,20 @@ public class GaugesService {
 	 * @throws IOException
 	 */
 	protected HttpRequest execute(HttpRequest request) throws IOException {
-		if (!request.basic(username, password).ok())
+		if (!addCredentialsTo(request).ok())
 			throw new IOException("Unexpected response code: " + request.code());
 		return request;
 	}
 
-	/**
+    private HttpRequest addCredentialsTo(HttpRequest request) {
+        if (apiKey!=null) {
+            return request.header("X-Gauges-Token", apiKey);
+        } else {
+            return request.basic(username, password);
+        }
+    }
+
+    /**
 	 * Get all gauges
 	 *
 	 * @return non-null but possibly empty list of gauges
