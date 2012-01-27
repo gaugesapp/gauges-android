@@ -8,21 +8,22 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.ContactsContract;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.github.mobile.gauges.R;
+import com.github.mobile.gauges.R.id;
+import com.github.mobile.gauges.R.layout;
+import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.validation.LeavingBlankTextFieldWarner;
 import com.github.mobile.gauges.validation.TextWatcherAdapter;
 import com.google.inject.Inject;
@@ -31,268 +32,277 @@ import roboguice.activity.RoboAccountAuthenticatorActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.RoboAsyncTask;
 
-public class GaugesAuthenticatorActivity extends RoboAccountAuthenticatorActivity {
-    public static final String PARAM_CONFIRMCREDENTIALS = "confirmCredentials";
-    public static final String PARAM_PASSWORD = "password";
-    public static final String PARAM_USERNAME = "username";
-    public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
+/**
+ * Activity to authenticate the user against gaug.es
+ */
+public class GaugesAuthenticatorActivity extends
+		RoboAccountAuthenticatorActivity {
 
-    private static final String TAG = "GaugesAuthActivity";
-    
-    private static final String GAUGES_AUTH_URL = "https://secure.gaug.es/authenticate";
+	/**
+	 * PARAM_CONFIRMCREDENTIALS
+	 */
+	public static final String PARAM_CONFIRMCREDENTIALS = "confirmCredentials";
 
-    private AccountManager mAccountManager;
-    @InjectView(R.id.message)
-    TextView mMessage;
-    @InjectView(R.id.username_edit)
-    EditText usernameEdit;
-    @InjectView(R.id.password_edit)
-    EditText passwordEdit;
-    @InjectView(R.id.ok_button)
-    Button okButton;
+	/**
+	 * PARAM_PASSWORD
+	 */
+	public static final String PARAM_PASSWORD = "password";
 
-    @Inject
-    LeavingBlankTextFieldWarner leavingBlankTextFieldWarner;
-    private TextWatcher watcher = validationTextWatcher();
+	/**
+	 * PARAM_USERNAME
+	 */
+	public static final String PARAM_USERNAME = "username";
 
-    private RoboAsyncTask<Boolean> authenticationTask;
-    private String mAuthtoken;
-    private String mAuthtokenType;
+	/**
+	 * PARAM_AUTHTOKEN_TYPE
+	 */
+	public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
 
-    /**
-     * If set we are just checking that the user knows their credentials; this doesn't cause the user's password to be
-     * changed on the device.
-     */
-    private Boolean mConfirmCredentials = false;
+	private static final String TAG = "GaugesAuthActivity";
 
-    /**
-     * for posting authentication attempts back to UI thread
-     */
-    private final Handler mHandler = new Handler();
+	private static final String GAUGES_AUTH_URL = "https://secure.gaug.es/authenticate";
 
-    private String mPassword;
+	private AccountManager accountManager;
 
-    /**
-     * Was the original caller asking for an entirely new account?
-     */
-    protected boolean mRequestNewAccount = false;
+	@InjectView(id.message)
+	private TextView messageText;
 
-    private String mUsername;
+	@InjectView(id.et_email)
+	private EditText emailText;
 
-    @Override
-    public void onCreate(Bundle icicle) {
-        Log.i(TAG, "onCreate(" + icicle + ")");
-        super.onCreate(icicle);
-        mAccountManager = AccountManager.get(this);
-        Log.i(TAG, "loading data from Intent");
-        final Intent intent = getIntent();
-        mUsername = intent.getStringExtra(PARAM_USERNAME);
-        mAuthtokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
-        mRequestNewAccount = mUsername == null;
-        mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
+	@InjectView(id.et_password)
+	private EditText passwordText;
 
-        Log.i(TAG, "request new: " + mRequestNewAccount);
+	@InjectView(id.b_signin)
+	private Button signinButton;
 
-        setContentView(R.layout.login_activity);
+	@Inject
+	private LeavingBlankTextFieldWarner leavingBlankTextFieldWarner;
 
-        setNonBlankValidationFor(usernameEdit);
-        setNonBlankValidationFor(passwordEdit);
+	private TextWatcher watcher = validationTextWatcher();
 
-        // usernameEdit.setText(mUsername);
-        // mMessage.setText(getMessage());
-    }
+	private RoboAsyncTask<Boolean> authenticationTask;
+	private String authToken;
+	private String authTokenType;
 
-    private void setNonBlankValidationFor(EditText editText) {
-        editText.addTextChangedListener(watcher);
-        editText.setOnFocusChangeListener(leavingBlankTextFieldWarner);
-    }
+	/**
+	 * If set we are just checking that the user knows their credentials; this
+	 * doesn't cause the user's password to be changed on the device.
+	 */
+	private Boolean confirmCredentials = false;
 
-    private TextWatcher validationTextWatcher() {
-        return new TextWatcherAdapter() {
-            public void afterTextChanged(Editable gitDirEditText) {
-                updateUIWithValidation();
-            }
+	private String email;
 
-        };
-    }
+	private String password;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updateUIWithValidation();
-    }
+	/**
+	 * Was the original caller asking for an entirely new account?
+	 */
+	protected boolean requestNewAccount = false;
 
-    private void updateUIWithValidation() {
-        boolean populated = populated(usernameEdit) && populated(passwordEdit);
-        okButton.setEnabled(populated);
-    }
+	@Override
+	public void onCreate(Bundle icicle) {
+		Log.i(TAG, "onCreate(" + icicle + ")");
+		super.onCreate(icicle);
+		accountManager = AccountManager.get(this);
+		Log.i(TAG, "loading data from Intent");
+		final Intent intent = getIntent();
+		email = intent.getStringExtra(PARAM_USERNAME);
+		authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
+		requestNewAccount = email == null;
+		confirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,
+				false);
 
-    private boolean populated(EditText editText) {
-        return editText.length() > 0;
-    }
+		Log.i(TAG, "request new: " + requestNewAccount);
 
-    /*
-     * {@inheritDoc}
-     */
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        final ProgressDialog dialog = new ProgressDialog(this);
-        // dialog.setMessage(getText(R.string.ui_activity_authenticating));
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(true);
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            public void onCancel(DialogInterface dialog) {
-                Log.i(TAG, "dialog cancel has been invoked");
-                if (authenticationTask != null) {
-                    authenticationTask.cancel(true);
-                    finish();
-                }
-            }
-        });
-        return dialog;
-    }
+		setContentView(layout.login_activity);
 
-    /**
-     * Handles onClick event on the Submit button. Sends username/password to the server for authentication.
-     * <p/>
-     * Specified by android:onClick="handleLogin" in the layout xml
-     */
-    public void handleLogin(View view) {
-        Log.d(TAG, "handleLogin hit on" + view);
-        if (mRequestNewAccount) {
-            mUsername = usernameEdit.getText().toString();
-        }
-        mPassword = passwordEdit.getText().toString();
-        if (isEmpty(mUsername) || isEmpty(mPassword)) {
-            mMessage.setText(getMessage());
-        } else {
-            showProgress();
+		setNonBlankValidationFor(emailText);
+		setNonBlankValidationFor(passwordText);
 
-            authenticationTask = new RoboAsyncTask<Boolean>(this) {
-                public Boolean call() throws Exception {
-                    int response = post(GAUGES_AUTH_URL).send("email="+mUsername+"&password="+mPassword).code();
-                    Log.d(TAG,"response="+response);
-                    return response == 200;
-                }
+		TextView signupText = (TextView) findViewById(id.tv_signup);
+		signupText.setMovementMethod(LinkMovementMethod.getInstance());
+		signupText.setText(Html.fromHtml(getString(string.signup_link)));
+	}
 
-                @Override
-                protected void onException(Exception e) throws RuntimeException {
-                    mMessage.setText(e.getMessage());
-//                    if (e instanceof RequestException && ((RequestException) e).getStatus() == 401) {
-//                        passwordEdit.setText("");
-//                    }
-                }
+	private void setNonBlankValidationFor(EditText editText) {
+		editText.addTextChangedListener(watcher);
+		editText.setOnFocusChangeListener(leavingBlankTextFieldWarner);
+	}
 
-                public void onSuccess(Boolean authSuccess) {
-                    onAuthenticationResult(authSuccess);
-                }
+	private TextWatcher validationTextWatcher() {
+		return new TextWatcherAdapter() {
+			public void afterTextChanged(Editable gitDirEditText) {
+				updateUIWithValidation();
+			}
 
-                @Override
-                protected void onFinally() throws RuntimeException {
-                    hideProgress();
-                }
-            };
-            authenticationTask.execute();
-        }
-    }
+		};
+	}
 
-    /**
-     * Called when response is received from the server for confirm credentials request. See onAuthenticationResult().
-     * Sets the AccountAuthenticatorResult which is sent back to the caller.
-     */
-    protected void finishConfirmCredentials(boolean result) {
-        Log.i(TAG, "finishConfirmCredentials()");
-        final Account account = new Account(mUsername, GAUGES_ACCOUNT_TYPE);
-        mAccountManager.setPassword(account, mPassword);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		updateUIWithValidation();
+	}
 
-        final Intent intent = new Intent();
-        intent.putExtra(KEY_BOOLEAN_RESULT, result);
-        setAccountAuthenticatorResult(intent.getExtras());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
+	private void updateUIWithValidation() {
+		boolean populated = populated(emailText) && populated(passwordText);
+		signinButton.setEnabled(populated);
+	}
 
-    /**
-     * Called when response is received from the server for authentication request. See onAuthenticationResult(). Sets
-     * the AccountAuthenticatorResult which is sent back to the caller. Also sets the authToken in AccountManager for
-     * this account.
-     */
+	private boolean populated(EditText editText) {
+		return editText.length() > 0;
+	}
 
-    protected void finishLogin() {
-        Log.i(TAG, "finishLogin()");
-        final Account account = new Account(mUsername, GAUGES_ACCOUNT_TYPE);
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		final ProgressDialog dialog = new ProgressDialog(this);
+		dialog.setMessage(getText(string.login_activity_authenticating));
+		dialog.setIndeterminate(true);
+		dialog.setCancelable(true);
+		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			public void onCancel(DialogInterface dialog) {
+				Log.i(TAG, "dialog cancel has been invoked");
+				if (authenticationTask != null) {
+					authenticationTask.cancel(true);
+					finish();
+				}
+			}
+		});
+		return dialog;
+	}
 
-        if (mRequestNewAccount) {
-            mAccountManager.addAccountExplicitly(account, mPassword, null);
-        } else {
-            mAccountManager.setPassword(account, mPassword);
-        }
-        final Intent intent = new Intent();
-        mAuthtoken = mPassword;
-        intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
-        intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
-        if (mAuthtokenType != null && mAuthtokenType.equals(Constants.AUTHTOKEN_TYPE)) {
-            intent.putExtra(AccountManager.KEY_AUTHTOKEN, mAuthtoken);
-        }
-        setAccountAuthenticatorResult(intent.getExtras());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
+	/**
+	 * Handles onClick event on the Submit button. Sends username/password to
+	 * the server for authentication.
+	 * <p/>
+	 * Specified by android:onClick="handleLogin" in the layout xml
+	 *
+	 * @param view
+	 */
+	public void handleLogin(View view) {
+		Log.d(TAG, "handleLogin hit on" + view);
+		if (requestNewAccount)
+			email = emailText.getText().toString();
+		password = passwordText.getText().toString();
+		if (isEmpty(email) || isEmpty(password))
+			messageText.setText(getMessage());
+		else {
+			showProgress();
 
-    protected void hideProgress() {
-        dismissDialog(0);
-    }
+			authenticationTask = new RoboAsyncTask<Boolean>(this) {
+				public Boolean call() throws Exception {
+					int response = post(GAUGES_AUTH_URL).send(
+							"email=" + email + "&password=" + password).code();
+					Log.d(TAG, "response=" + response);
+					return response == 200;
+				}
 
-    protected void showProgress() {
-        showDialog(0);
-    }
+				@Override
+				protected void onException(Exception e) throws RuntimeException {
+					messageText.setText(e.getMessage());
+				}
 
-    /**
-     * Called when the authentication process completes (see attemptLogin()).
-     */
-    public void onAuthenticationResult(boolean result) {
-        Log.i(TAG, "onAuthenticationResult(" + result + ")");
-        if (result) {
-            if (!mConfirmCredentials) {
-                finishLogin();
-            } else {
-                finishConfirmCredentials(true);
-            }
-        } else {
-            Log.e(TAG, "onAuthenticationResult: failed to authenticate");
-            if (mRequestNewAccount) {
-                // "Please enter a valid username/password.
-                // mMessage
-                // .setText(getText(R.string.login_activity_loginfail_text_both));
-                mMessage.setText("Please enter a valid username/password.");
-            } else {
-                // "Please enter a valid password." (Used when the
-                // account is already in the database but the password
-                // doesn't work.)
-                // mMessage
-                // .setText(getText(R.string.login_activity_loginfail_text_pwonly));
-                mMessage.setText("Please enter a valid password.");
-            }
-        }
-    }
+				public void onSuccess(Boolean authSuccess) {
+					onAuthenticationResult(authSuccess);
+				}
 
-    /**
-     * Returns the message to be displayed at the top of the login dialog box.
-     */
-    private CharSequence getMessage() {
-        // getString(R.string.label);
-        // if (isEmpty(mUsername)) {
-        // // If no username, then we ask the user to log in using an
-        // // appropriate service.
-        // final CharSequence msg =
-        // getText(R.string.login_activity_newaccount_text);
-        // return msg;
-        // }
-        // if (isEmpty(mPassword)) {
-        // // We have an account but no password
-        // return getText(R.string.login_activity_loginfail_text_pwmissing);
-        // }
-        return null;
-    }
+				@Override
+				protected void onFinally() throws RuntimeException {
+					hideProgress();
+				}
+			};
+			authenticationTask.execute();
+		}
+	}
 
+	/**
+	 * Called when response is received from the server for confirm credentials
+	 * request. See onAuthenticationResult(). Sets the
+	 * AccountAuthenticatorResult which is sent back to the caller.
+	 *
+	 * @param result
+	 */
+	protected void finishConfirmCredentials(boolean result) {
+		Log.i(TAG, "finishConfirmCredentials()");
+		final Account account = new Account(email, GAUGES_ACCOUNT_TYPE);
+		accountManager.setPassword(account, password);
+
+		final Intent intent = new Intent();
+		intent.putExtra(KEY_BOOLEAN_RESULT, result);
+		setAccountAuthenticatorResult(intent.getExtras());
+		setResult(RESULT_OK, intent);
+		finish();
+	}
+
+	/**
+	 * Called when response is received from the server for authentication
+	 * request. See onAuthenticationResult(). Sets the
+	 * AccountAuthenticatorResult which is sent back to the caller. Also sets
+	 * the authToken in AccountManager for this account.
+	 */
+
+	protected void finishLogin() {
+		Log.i(TAG, "finishLogin()");
+		final Account account = new Account(email, GAUGES_ACCOUNT_TYPE);
+
+		if (requestNewAccount) {
+			accountManager.addAccountExplicitly(account, password, null);
+		} else {
+			accountManager.setPassword(account, password);
+		}
+		final Intent intent = new Intent();
+		authToken = password;
+		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, email);
+		intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
+		if (authTokenType != null
+				&& authTokenType.equals(Constants.AUTHTOKEN_TYPE)) {
+			intent.putExtra(AccountManager.KEY_AUTHTOKEN, authToken);
+		}
+		setAccountAuthenticatorResult(intent.getExtras());
+		setResult(RESULT_OK, intent);
+		finish();
+	}
+
+	/**
+	 * Hide progress dialog
+	 */
+	protected void hideProgress() {
+		dismissDialog(0);
+	}
+
+	/**
+	 * Show progress dialog
+	 */
+	protected void showProgress() {
+		showDialog(0);
+	}
+
+	/**
+	 * Called when the authentication process completes (see attemptLogin()).
+	 *
+	 * @param result
+	 */
+	public void onAuthenticationResult(boolean result) {
+		Log.i(TAG, "onAuthenticationResult(" + result + ")");
+		if (result)
+			if (!confirmCredentials)
+				finishLogin();
+			else
+				finishConfirmCredentials(true);
+		else {
+			Log.e(TAG, "onAuthenticationResult: failed to authenticate");
+			if (requestNewAccount)
+				messageText.setText("Please enter a valid username/password.");
+			else
+				messageText.setText("Please enter a valid password.");
+		}
+	}
+
+	/**
+	 * Returns the message to be displayed at the top of the login dialog box.
+	 */
+	private CharSequence getMessage() {
+		return null;
+	}
 }
