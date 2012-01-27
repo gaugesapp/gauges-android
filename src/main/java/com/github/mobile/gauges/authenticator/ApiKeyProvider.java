@@ -1,8 +1,8 @@
 package com.github.mobile.gauges.authenticator;
 
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
-import static com.github.mobile.gauges.authenticator.Constants.AUTHTOKEN_TYPE;
-import static com.github.mobile.gauges.authenticator.Constants.GAUGES_ACCOUNT_TYPE;
+import static com.github.mobile.gauges.authenticator.AuthConstants.AUTHTOKEN_TYPE;
+import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;

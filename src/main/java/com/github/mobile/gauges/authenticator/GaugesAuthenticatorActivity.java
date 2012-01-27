@@ -3,7 +3,7 @@ package com.github.mobile.gauges.authenticator;
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static android.text.TextUtils.isEmpty;
 import static com.github.kevinsawicki.http.HttpRequest.post;
-import static com.github.mobile.gauges.authenticator.Constants.GAUGES_ACCOUNT_TYPE;
+import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -254,7 +254,7 @@ public class GaugesAuthenticatorActivity extends
 		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, email);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
 		if (authTokenType != null
-				&& authTokenType.equals(Constants.AUTHTOKEN_TYPE)) {
+				&& authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE)) {
 			intent.putExtra(AccountManager.KEY_AUTHTOKEN, authToken);
 		}
 		setAccountAuthenticatorResult(intent.getExtras());
