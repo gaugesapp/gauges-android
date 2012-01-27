@@ -33,7 +33,7 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 	private static final String TAG = "CLA";
 
 	@Inject
-	ApiKeyProvider apiKeyProvider;
+	private ApiKeyProvider apiKeyProvider;
 
 	/**
 	 * Create content list fragment
