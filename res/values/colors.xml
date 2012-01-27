@@ -1,7 +1,7 @@
 <resources>
 
-    <color name="background">#000</color>
-    <color name="text">#FFF</color>
-    <color name="text_light">#999</color>
+    <color name="background">#1A1A1A</color>
+    <color name="text">#FCFCFC</color>
+    <color name="text_light">#999999</color>
 
 </resources>
