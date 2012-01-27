@@ -1,7 +1,6 @@
 package com.github.mobile.gauges.ui;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.PaintDrawable;
@@ -10,26 +9,6 @@ import android.graphics.drawable.PaintDrawable;
  * Drawable bar graph
  */
 public class BarGraphDrawable extends PaintDrawable {
-
-	/**
-	 * Color of view counts on weekdays
-	 */
-	public static final int COLOR_VIEWS_WEEKDAY = Color.parseColor("#53685E");
-
-	/**
-	 * Color of view counts on weekends
-	 */
-	public static final int COLOR_VIEWS_WEEKEND = Color.parseColor("#626262");
-
-	/**
-	 * Color of people count on weekdays
-	 */
-	public static final int COLOR_PEOPLE_WEEKDAY = Color.parseColor("#6E9180");
-
-	/**
-	 * Color of people count on weekends
-	 */
-	public static final int COLOR_PEOPLE_WEEKEND = Color.parseColor("#7C7C7C");
 
 	private static final int MIN_HEIGHT = 4;
 
