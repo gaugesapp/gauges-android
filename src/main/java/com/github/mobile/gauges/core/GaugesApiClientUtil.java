@@ -1,14 +1,13 @@
 package com.github.mobile.gauges.core;
 
 import static com.github.kevinsawicki.http.HttpRequest.post;
-import static com.github.mobile.gauges.core.GaugesService.URL_BASE;
+import static com.github.mobile.gauges.core.GaugesConstants.URL_CLIENTS;
 
 import com.github.kevinsawicki.http.HttpRequest;
 
 
 public class GaugesApiClientUtil {
 
-    private static final String URL_CLIENTS = URL_BASE + "clients";
 
     public static ClientData createClientDataWithDescription(EmailPasswordCredentials credentials, String description) {
         HttpRequest request = post(URL_CLIENTS)

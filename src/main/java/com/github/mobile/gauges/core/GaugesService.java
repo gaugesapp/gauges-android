@@ -1,5 +1,7 @@
 package com.github.mobile.gauges.core;
 
+import static com.github.mobile.gauges.core.GaugesConstants.URL_EMBEDDED;
+import static com.github.mobile.gauges.core.GaugesConstants.URL_GAUGES;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 
 import com.github.kevinsawicki.http.HttpRequest;
@@ -15,21 +17,6 @@ import java.util.List;
  * Gauges API service
  */
 public class GaugesService {
-
-	/**
-	 * Base URL
-	 */
-	public static final String URL_BASE = "https://secure.gaug.es/";
-
-	/**
-	 * Gauges URL
-	 */
-	public static final String URL_GAUGES = URL_BASE + "gauges/";
-
-	/**
-	 * Embedded URL
-	 */
-	public static final String URL_EMBEDDED = URL_GAUGES + "embedded";
 
 	/**
 	 * GSON instance to use for all request
