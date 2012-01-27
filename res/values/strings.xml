@@ -14,13 +14,13 @@
 
     <!-- AuthenticatorActivity -->
 
-    <string name="login_activity_username_label">Username</string>
+    <string name="login_activity_username_label">Email Address</string>
     <string name="login_activity_password_label">Password</string>
-    <string name="login_activity_ok_button">Sign in</string>
-
-    <string name="sign_in_username_field_hint">Username</string>
+    <string name="login_activity_ok_button">Sign In</string>
+    <string name="login_activity_authenticating">Signing in…</string>
+    <string name="sign_in_username_field_hint">Email Address</string>
     <string name="sign_in_password_field_hint">Password</string>
-
     <string name="blank_field_warning">Please populate this field</string>
+    <string name="signup_link">Need an account?  &lt;a href=https://secure.gaug.es/signup>Sign Up&lt;/a></string>
 
 </resources>
