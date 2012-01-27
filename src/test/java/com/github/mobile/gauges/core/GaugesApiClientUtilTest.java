@@ -14,7 +14,7 @@ public class GaugesApiClientUtilTest {
     public void shouldCreateClient() {
         ClientData clientData = new GaugesService("someone@example.com", "mypassword").createClientData("DroidThing");
 
-        assertThat(clientData.key, notNullValue());
-        assertThat(clientData.description, equalTo("DroidThing"));
+        assertThat(clientData.getKey(), notNullValue());
+        assertThat(clientData.getDescription(), equalTo("DroidThing"));
     }
 }

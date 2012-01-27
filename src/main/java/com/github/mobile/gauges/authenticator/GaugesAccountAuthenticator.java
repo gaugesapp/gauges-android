@@ -68,7 +68,7 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
         Log.d(TAG,"getAuthToken() credentials="+credentials);
         ClientData clientData = new GaugesService(credentials.emailAddress, credentials.password)
                 .createClientData("Gaug.es for Android");
-        String apiKey = clientData.key;
+        String apiKey = clientData.getKey();
         Log.d(TAG,"getAuthToken() called : apiKey="+apiKey);
         Bundle bundle = new Bundle();
         bundle.putString(KEY_ACCOUNT_NAME, account.name);
