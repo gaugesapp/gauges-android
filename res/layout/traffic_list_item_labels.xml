@@ -3,13 +3,18 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="10dp" >
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp" >
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="40"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_weight="70"
+        android:gravity="right"
+        android:text="@string/views_column"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/text_light" />
 
     <TextView
@@ -17,17 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="30"
         android:gravity="right"
-        android:text="@string/views_column"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/text" />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="30"
-        android:gravity="right"
         android:text="@string/people_column"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/text" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/text_light" />
 
 </LinearLayout>
