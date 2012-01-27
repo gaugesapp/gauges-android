@@ -96,6 +96,7 @@ public class GaugeViewActivity extends RoboFragmentActivity {
 		setContentView(R.layout.gauge_view);
 
 		Gauge gauge = (Gauge) getIntent().getSerializableExtra(GAUGE);
+		setTitle(gauge.getTitle());
 
 		ViewPager pager = (ViewPager) findViewById(id.vp_pages);
 		pager.setAdapter(new PagerAdapter(getApplicationContext(), gauge,
