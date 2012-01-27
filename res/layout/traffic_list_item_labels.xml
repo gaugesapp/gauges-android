@@ -6,10 +6,9 @@
     android:padding="10dp" >
 
     <TextView
-        android:id="@+id/tv_traffic_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="60"
+        android:layout_weight="40"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text_light" />
 
@@ -18,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="30"
         android:gravity="right"
-        android:text="Views"
+        android:text="@string/views_column"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text" />
 
@@ -27,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="30"
         android:gravity="right"
-        android:text="People"
+        android:text="@string/people_column"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text" />
 
