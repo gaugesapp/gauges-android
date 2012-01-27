@@ -137,6 +137,7 @@ public class GaugesService {
         if (responseCode / 100 != 2)
             throw new RuntimeException("Request for auth token returned bad http response code: " + responseCode);
 
-        return GSON.fromJson(request.reader(), CreateClientResponse.class).client;
+        CreateClientResponse response = GSON.fromJson(request.reader(), CreateClientResponse.class);
+        return response != null ? response.client : null;
     }
 }
