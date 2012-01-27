@@ -45,9 +45,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 		return new AsyncLoader<List<Gauge>>(getActivity()) {
 
 			public List<Gauge> loadInBackground() {
-                String authKey = apiKeyProvider.getAuthKey();
-
-                GaugesService service = new GaugesService(null, null);
+                GaugesService service = new GaugesService(apiKeyProvider.getAuthKey());
 				try {
 					return service.getGauges();
 				} catch (IOException e) {
