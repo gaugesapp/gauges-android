@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.github.mobile.gauges.core.ClientData;
-import com.github.mobile.gauges.core.EmailPasswordCredentials;
 import com.github.mobile.gauges.core.GaugesService;
 
 class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
@@ -64,9 +63,7 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
                                Bundle options) throws NetworkErrorException {
         Log.d(TAG,"getAuthToken() called : authTokenType="+authTokenType);
         String password = AccountManager.get(mContext).getPassword(account);
-        EmailPasswordCredentials credentials = new EmailPasswordCredentials(account.name, password);
-        Log.d(TAG,"getAuthToken() credentials="+credentials);
-        ClientData clientData = new GaugesService(credentials.emailAddress, credentials.password)
+        ClientData clientData = new GaugesService(account.name, password)
                 .createClientData("Gaug.es for Android");
         String apiKey = clientData.getKey();
         Log.d(TAG,"getAuthToken() called : apiKey="+apiKey);
