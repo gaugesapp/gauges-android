@@ -49,7 +49,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 		return new ViewHoldingListAdapter<Gauge>(items,
 				ViewInflator.viewInflatorFor(getActivity(),
 						layout.gauge_list_item),
-				ReflectiveHolderFactory
-						.reflectiveFactoryFor(GaugeViewHolder.class));
+				ReflectiveHolderFactory.reflectiveFactoryFor(
+						GaugeViewHolder.class, getActivity().getResources()));
 	}
 }

@@ -1,8 +1,7 @@
 package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
-import static com.github.mobile.gauges.ui.BarGraphDrawable.COLOR_PEOPLE_WEEKDAY;
-import static com.github.mobile.gauges.ui.BarGraphDrawable.COLOR_VIEWS_WEEKDAY;
+import com.github.mobile.gauges.R.color;
 import android.R;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -38,8 +37,9 @@ public class TrafficListFragment extends ListFragment {
 				.toArray(new DatedViewSummary[recentDays.size()]);
 		final long[][] data = new long[graphDays.length][];
 		final int[][] colors = new int[data.length][];
-		Arrays.fill(colors, new int[] { COLOR_VIEWS_WEEKDAY,
-				COLOR_PEOPLE_WEEKDAY });
+		Arrays.fill(colors,
+				new int[] { getResources().getColor(color.graph_views_weekday),
+						getResources().getColor(color.graph_people_weekday) });
 		for (int i = 0; i < graphDays.length; i++)
 			data[graphDays.length - 1 - i] = new long[] {
 					graphDays[i].getViews(), graphDays[i].getPeople() };

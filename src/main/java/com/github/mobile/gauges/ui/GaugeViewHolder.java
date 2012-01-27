@@ -1,12 +1,9 @@
 package com.github.mobile.gauges.ui;
 
-import static com.github.mobile.gauges.ui.BarGraphDrawable.COLOR_PEOPLE_WEEKDAY;
-import static com.github.mobile.gauges.ui.BarGraphDrawable.COLOR_PEOPLE_WEEKEND;
-import static com.github.mobile.gauges.ui.BarGraphDrawable.COLOR_VIEWS_WEEKDAY;
-import static com.github.mobile.gauges.ui.BarGraphDrawable.COLOR_VIEWS_WEEKEND;
 import static java.util.Calendar.DAY_OF_WEEK;
 import static java.util.Calendar.SATURDAY;
 import static java.util.Calendar.SUNDAY;
+import android.content.res.Resources;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +14,7 @@ import com.github.mobile.gauges.core.Gauge;
 import com.madgag.android.listviews.ViewHolder;
 
 import java.text.MessageFormat;
+import com.github.mobile.gauges.R.color;
 import java.util.GregorianCalendar;
 
 /**
@@ -32,6 +30,10 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
 
 	private final LinearLayout barGraph;
 
+	private final int[] weekendColors;
+
+	private final int[] weekdayColors;
+
 	private final long[][] data;
 
 	private final int[][] colors;
@@ -40,14 +42,21 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
 	 * Create view holder
 	 *
 	 * @param view
+	 * @param resources
 	 */
-	public GaugeViewHolder(final View view) {
+	public GaugeViewHolder(final View view, final Resources resources) {
 		nameText = (TextView) view.findViewById(id.tv_gauge_name);
 		viewsText = (TextView) view.findViewById(id.tv_gauge_views);
 		peopleText = (TextView) view.findViewById(id.tv_gauge_people);
 		barGraph = (LinearLayout) view.findViewById(id.ll_bars);
 		data = new long[7][];
 		colors = new int[7][];
+		weekdayColors = new int[] {
+				resources.getColor(color.graph_views_weekday),
+				resources.getColor(color.graph_people_weekday) };
+		weekendColors = new int[] {
+				resources.getColor(color.graph_views_weekend),
+				resources.getColor(color.graph_people_weekend) };
 	}
 
 	public void updateViewFor(final Gauge gauge) {
@@ -63,11 +72,9 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
 			calendar.setTime(day.getDate());
 			int dayOfWeek = calendar.get(DAY_OF_WEEK);
 			if (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY)
-				colors[index] = new int[] { COLOR_VIEWS_WEEKEND,
-						COLOR_PEOPLE_WEEKEND };
+				colors[index] = weekendColors;
 			else
-				colors[index] = new int[] { COLOR_VIEWS_WEEKDAY,
-						COLOR_PEOPLE_WEEKDAY };
+				colors[index] = weekdayColors;
 			index--;
 			if (index < 0)
 				break;

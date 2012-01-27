@@ -4,5 +4,9 @@
     <color name="background">#3B3B3B</color>
     <color name="text">#FCFCFC</color>
     <color name="text_light">#999999</color>
+    <color name="graph_views_weekday">#53685E</color>
+    <color name="graph_views_weekend">#626262</color>
+    <color name="graph_people_weekday">#6E9180</color>
+    <color name="graph_people_weekend">#7C7C7C</color>
 
 </resources>
