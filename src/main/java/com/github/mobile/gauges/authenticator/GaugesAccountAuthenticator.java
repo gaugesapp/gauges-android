@@ -5,13 +5,11 @@ import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static com.github.mobile.gauges.authenticator.Constants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.authenticator.GaugesAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE;
-import static com.github.mobile.gauges.core.GaugesApiClientUtil.createClientDataWithDescription;
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.accounts.NetworkErrorException;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +17,7 @@ import android.util.Log;
 
 import com.github.mobile.gauges.core.ClientData;
 import com.github.mobile.gauges.core.EmailPasswordCredentials;
-import com.github.mobile.gauges.core.GaugesApiClientUtil;
+import com.github.mobile.gauges.core.GaugesService;
 
 class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
@@ -68,7 +66,8 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
         String password = AccountManager.get(mContext).getPassword(account);
         EmailPasswordCredentials credentials = new EmailPasswordCredentials(account.name, password);
         Log.d(TAG,"getAuthToken() credentials="+credentials);
-        ClientData clientData = createClientDataWithDescription(credentials, "Gaug.es for Android");
+        ClientData clientData = new GaugesService(credentials.emailAddress, credentials.password)
+                .createClientData("Gaug.es for Android");
         String apiKey = clientData.key;
         Log.d(TAG,"getAuthToken() called : apiKey="+apiKey);
         Bundle bundle = new Bundle();

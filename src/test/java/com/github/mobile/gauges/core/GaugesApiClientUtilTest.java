@@ -1,7 +1,6 @@
 package com.github.mobile.gauges.core;
 
 
-import static com.github.mobile.gauges.core.GaugesApiClientUtil.createClientDataWithDescription;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -13,9 +12,7 @@ public class GaugesApiClientUtilTest {
 
     @Test @Ignore("requires valid credentials")
     public void shouldCreateClient() {
-        EmailPasswordCredentials credentials = new EmailPasswordCredentials("someone@example.com", "mypassword");
-
-        ClientData clientData = createClientDataWithDescription(credentials, "DroidThing");
+        ClientData clientData = new GaugesService("someone@example.com", "mypassword").createClientData("DroidThing");
 
         assertThat(clientData.key, notNullValue());
         assertThat(clientData.description, equalTo("DroidThing"));
