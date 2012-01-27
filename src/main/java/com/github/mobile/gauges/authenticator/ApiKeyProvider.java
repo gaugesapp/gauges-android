@@ -20,6 +20,8 @@ public class ApiKeyProvider {
 
     /**
      * This call blocks, so shouldn't be called on the UI thread
+     *
+     * @return auth key
      */
     public String getAuthKey() {
         AccountManagerFuture<Bundle> accountManagerFuture = accountManager.getAuthTokenByFeatures
