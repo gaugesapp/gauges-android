@@ -31,7 +31,8 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
 
 	private static final String TAG = "RLF";
 
-    @Inject ApiKeyProvider apiKeyProvider;
+	@Inject
+	ApiKeyProvider apiKeyProvider;
 
 	/**
 	 * Create referrer list fragment
@@ -43,10 +44,9 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
 		return new AsyncLoader<List<Referrer>>(getActivity()) {
 
 			public List<Referrer> loadInBackground() {
-				GaugesService service = new GaugesService(apiKeyProvider.getAuthKey());
 				try {
-					return service.getReferrers(getArguments().getString(
-							GAUGE_ID));
+					return new GaugesService(apiKeyProvider.getAuthKey())
+							.getReferrers(getArguments().getString(GAUGE_ID));
 				} catch (IOException e) {
 					Log.d(TAG, "Exception getting referrers", e);
 					return Collections.emptyList();

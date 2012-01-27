@@ -32,7 +32,8 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 
 	private static final String TAG = "CLA";
 
-    @Inject ApiKeyProvider apiKeyProvider;
+	@Inject
+	ApiKeyProvider apiKeyProvider;
 
 	/**
 	 * Create content list fragment
@@ -44,10 +45,9 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 		return new AsyncLoader<List<PageContent>>(getActivity()) {
 
 			public List<PageContent> loadInBackground() {
-				GaugesService service = new GaugesService(apiKeyProvider.getAuthKey());
 				try {
-					return service.getContent(getArguments()
-							.getString(GAUGE_ID));
+					return new GaugesService(apiKeyProvider.getAuthKey())
+							.getContent(getArguments().getString(GAUGE_ID));
 				} catch (IOException e) {
 					Log.d(TAG, "Exception getting page content", e);
 					return Collections.emptyList();
