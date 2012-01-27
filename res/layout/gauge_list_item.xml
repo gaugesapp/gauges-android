@@ -78,8 +78,9 @@
     <LinearLayout
         android:id="@+id/ll_bars"
         android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:paddingRight="10dp" >
+        android:layout_height="80dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp" >
     </LinearLayout>
 
 </LinearLayout>
