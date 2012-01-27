@@ -1,6 +1,7 @@
 <resources>
 
-    <color name="background">#1A1A1A</color>
+    <color name="background_ab">#2A2A2A</color>
+    <color name="background">#3B3B3B</color>
     <color name="text">#FCFCFC</color>
     <color name="text_light">#999999</color>
 

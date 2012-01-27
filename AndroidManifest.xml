@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="1" android:versionName="1.0" package="com.github.mobile.gauges">
+    package="com.github.mobile.gauges"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14" />
-	<uses-feature android:name="android.software.live_wallpaper" />
-	<uses-permission android:name="android.permission.INTERNET" />
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="14" />
 
-	<application android:icon="@drawable/icon" android:label="@string/app_name"
-		android:name=".GaugesApplication">
+    <uses-feature android:name="android.software.live_wallpaper" />
 
-		<activity android:name=".ui.GaugeListActivity">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+    <uses-permission android:name="android.permission.INTERNET" />
 
-		<activity android:name=".ui.GaugeViewActivity">
-		</activity>
+    <application
+        android:name=".GaugesApplication"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Gauges" >
+        <activity android:name=".ui.GaugeListActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-		<service android:label="@string/wallpaper_name"
-			android:name="com.github.mobile.gauges.AirTrafficWallpaper"
-			android:permission="android.permission.BIND_WALLPAPER">
-			<intent-filter>
-				<action android:name="android.service.wallpaper.WallpaperService" />
-			</intent-filter>
-			<meta-data android:name="android.service.wallpaper"
-				android:resource="@xml/gauges_wallpaper" />
-		</service>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.GaugeViewActivity" >
+        </activity>
 
-	</application>
+        <service
+            android:name="com.github.mobile.gauges.AirTrafficWallpaper"
+            android:label="@string/wallpaper_name"
+            android:permission="android.permission.BIND_WALLPAPER" >
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/gauges_wallpaper" />
+        </service>
+    </application>
+
 </manifest>
