@@ -32,7 +32,7 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
 	private static final String TAG = "RLF";
 
 	@Inject
-	ApiKeyProvider apiKeyProvider;
+	private ApiKeyProvider apiKeyProvider;
 
 	/**
 	 * Create referrer list fragment
