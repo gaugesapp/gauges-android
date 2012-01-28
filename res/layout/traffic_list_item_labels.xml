@@ -15,7 +15,8 @@
         android:gravity="right"
         android:text="@string/views_column"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/text_light" />
+        android:textColor="@color/text_light"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="0dp"
@@ -24,6 +25,7 @@
         android:gravity="right"
         android:text="@string/people_column"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/text_light" />
+        android:textColor="@color/text_light"
+        android:textStyle="bold" />
 
 </LinearLayout>
