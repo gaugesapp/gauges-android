@@ -133,11 +133,36 @@ public class GaugesService {
      */
     public Client createClient(String description) throws IOException {
         try {
-            HttpRequest request = execute(HttpRequest.post(URL_CLIENTS).form("description", description));
+            HttpRequest request = addCredentialsTo(HttpRequest.post(URL_CLIENTS));
+            request.form("description", description);
+            if (!request.created())
+                throw new IOException("Unexpected response code: " + request.code());
             CreateClientResponse response = GSON.fromJson(request.reader(), CreateClientResponse.class);
             return response != null ? response.client : null;
         } catch (HttpRequestException e) {
             throw e.getCause();
         }
+    }
+
+    /**
+     * Get client with description
+     *
+     * @param description
+     * @return client or null if none found matching description
+     * @throws IOException
+     */
+    public Client getClient(String description) throws IOException {
+        try {
+            HttpRequest request = execute(HttpRequest.get(URL_CLIENTS));
+            GaugesClients clients = GSON.fromJson(request.reader(), GaugesClients.class);
+            if (clients == null)
+                return null;
+            for (Client client : clients)
+                if (description.equals(client.getDescription()))
+                    return client;
+        } catch (HttpRequestException e) {
+            throw e.getCause();
+        }
+        return null;
     }
 }
