@@ -129,15 +129,15 @@ public class GaugesService {
      *
      * @param description
      * @return created client
+     * @throws IOException
      */
-    public Client createClient(String description) {
-        HttpRequest request = addCredentialsTo(HttpRequest.post(URL_CLIENTS)).form("description", description);
-
-        int responseCode = request.code();
-        if (responseCode / 100 != 2)
-            throw new RuntimeException("Request for auth token returned bad http response code: " + responseCode);
-
-        CreateClientResponse response = GSON.fromJson(request.reader(), CreateClientResponse.class);
-        return response != null ? response.client : null;
+    public Client createClient(String description) throws IOException {
+        try {
+            HttpRequest request = execute(HttpRequest.post(URL_CLIENTS).form("description", description));
+            CreateClientResponse response = GSON.fromJson(request.reader(), CreateClientResponse.class);
+            return response != null ? response.client : null;
+        } catch (HttpRequestException e) {
+            throw e.getCause();
+        }
     }
 }
