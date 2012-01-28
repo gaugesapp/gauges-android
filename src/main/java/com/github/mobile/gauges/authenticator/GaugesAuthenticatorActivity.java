@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.github.kevinsawicki.http.HttpRequest;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
@@ -207,12 +208,11 @@ public class GaugesAuthenticatorActivity extends
 			showProgress();
 
 			authenticationTask = new RoboAsyncTask<Boolean>(this) {
-				public Boolean call() throws Exception {
-					int response = post(URL_AUTH).send(
-							"email=" + email + "&password=" + password).code();
-					Log.d(TAG, "response=" + response);
-					return response == 200;
-				}
+                public Boolean call() throws Exception {
+                    HttpRequest request = post(URL_AUTH).form("email", email).form("password", password);
+                    Log.d(TAG, "response=" + request.code());
+                    return request.ok();
+                }
 
 				@Override
 				protected void onException(Exception e) throws RuntimeException {
