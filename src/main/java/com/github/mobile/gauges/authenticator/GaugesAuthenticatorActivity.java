@@ -1,10 +1,12 @@
 package com.github.mobile.gauges.authenticator;
 
+import static android.R.layout.simple_dropdown_item_1line;
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static android.text.TextUtils.isEmpty;
 import static com.github.kevinsawicki.http.HttpRequest.post;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
+import static com.google.common.collect.Lists.newArrayList;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
@@ -18,6 +20,8 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +32,8 @@ import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.validation.LeavingBlankTextFieldWarner;
 import com.github.mobile.gauges.validation.TextWatcherAdapter;
 import com.google.inject.Inject;
+
+import java.util.List;
 
 import roboguice.activity.RoboAccountAuthenticatorActivity;
 import roboguice.inject.InjectView;
@@ -67,7 +73,7 @@ public class GaugesAuthenticatorActivity extends
 	private TextView messageText;
 
 	@InjectView(id.et_email)
-	private EditText emailText;
+	private AutoCompleteTextView emailText;
 
 	@InjectView(id.et_password)
 	private EditText passwordText;
@@ -116,6 +122,8 @@ public class GaugesAuthenticatorActivity extends
 
 		setContentView(layout.login_activity);
 
+        emailText.setAdapter(new ArrayAdapter<String>(this, simple_dropdown_item_1line, userEmailAccounts()));
+
 		setNonBlankValidationFor(emailText);
 		setNonBlankValidationFor(passwordText);
 
@@ -124,7 +132,16 @@ public class GaugesAuthenticatorActivity extends
 		signupText.setText(Html.fromHtml(getString(string.signup_link)));
 	}
 
-	private void setNonBlankValidationFor(EditText editText) {
+    private List<String> userEmailAccounts() {
+        List<String> emailAddresses = newArrayList();
+        Account[] accounts = accountManager.getAccountsByType("com.google");
+        for (Account account : accounts) {
+            emailAddresses.add(account.name);
+        }
+        return emailAddresses;
+    }
+
+    private void setNonBlankValidationFor(EditText editText) {
 		editText.addTextChangedListener(watcher);
 		editText.setOnFocusChangeListener(leavingBlankTextFieldWarner);
 	}
