@@ -38,14 +38,13 @@
                 android:layout_height="wrap_content"
                 android:autoText="false"
                 android:capitalize="none"
+                android:completionThreshold="1"
                 android:hint="@string/sign_in_username_field_hint"
                 android:inputType="textEmailAddress"
-                android:completionThreshold="1"
                 android:minWidth="250dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/text" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/username_fixed"
@@ -68,8 +67,7 @@
                 android:password="true"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/text" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/message_bottom"
