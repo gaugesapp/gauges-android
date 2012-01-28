@@ -7,6 +7,7 @@
     <string name="people">people</string>
     <string name="views_column">Views</string>
     <string name="people_column">People</string>
+    <string name="referrer_column">Referrer</string>
     <string name="page_content">Content</string>
     <string name="page_traffic">Traffic</string>
     <string name="page_referrers">Referrers</string>

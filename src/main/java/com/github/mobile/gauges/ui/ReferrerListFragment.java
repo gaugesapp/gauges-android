@@ -29,42 +29,47 @@ import java.util.List;
  */
 public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
 
-	private static final String TAG = "RLF";
+    private static final String TAG = "RLF";
 
-	@Inject
-	private ApiKeyProvider apiKeyProvider;
+    @Inject
+    private ApiKeyProvider apiKeyProvider;
 
-	/**
-	 * Create referrer list fragment
-	 */
-	public ReferrerListFragment() {
-	}
+    /**
+     * Create referrer list fragment
+     */
+    public ReferrerListFragment() {
+    }
 
-	public Loader<List<Referrer>> onCreateLoader(int id, Bundle args) {
-		return new AsyncLoader<List<Referrer>>(getActivity()) {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-			public List<Referrer> loadInBackground() {
-				try {
-					return new GaugesService(apiKeyProvider.getAuthKey())
-							.getReferrers(getArguments().getString(GAUGE_ID));
-				} catch (IOException e) {
-					Log.d(TAG, "Exception getting referrers", e);
-					return Collections.emptyList();
-				}
-			}
-		};
-	}
+        getListView().addHeaderView(
+                getLayoutInflater(savedInstanceState).inflate(layout.referrer_list_item_labels, null));
+    }
 
-	protected ListAdapter adapterFor(List<Referrer> items) {
-		return new ViewHoldingListAdapter<Referrer>(items,
-				ViewInflator.viewInflatorFor(getActivity(),
-						layout.referrer_list_item),
-				ReflectiveHolderFactory
-						.reflectiveFactoryFor(ReferrerViewHolder.class));
-	}
+    public Loader<List<Referrer>> onCreateLoader(int id, Bundle args) {
+        return new AsyncLoader<List<Referrer>>(getActivity()) {
 
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		String url = ((Referrer) l.getItemAtPosition(position)).getUrl();
-		startActivity(new Intent(ACTION_VIEW, Uri.parse(url)));
-	}
+            public List<Referrer> loadInBackground() {
+                try {
+                    return new GaugesService(apiKeyProvider.getAuthKey()).getReferrers(getArguments().getString(
+                            GAUGE_ID));
+                } catch (IOException e) {
+                    Log.d(TAG, "Exception getting referrers", e);
+                    return Collections.emptyList();
+                }
+            }
+        };
+    }
+
+    protected ListAdapter adapterFor(List<Referrer> items) {
+        return new ViewHoldingListAdapter<Referrer>(items, ViewInflator.viewInflatorFor(getActivity(),
+                layout.referrer_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(ReferrerViewHolder.class));
+    }
+
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        String url = ((Referrer) l.getItemAtPosition(position)).getUrl();
+        startActivity(new Intent(ACTION_VIEW, Uri.parse(url)));
+    }
 }
