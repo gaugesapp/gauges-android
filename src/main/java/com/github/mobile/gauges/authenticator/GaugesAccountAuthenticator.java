@@ -24,6 +24,8 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
     private static final String TAG = "GaugesAccountAuth";
 
+    private static final String DESCRIPTION_CLIENT = "Gaug.es for Android";
+
     private Context mContext;
 
     public GaugesAccountAuthenticator(Context context) {
@@ -33,13 +35,12 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
     /*
      * The user has requested to add a new account to the system. We return an intent that will launch our login screen
-     * if the user has not logged in yet, otherwise our activity will just pass the user's credentials on to the
-     * account
+     * if the user has not logged in yet, otherwise our activity will just pass the user's credentials on to the account
      * manager.
      */
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType,
-                             String[] requiredFeatures, Bundle options) throws NetworkErrorException {
+            String[] requiredFeatures, Bundle options) throws NetworkErrorException {
         final Intent intent = new Intent(mContext, GaugesAuthenticatorActivity.class);
         intent.putExtra(PARAM_AUTHTOKEN_TYPE, authTokenType);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
@@ -62,17 +63,20 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType,
-                               Bundle options) throws NetworkErrorException {
-        Log.d(TAG,"getAuthToken() called : authTokenType="+authTokenType);
+            Bundle options) throws NetworkErrorException {
+        Log.d(TAG, "getAuthToken() called : authTokenType=" + authTokenType);
         String password = AccountManager.get(mContext).getPassword(account);
-        Client clientData;
+        Client client;
         try {
-            clientData = new GaugesService(account.name, password).createClient("Gauges Android Application");
+            GaugesService service = new GaugesService(account.name, password);
+            client = service.getClient(DESCRIPTION_CLIENT);
+            if (client == null)
+                client = service.createClient(DESCRIPTION_CLIENT);
         } catch (IOException e) {
             throw new NetworkErrorException(e);
         }
-        String apiKey = clientData.getKey();
-        Log.d(TAG,"getAuthToken() called : apiKey="+apiKey);
+        String apiKey = client.getKey();
+        Log.d(TAG, "getAuthToken() called : apiKey=" + apiKey);
         Bundle bundle = new Bundle();
         bundle.putString(KEY_ACCOUNT_NAME, account.name);
         bundle.putString(KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
@@ -98,7 +102,7 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, String authTokenType,
-                                    Bundle options) {
+            Bundle options) {
         return null;
     }
 }
