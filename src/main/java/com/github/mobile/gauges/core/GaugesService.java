@@ -125,12 +125,12 @@ public class GaugesService {
     }
 
     /**
-     * Create client data with description
+     * Create API client with description
      *
      * @param description
-     * @return created client data
+     * @return created client
      */
-    public ClientData createClientData(String description) {
+    public Client createClient(String description) {
         HttpRequest request = addCredentialsTo(HttpRequest.post(URL_CLIENTS)).form("description", description);
 
         int responseCode = request.code();

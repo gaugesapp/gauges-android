@@ -3,9 +3,9 @@ package com.github.mobile.gauges.core;
 import java.io.Serializable;
 
 /**
- * Client data containing an authentication key
+ * Registered API client an authentication key
  */
-public class ClientData implements Serializable {
+public class Client implements Serializable {
 
     /** serialVersionUID */
     private static final long serialVersionUID = -1449954462631918663L;
