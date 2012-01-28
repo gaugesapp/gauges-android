@@ -30,42 +30,47 @@ import java.util.List;
  */
 public class ContentListFragment extends ListLoadingFragment<PageContent> {
 
-	private static final String TAG = "CLA";
+    private static final String TAG = "CLA";
 
-	@Inject
-	private ApiKeyProvider apiKeyProvider;
+    @Inject
+    private ApiKeyProvider apiKeyProvider;
 
-	/**
-	 * Create content list fragment
-	 */
-	public ContentListFragment() {
-	}
+    /**
+     * Create content list fragment
+     */
+    public ContentListFragment() {
+    }
 
-	public Loader<List<PageContent>> onCreateLoader(int id, Bundle args) {
-		return new AsyncLoader<List<PageContent>>(getActivity()) {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-			public List<PageContent> loadInBackground() {
-				try {
-					return new GaugesService(apiKeyProvider.getAuthKey())
-							.getContent(getArguments().getString(GAUGE_ID));
-				} catch (IOException e) {
-					Log.d(TAG, "Exception getting page content", e);
-					return Collections.emptyList();
-				}
-			}
-		};
-	}
+        getListView().addHeaderView(
+                getLayoutInflater(savedInstanceState).inflate(layout.content_list_item_labels, null));
+    }
 
-	protected ListAdapter adapterFor(List<PageContent> items) {
-		return new ViewHoldingListAdapter<PageContent>(items,
-				ViewInflator.viewInflatorFor(getActivity(),
-						layout.content_list_item),
-				ReflectiveHolderFactory
-						.reflectiveFactoryFor(ContentViewHolder.class));
-	}
+    public Loader<List<PageContent>> onCreateLoader(int id, Bundle args) {
+        return new AsyncLoader<List<PageContent>>(getActivity()) {
 
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		String url = ((PageContent) l.getItemAtPosition(position)).getUrl();
-		startActivity(new Intent(ACTION_VIEW, Uri.parse(url)));
-	}
+            public List<PageContent> loadInBackground() {
+                try {
+                    return new GaugesService(apiKeyProvider.getAuthKey())
+                            .getContent(getArguments().getString(GAUGE_ID));
+                } catch (IOException e) {
+                    Log.d(TAG, "Exception getting page content", e);
+                    return Collections.emptyList();
+                }
+            }
+        };
+    }
+
+    protected ListAdapter adapterFor(List<PageContent> items) {
+        return new ViewHoldingListAdapter<PageContent>(items, ViewInflator.viewInflatorFor(getActivity(),
+                layout.content_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(ContentViewHolder.class));
+    }
+
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        String url = ((PageContent) l.getItemAtPosition(position)).getUrl();
+        startActivity(new Intent(ACTION_VIEW, Uri.parse(url)));
+    }
 }
