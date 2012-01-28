@@ -14,10 +14,6 @@
 		<abs.version>3.5.1</abs.version>
 	</properties>
 	<repositories>
-        <repository>
-        	<id>oss-releases</id>
-        	<url>https://oss.sonatype.org/content/repositories/releases</url>
-        </repository>
 		<repository>
 			<id>jakewharton</id>
 			<url>http://r.jakewharton.com/maven/release/</url>
