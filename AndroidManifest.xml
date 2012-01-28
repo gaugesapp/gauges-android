@@ -43,8 +43,7 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/gauges_wallpaper" />
         </service>
-        
-        
+
         <service android:name=".authenticator.AccountAuthenticatorService"
                  android:exported="true" android:process=":auth">
             <intent-filter>
