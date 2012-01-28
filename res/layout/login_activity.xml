@@ -32,7 +32,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/text" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/et_email"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -40,6 +40,7 @@
                 android:capitalize="none"
                 android:hint="@string/sign_in_username_field_hint"
                 android:inputType="textEmailAddress"
+                android:completionThreshold="1"
                 android:minWidth="250dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
