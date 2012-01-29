@@ -1,6 +1,9 @@
 package com.github.mobile.gauges.authenticator;
 
 import static android.R.layout.simple_dropdown_item_1line;
+import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
+import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
+import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static android.text.TextUtils.isEmpty;
 import static com.github.kevinsawicki.http.HttpRequest.post;
@@ -273,11 +276,10 @@ public class GaugesAuthenticatorActivity extends RoboAccountAuthenticatorActivit
             accountManager.setPassword(account, password);
         final Intent intent = new Intent();
         authToken = password;
-        intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, email);
-        intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
-        if (authTokenType != null && authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE)) {
-            intent.putExtra(AccountManager.KEY_AUTHTOKEN, authToken);
-        }
+        intent.putExtra(KEY_ACCOUNT_NAME, email);
+        intent.putExtra(KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
+        if (authTokenType != null && authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE))
+            intent.putExtra(KEY_AUTHTOKEN, authToken);
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         finish();
