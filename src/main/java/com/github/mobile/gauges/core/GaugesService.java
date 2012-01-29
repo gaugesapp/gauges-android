@@ -9,10 +9,13 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Gauges API service
@@ -164,5 +167,24 @@ public class GaugesService {
             throw e.getCause();
         }
         return null;
+    }
+
+    /**
+     * Get gauge with id
+     *
+     * @param gaugeId
+     * @return gauge
+     * @throws IOException
+     */
+    public Gauge getGauge(String gaugeId) throws IOException {
+        try {
+            HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId));
+            Type type = new TypeToken<Map<String, Gauge>>() {
+            }.getType();
+            Map<String, Gauge> gauge = GSON.fromJson(request.reader(), type);
+            return gauge != null ? gauge.get("gauge") : null;
+        } catch (HttpRequestException e) {
+            throw e.getCause();
+        }
     }
 }
