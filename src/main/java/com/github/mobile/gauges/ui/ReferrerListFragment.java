@@ -44,8 +44,15 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getListView().addHeaderView(
-                getLayoutInflater(savedInstanceState).inflate(layout.referrer_list_item_labels, null));
+        if (getListAdapter() == null)
+            getListView().addHeaderView(
+                    getActivity().getLayoutInflater().inflate(layout.referrer_list_item_labels, null), null, false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        setListAdapter(null);
+        super.onDestroyView();
     }
 
     public Loader<List<Referrer>> onCreateLoader(int id, Bundle args) {

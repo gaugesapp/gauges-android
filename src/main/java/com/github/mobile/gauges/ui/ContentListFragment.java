@@ -45,8 +45,15 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getListView().addHeaderView(
-                getLayoutInflater(savedInstanceState).inflate(layout.content_list_item_labels, null));
+        if (getListAdapter() == null)
+            getListView().addHeaderView(
+                    getActivity().getLayoutInflater().inflate(layout.content_list_item_labels, null), null, false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        setListAdapter(null);
+        super.onDestroyView();
     }
 
     public Loader<List<PageContent>> onCreateLoader(int id, Bundle args) {
