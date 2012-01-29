@@ -24,5 +24,8 @@
     <string name="sign_in_password_field_hint">Password</string>
     <string name="blank_field_warning">Please populate this field</string>
     <string name="signup_link">Need an account?  &lt;a href=https://secure.gaug.es/signup>Sign Up&lt;/a></string>
+    <string name="message_bad_credentials">Email or Password is incorrect</string>
+    <string name="message_auth_failed">Please enter a valid password</string>
+    <string name="message_auth_failed_new_account">Please enter a valid email address &amp; password</string>
 
 </resources>
