@@ -36,6 +36,6 @@
         android:gravity="right"
         android:paddingLeft="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/text_light" />
+        android:textColor="@color/text" />
 
 </LinearLayout>
