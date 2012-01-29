@@ -2,6 +2,9 @@ package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
+import static java.util.Calendar.DAY_OF_WEEK;
+import static java.util.Calendar.SATURDAY;
+import static java.util.Calendar.SUNDAY;
 import android.R;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -23,9 +26,9 @@ import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -96,14 +99,30 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
 
         View barGraph = getListView().findViewById(id.ll_bars);
         if (!items.isEmpty()) {
-            final List<DatedViewSummary> recentDays = new ArrayList<DatedViewSummary>(items);
-            final DatedViewSummary[] graphDays = recentDays.toArray(new DatedViewSummary[recentDays.size()]);
-            final long[][] data = new long[graphDays.length][];
-            final int[][] colors = new int[data.length][];
-            Arrays.fill(colors, new int[] { getResources().getColor(color.graph_views_weekday),
-                    getResources().getColor(color.graph_people_weekday) });
-            for (int i = 0; i < graphDays.length; i++)
-                data[graphDays.length - 1 - i] = new long[] { graphDays[i].getViews(), graphDays[i].getPeople() };
+            final int dayCount = items.size();
+            final DatedViewSummary[] graphDays = items.toArray(new DatedViewSummary[dayCount]);
+            final long[][] data = new long[dayCount][];
+            final int[][] colors = new int[dayCount][];
+
+            final Calendar calendar = new GregorianCalendar();
+            final int[] weekdayColors = new int[] { getResources().getColor(color.graph_views_weekday),
+                    getResources().getColor(color.graph_people_weekday) };
+            final int[] weekendColors = new int[] { getResources().getColor(color.graph_views_weekend),
+                    getResources().getColor(color.graph_people_weekend) };
+
+            for (int i = 0; i < dayCount; i++) {
+                // Reverse entry order since entries are in reverse chronological order but graph is drawn left to right
+                int index = dayCount - 1 - i;
+
+                calendar.setTime(graphDays[i].getDate());
+                int dayOfWeek = calendar.get(DAY_OF_WEEK);
+                if (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY)
+                    colors[index] = weekendColors;
+                else
+                    colors[index] = weekdayColors;
+
+                data[index] = new long[] { graphDays[i].getViews(), graphDays[i].getPeople() };
+            }
 
             barGraph.setVisibility(View.VISIBLE);
             barGraph.setBackgroundDrawable(new BarGraphDrawable(data, colors));
