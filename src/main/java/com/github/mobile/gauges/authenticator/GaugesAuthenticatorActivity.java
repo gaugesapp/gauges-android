@@ -36,8 +36,8 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
-import com.github.mobile.gauges.validation.LeavingBlankTextFieldWarner;
-import com.github.mobile.gauges.validation.TextWatcherAdapter;
+import com.github.mobile.gauges.ui.LeavingBlankTextFieldWarner;
+import com.github.mobile.gauges.ui.TextWatcherAdapter;
 import com.google.inject.Inject;
 
 import java.util.List;
