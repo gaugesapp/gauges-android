@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.github.mobile.gauges"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -9,9 +10,9 @@
         android:id="@+id/tpi_header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        textColor="@color/text_light"
-        footerColor="@color/text_light"
-        android:background="@color/background" />
+        android:background="@color/background"
+        app:footerColor="@color/text_light"
+        app:textColor="@color/text_light" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_pages"
