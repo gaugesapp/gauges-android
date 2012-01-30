@@ -87,8 +87,7 @@
             android:onClick="handleLogin"
             android:padding="10dp"
             android:text="@string/login_activity_ok_button"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/text" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </LinearLayout>
 
 </LinearLayout>
