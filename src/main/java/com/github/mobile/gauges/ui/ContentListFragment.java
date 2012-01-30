@@ -2,6 +2,7 @@ package com.github.mobile.gauges.ui;
 
 import static android.content.Intent.ACTION_VIEW;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
+import android.R;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,6 +45,8 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        getListView().setCacheColorHint(getResources().getColor(R.color.transparent));
 
         if (getListAdapter() == null)
             getListView().addHeaderView(
