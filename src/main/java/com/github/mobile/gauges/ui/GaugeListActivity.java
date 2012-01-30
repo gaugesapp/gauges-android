@@ -1,13 +1,8 @@
 package com.github.mobile.gauges.ui;
 
-import android.R;
 import android.os.Bundle;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 
-import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
-import com.github.mobile.gauges.R.menu;
 
 import roboguice.activity.RoboFragmentActivity;
 
