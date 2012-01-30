@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     android:background="@color/background" >
 
-    <fragment class="com.github.mobile.gauges.ui.GaugeListFragment"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.github.mobile.gauges.ui.GaugeListFragment" />
 
 </FrameLayout>
