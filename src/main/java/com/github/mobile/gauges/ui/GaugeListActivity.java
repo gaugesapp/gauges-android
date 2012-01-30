@@ -37,8 +37,5 @@ public class GaugeListActivity extends RoboFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.gauge_list);
-
-        if (getSupportFragmentManager().findFragmentById(R.id.list) == null)
-            getSupportFragmentManager().beginTransaction().add(R.id.list, new GaugeListFragment()).commit();
     }
 }
