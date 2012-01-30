@@ -1,4 +1,4 @@
-package com.github.mobile.gauges.validation;
+package com.github.mobile.gauges.ui;
 
 import android.text.Editable;
 import android.text.TextWatcher;
