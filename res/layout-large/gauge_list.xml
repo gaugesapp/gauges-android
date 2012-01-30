@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background"
+              android:id="@+id/frags">
+
+    <fragment class="com.github.mobile.gauges.ui.GaugeListFragment"
+              android:id="@+id/list_frag"
+              android:layout_width="@dimen/gauge_list_width"
+              android:layout_height="match_parent"/>
+
+    <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@color/background"
+                  android:orientation="vertical" >
+        <com.viewpagerindicator.TitlePageIndicator
+                android:id="@+id/tpi_header"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background" />
+
+        <android.support.v4.view.ViewPager
+                android:id="@+id/vp_pages"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/background" />
+
+    </LinearLayout>
+</LinearLayout>
