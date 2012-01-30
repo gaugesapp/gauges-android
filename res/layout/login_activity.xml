@@ -47,8 +47,7 @@
                 android:inputType="textEmailAddress"
                 android:minWidth="250dp"
                 android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/et_password"
@@ -61,8 +60,7 @@
                 android:minWidth="250dp"
                 android:password="true"
                 android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:singleLine="true" />
 
             <TextView
                 android:id="@+id/message_bottom"
