@@ -22,28 +22,6 @@ import roboguice.activity.RoboFragmentActivity;
 public class GaugeViewActivity extends RoboFragmentActivity {
 
     @Override
-    public boolean onCreateOptionsMenu(Menu optionsMenu) {
-        getMenuInflater().inflate(menu.gauges, optionsMenu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case id.refresh:
-            ViewPager pager = (ViewPager) findViewById(id.vp_pages);
-            String tag = FragmentPagerAdapter.makeFragmentName(pager.getId(), pager.getCurrentItem());
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(tag);
-            if (fragment instanceof ListLoadingFragment<?>) {
-                ((ListLoadingFragment<?>) fragment).refresh();
-                return true;
-            }
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gauge_view);
