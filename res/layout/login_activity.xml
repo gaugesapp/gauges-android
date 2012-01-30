@@ -25,7 +25,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:padding="5dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColorLink="@color/text_link" />
 
             <TextView
                 android:id="@+id/message"
