@@ -1,10 +1,10 @@
 package com.github.mobile.gauges.ui;
 
-import static com.github.mobile.gauges.IntentConstants.GAUGE;
+
 import android.R;
 import android.accounts.AccountsException;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.SupportActivity;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +21,6 @@ import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,8 +31,20 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
     private final static String TAG = "GLF";
 
-    @Inject
-    private ApiKeyProvider apiKeyProvider;
+    private @Inject ApiKeyProvider apiKeyProvider;
+    private GaugeListEventsCallback containerCallback;
+
+    @Override
+    public void onAttach(SupportActivity activity) {
+        super.onAttach(activity);
+        try {
+            containerCallback = (GaugeListEventsCallback) activity;
+        } catch (ClassCastException e) {
+            activity.finish();
+            throw new ClassCastException(activity.toString() + " must implement "
+                    + GaugeListEventsCallback.class.getSimpleName());
+        }
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -44,7 +55,6 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
     public Loader<List<Gauge>> onCreateLoader(int id, Bundle args) {
         return new AsyncLoader<List<Gauge>>(getActivity()) {
-
             public List<Gauge> loadInBackground() {
                 try {
                     return new GaugesService(apiKeyProvider.getAuthKey()).getGauges();
@@ -59,14 +69,16 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent i = new Intent(getActivity(), GaugeViewActivity.class);
-        i.putExtra(GAUGE, (Serializable) l.getItemAtPosition(position));
-        startActivity(i);
+        containerCallback.onGaugeSelected((Gauge) l.getItemAtPosition(position));
     }
 
     protected ListAdapter adapterFor(List<Gauge> items) {
         return new ViewHoldingListAdapter<Gauge>(items, ViewInflator.viewInflatorFor(getActivity(),
                 layout.gauge_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(GaugeViewHolder.class,
                 getActivity().getResources()));
+    }
+
+    public static interface GaugeListEventsCallback {
+        public void onGaugeSelected(Gauge gauge);
     }
 }
