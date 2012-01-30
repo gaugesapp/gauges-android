@@ -3,7 +3,12 @@ package com.github.mobile.gauges.ui;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
+import android.view.MenuInflater;
 import android.widget.ListAdapter;
+
+import com.github.mobile.gauges.R;
 
 import java.util.List;
 
@@ -23,6 +28,28 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
 		setListShown(false);
 		getLoaderManager().initLoader(0, null, this);
 	}
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.gauges, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                refresh();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 	/**
 	 * Refresh the fragment's list
