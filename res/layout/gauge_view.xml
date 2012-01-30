@@ -9,6 +9,8 @@
         android:id="@+id/tpi_header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        textColor="@color/text_light"
+        footerColor="@color/text_light"
         android:background="@color/background" />
 
     <android.support.v4.view.ViewPager

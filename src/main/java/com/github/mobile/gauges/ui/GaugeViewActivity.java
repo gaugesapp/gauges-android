@@ -126,8 +126,6 @@ public class GaugeViewActivity extends RoboFragmentActivity {
         pager.setAdapter(new GaugePagerAdapter(getApplicationContext(), gauge, getSupportFragmentManager()));
 
         TitlePageIndicator indicator = (TitlePageIndicator) findViewById(id.tpi_header);
-        indicator.setTextColor(getResources().getColor(color.text_light));
-        indicator.setFooterColor(getResources().getColor(color.text_light));
         indicator.setViewPager(pager);
         pager.setCurrentItem(1);
     }
