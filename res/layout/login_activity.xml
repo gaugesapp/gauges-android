@@ -49,15 +49,6 @@
                 android:singleLine="true"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <TextView
-                android:id="@+id/username_fixed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/text" />
-
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="fill_parent"
