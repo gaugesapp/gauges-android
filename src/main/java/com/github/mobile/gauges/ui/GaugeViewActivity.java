@@ -6,15 +6,20 @@ import android.support.v4.view.ViewPager;
 
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
+
 import com.github.mobile.gauges.core.Gauge;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectView;
 
 /**
  * Activity to view a specific {@link Gauge}'s traffic, content, and referrer information
  */
 public class GaugeViewActivity extends RoboFragmentActivity {
+
+    private @InjectView(id.tpi_header) TitlePageIndicator indicator;
+    private @InjectView(id.vp_pages) ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +29,8 @@ public class GaugeViewActivity extends RoboFragmentActivity {
         Gauge gauge = (Gauge) getIntent().getSerializableExtra(GAUGE);
         setTitle(gauge.getTitle());
 
-        ViewPager pager = (ViewPager) findViewById(id.vp_pages);
         pager.setAdapter(new GaugePagerAdapter(getApplicationContext(), gauge, getSupportFragmentManager()));
 
-        TitlePageIndicator indicator = (TitlePageIndicator) findViewById(id.tpi_header);
         indicator.setViewPager(pager);
         pager.setCurrentItem(1);
     }
