@@ -1,6 +1,8 @@
 package com.github.mobile.gauges.authenticator;
 
 import static android.R.layout.simple_dropdown_item_1line;
+import static android.accounts.AccountManager.ERROR_CODE_CANCELED;
+import static android.accounts.AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE;
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
@@ -11,6 +13,7 @@ import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUN
 import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
 import static com.google.common.collect.Lists.newArrayList;
 import android.accounts.Account;
+import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -39,14 +42,14 @@ import com.google.inject.Inject;
 
 import java.util.List;
 
-import roboguice.activity.RoboAccountAuthenticatorActivity;
+import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.RoboAsyncTask;
 
 /**
  * Activity to authenticate the user against gaug.es
  */
-public class GaugesAuthenticatorActivity extends RoboAccountAuthenticatorActivity {
+public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
 
     /**
      * PARAM_CONFIRMCREDENTIALS
@@ -93,6 +96,9 @@ public class GaugesAuthenticatorActivity extends RoboAccountAuthenticatorActivit
     private String authToken;
     private String authTokenType;
 
+    private AccountAuthenticatorResponse accountAuthenticatorResponse = null;
+    private Bundle resultBundle = null;
+
     /**
      * If set we are just checking that the user knows their credentials; this doesn't cause the user's password to be
      * changed on the device.
@@ -112,6 +118,10 @@ public class GaugesAuthenticatorActivity extends RoboAccountAuthenticatorActivit
     public void onCreate(Bundle icicle) {
         Log.i(TAG, "onCreate(" + icicle + ")");
         super.onCreate(icicle);
+        accountAuthenticatorResponse = getIntent().getParcelableExtra(KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+
+        if (accountAuthenticatorResponse != null)
+            accountAuthenticatorResponse.onRequestContinued();
         accountManager = AccountManager.get(this);
         Log.i(TAG, "loading data from Intent");
         final Intent intent = getIntent();
@@ -325,5 +335,32 @@ public class GaugesAuthenticatorActivity extends RoboAccountAuthenticatorActivit
      */
     private CharSequence getMessage() {
         return null;
+    }
+
+    /**
+     * Set the result that is to be sent as the result of the request that caused this Activity to be launched. If
+     * result is null or this method is never called then the request will be canceled.
+     *
+     * @param result
+     *            this is returned as the result of the AbstractAccountAuthenticator request
+     */
+    public final void setAccountAuthenticatorResult(Bundle result) {
+        resultBundle = result;
+    }
+
+    /**
+     * Sends the result or a Constants.ERROR_CODE_CANCELED error if a result isn't present.
+     */
+    public void finish() {
+        if (accountAuthenticatorResponse != null) {
+            // send the result bundle back if set, otherwise send an error.
+            if (resultBundle != null)
+                accountAuthenticatorResponse.onResult(resultBundle);
+            else
+                accountAuthenticatorResponse.onError(ERROR_CODE_CANCELED, "canceled");
+
+            accountAuthenticatorResponse = null;
+        }
+        super.finish();
     }
 }
