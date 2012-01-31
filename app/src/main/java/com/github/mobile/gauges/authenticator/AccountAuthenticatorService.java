@@ -11,13 +11,6 @@ import android.os.IBinder;
 public class AccountAuthenticatorService extends Service {
     private static GaugesAccountAuthenticator sAccountAuthenticator = null;
 
-    /**
-     * Create account authenticator service
-     */
-    public AccountAuthenticatorService() {
-        super();
-    }
-
     public IBinder onBind(Intent intent) {
         return intent.getAction().equals(ACTION_AUTHENTICATOR_INTENT) ? getAuthenticator().getIBinder() : null;
     }
