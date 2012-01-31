@@ -2,6 +2,7 @@ package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import android.R;
+import android.accounts.AccountsException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -49,8 +50,10 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
                     return new GaugesService(apiKeyProvider.getAuthKey()).getGauges();
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting gauges", e);
-                    return Collections.emptyList();
+                } catch (AccountsException e) {
+                    Log.d(TAG, "Exception getting gauges", e);
                 }
+                return Collections.emptyList();
             }
         };
     }

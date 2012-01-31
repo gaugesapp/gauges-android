@@ -3,6 +3,7 @@ package com.github.mobile.gauges.ui;
 import static android.content.Intent.ACTION_VIEW;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import android.R;
+import android.accounts.AccountsException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -68,8 +69,10 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
                             .getContent(getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting page content", e);
-                    return Collections.emptyList();
+                } catch (AccountsException e) {
+                    Log.d(TAG, "Exception getting page content", e);
                 }
+                return Collections.emptyList();
             }
         };
     }

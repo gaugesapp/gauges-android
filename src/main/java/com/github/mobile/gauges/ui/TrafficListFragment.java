@@ -6,6 +6,7 @@ import static java.util.Calendar.DAY_OF_WEEK;
 import static java.util.Calendar.SATURDAY;
 import static java.util.Calendar.SUNDAY;
 import android.R;
+import android.accounts.AccountsException;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -81,6 +82,8 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                     if (latest != null)
                         return latest.getRecentDays();
                 } catch (IOException e) {
+                    Log.d(TAG, "Exception getting gauge", e);
+                } catch (AccountsException e) {
                     Log.d(TAG, "Exception getting gauge", e);
                 }
                 return Collections.emptyList();
