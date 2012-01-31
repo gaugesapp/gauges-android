@@ -14,13 +14,12 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
-import com.github.mobile.gauges.authenticator.ApiKeyProvider;
 import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
-import com.github.mobile.gauges.core.GaugesService;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
@@ -40,7 +39,7 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
     private static final String TAG = "TLF";
 
     @Inject
-    private ApiKeyProvider apiKeyProvider;
+    private GaugesServiceProvider serviceProvider;
 
     private Gauge gauge;
 
@@ -78,7 +77,7 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                 if (current != null)
                     return current.getRecentDays();
                 try {
-                    Gauge latest = new GaugesService(apiKeyProvider.getAuthKey()).getGauge(gaugeId);
+                    Gauge latest = serviceProvider.getService().getGauge(gaugeId);
                     if (latest != null)
                         return latest.getRecentDays();
                 } catch (IOException e) {

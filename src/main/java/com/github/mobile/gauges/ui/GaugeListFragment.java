@@ -1,6 +1,5 @@
 package com.github.mobile.gauges.ui;
 
-
 import android.R;
 import android.accounts.AccountsException;
 import android.os.Bundle;
@@ -11,10 +10,9 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
-import com.github.mobile.gauges.authenticator.ApiKeyProvider;
 import com.github.mobile.gauges.core.Gauge;
-import com.github.mobile.gauges.core.GaugesService;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
@@ -31,7 +29,9 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
     private final static String TAG = "GLF";
 
-    private @Inject ApiKeyProvider apiKeyProvider;
+    @Inject
+    private GaugesServiceProvider serviceProvider;
+
     private GaugeListEventsCallback containerCallback;
 
     @Override
@@ -57,7 +57,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
         return new AsyncLoader<List<Gauge>>(getActivity()) {
             public List<Gauge> loadInBackground() {
                 try {
-                    return new GaugesService(apiKeyProvider.getAuthKey()).getGauges();
+                    return serviceProvider.getService().getGauges();
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting gauges", e);
                 } catch (AccountsException e) {
