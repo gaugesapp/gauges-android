@@ -2,7 +2,6 @@
 <resources>
 
     <style name="Theme.Gauges" parent="@style/Theme.Sherlock">
-        <item name="abBackground">@color/background_ab</item>
         <item name="android:windowBackground">@color/background</item>
     </style>
 
