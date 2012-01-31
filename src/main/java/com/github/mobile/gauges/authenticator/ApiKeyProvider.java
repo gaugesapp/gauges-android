@@ -5,34 +5,41 @@ import static com.github.mobile.gauges.authenticator.AuthConstants.AUTHTOKEN_TYP
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import android.accounts.AccountManager;
 import android.accounts.AccountManagerFuture;
+import android.accounts.AccountsException;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.github.mobile.gauges.core.GaugesService;
 import com.google.inject.Inject;
 
+import java.io.IOException;
+
+/**
+ * Bridge class that obtains a gaug.es API key for the currently configured account
+ */
 public class ApiKeyProvider {
 
     private static final String TAG = "AKP";
 
-    @Inject Activity activity;
-    @Inject AccountManager accountManager;
+    @Inject
+    private Activity activity;
+    @Inject
+    private AccountManager accountManager;
 
     /**
      * This call blocks, so shouldn't be called on the UI thread
      *
-     * @return auth key
+     * @return API key to be used for authorization with a {@link GaugesService} instance
+     * @throws AccountsException
+     * @throws IOException
      */
-    public String getAuthKey() {
-        AccountManagerFuture<Bundle> accountManagerFuture = accountManager.getAuthTokenByFeatures
-                (GAUGES_ACCOUNT_TYPE, AUTHTOKEN_TYPE, new String[]{}, activity, null, null, null, null);
+    public String getAuthKey() throws AccountsException, IOException {
+        AccountManagerFuture<Bundle> accountManagerFuture = accountManager.getAuthTokenByFeatures(GAUGES_ACCOUNT_TYPE,
+                AUTHTOKEN_TYPE, new String[0], activity, null, null, null, null);
 
-        try {
-            String apiKey = accountManagerFuture.getResult().getString(KEY_AUTHTOKEN);
-            Log.d(TAG, "apiKey=" + apiKey);
-            return apiKey;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        Bundle result = accountManagerFuture.getResult();
+        Log.d(TAG, "API token requested");
+        return result.getString(KEY_AUTHTOKEN);
     }
 }
