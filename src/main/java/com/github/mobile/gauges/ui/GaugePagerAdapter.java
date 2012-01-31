@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.github.mobile.gauges.R;
+import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
 import com.viewpagerindicator.TitleProvider;
 
@@ -66,11 +66,11 @@ public class GaugePagerAdapter extends FragmentPagerAdapter implements TitleProv
     public String getTitle(int position) {
         switch (position) {
         case 0:
-            return context.getString(R.string.page_content);
+            return context.getString(string.page_content);
         case 1:
-            return context.getString(R.string.page_traffic);
+            return context.getString(string.page_traffic);
         case 2:
-            return context.getString(R.string.page_referrers);
+            return context.getString(string.page_referrers);
         default:
             return null;
         }
