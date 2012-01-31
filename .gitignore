@@ -8,6 +8,7 @@ bin
 temp-testng-customsuite.xml
 **pom.xml.releaseBackup
 release.properties
+project.properties
 *.iws
 *.iml
 gen
