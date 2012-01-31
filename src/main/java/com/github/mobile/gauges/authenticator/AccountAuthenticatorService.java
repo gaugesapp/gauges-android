@@ -9,9 +9,11 @@ import android.os.IBinder;
  * Authenticator service that returns a subclass of AbstractAccountAuthenticator in onBind()
  */
 public class AccountAuthenticatorService extends Service {
-    private static final String TAG = "AccountAuthenticatorService";
     private static GaugesAccountAuthenticator sAccountAuthenticator = null;
 
+    /**
+     * Create account authenticator service
+     */
     public AccountAuthenticatorService() {
         super();
     }
