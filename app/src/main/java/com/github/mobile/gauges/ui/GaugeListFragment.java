@@ -32,18 +32,13 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     @Inject
     private GaugesServiceProvider serviceProvider;
 
-    private GaugeListEventsCallback containerCallback;
+    private OnGaugeSelectedListener containerCallback;
 
     @Override
     public void onAttach(SupportActivity activity) {
         super.onAttach(activity);
-        try {
-            containerCallback = (GaugeListEventsCallback) activity;
-        } catch (ClassCastException e) {
-            activity.finish();
-            throw new ClassCastException(activity.toString() + " must implement "
-                    + GaugeListEventsCallback.class.getSimpleName());
-        }
+        if (activity instanceof OnGaugeSelectedListener)
+            containerCallback = (OnGaugeSelectedListener) activity;
     }
 
     @Override
@@ -68,17 +63,15 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
         };
     }
 
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        containerCallback.onGaugeSelected((Gauge) l.getItemAtPosition(position));
+        if (containerCallback != null)
+            containerCallback.onGaugeSelected((Gauge) l.getItemAtPosition(position));
     }
 
     protected ListAdapter adapterFor(List<Gauge> items) {
         return new ViewHoldingListAdapter<Gauge>(items, ViewInflator.viewInflatorFor(getActivity(),
                 layout.gauge_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(GaugeViewHolder.class,
                 getActivity().getResources()));
-    }
-
-    public static interface GaugeListEventsCallback {
-        public void onGaugeSelected(Gauge gauge);
     }
 }
