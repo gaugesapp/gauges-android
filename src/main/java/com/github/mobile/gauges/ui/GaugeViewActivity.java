@@ -14,6 +14,7 @@ import com.github.mobile.gauges.core.Gauge;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import roboguice.activity.RoboFragmentActivity;
+import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 
 /**
@@ -21,8 +22,14 @@ import roboguice.inject.InjectView;
  */
 public class GaugeViewActivity extends RoboFragmentActivity {
 
-    private @InjectView(id.tpi_header) TitlePageIndicator indicator;
-    private @InjectView(id.vp_pages) ViewPager pager;
+    @InjectView(id.tpi_header)
+    private TitlePageIndicator indicator;
+
+    @InjectView(id.vp_pages)
+    private ViewPager pager;
+
+    @InjectExtra(GAUGE)
+    private Gauge gauge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +37,6 @@ public class GaugeViewActivity extends RoboFragmentActivity {
         setContentView(layout.gauge_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Gauge gauge = (Gauge) getIntent().getSerializableExtra(GAUGE);
         setTitle(gauge.getTitle());
 
         pager.setAdapter(new GaugePagerAdapter(getApplicationContext(), gauge, getSupportFragmentManager()));
@@ -42,13 +48,13 @@ public class GaugeViewActivity extends RoboFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(this, GaugeListActivity.class);
-                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP|FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        case android.R.id.home:
+            Intent intent = new Intent(this, GaugeListActivity.class);
+            intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 }
