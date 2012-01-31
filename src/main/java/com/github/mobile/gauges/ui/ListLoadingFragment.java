@@ -5,6 +5,7 @@ import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.widget.ListAdapter;
 
@@ -37,7 +38,9 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.gauges, menu);
+        if (menu.findItem(R.id.refresh)==null) {
+            inflater.inflate(R.menu.refresh_menu_item, menu);
+        }
     }
 
     @Override
@@ -45,7 +48,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
         switch (item.getItemId()) {
             case R.id.refresh:
                 refresh();
-                return true;
+                return super.onOptionsItemSelected(item); // there may be other fragments listening to refresh
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -54,9 +57,10 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
 	/**
 	 * Refresh the fragment's list
 	 */
-	public void refresh() {
-		getLoaderManager().restartLoader(0, null, this);
-	}
+    public void refresh() {
+        Log.d(getClass().getSimpleName(), "refresh() called");
+        getLoaderManager().restartLoader(0, null, this);
+    }
 
 	public void onLoadFinished(Loader<List<E>> loader, List<E> items) {
 		setListAdapter(adapterFor(items));
