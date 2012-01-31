@@ -12,7 +12,7 @@ import roboguice.activity.RoboFragmentActivity;
 /**
  * Activity to display list of gauge summaries
  */
-public class GaugeListActivity extends RoboFragmentActivity implements GaugeListFragment.GaugeListEventsCallback {
+public class GaugeListActivity extends RoboFragmentActivity implements OnGaugeSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
