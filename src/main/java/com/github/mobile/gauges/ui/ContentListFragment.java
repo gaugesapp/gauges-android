@@ -13,10 +13,9 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
-import com.github.mobile.gauges.authenticator.ApiKeyProvider;
 import com.github.mobile.gauges.core.Gauge;
-import com.github.mobile.gauges.core.GaugesService;
 import com.github.mobile.gauges.core.PageContent;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
@@ -35,7 +34,7 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
     private static final String TAG = "CLA";
 
     @Inject
-    private ApiKeyProvider apiKeyProvider;
+    private GaugesServiceProvider serviceProvider;
 
     /**
      * Create content list fragment
@@ -65,8 +64,7 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 
             public List<PageContent> loadInBackground() {
                 try {
-                    return new GaugesService(apiKeyProvider.getAuthKey())
-                            .getContent(getArguments().getString(GAUGE_ID));
+                    return serviceProvider.getService().getContent(getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting page content", e);
                 } catch (AccountsException e) {

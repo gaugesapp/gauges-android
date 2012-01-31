@@ -13,9 +13,8 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
-import com.github.mobile.gauges.authenticator.ApiKeyProvider;
-import com.github.mobile.gauges.core.GaugesService;
 import com.github.mobile.gauges.core.Referrer;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
@@ -34,7 +33,7 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
     private static final String TAG = "RLF";
 
     @Inject
-    private ApiKeyProvider apiKeyProvider;
+    private GaugesServiceProvider serviceProvider;
 
     /**
      * Create referrer list fragment
@@ -64,8 +63,7 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
 
             public List<Referrer> loadInBackground() {
                 try {
-                    return new GaugesService(apiKeyProvider.getAuthKey()).getReferrers(getArguments().getString(
-                            GAUGE_ID));
+                    return serviceProvider.getService().getReferrers(getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting referrers", e);
                 } catch (AccountsException e) {
