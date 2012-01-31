@@ -19,7 +19,7 @@ public class GaugePagerAdapter extends FragmentPagerAdapter implements TitleProv
 
     private final Context context;
 
-    private final Gauge gauge;
+    private Gauge gauge;
 
     /**
      * Create pager adapter
@@ -37,7 +37,7 @@ public class GaugePagerAdapter extends FragmentPagerAdapter implements TitleProv
 
     @Override
     public int getCount() {
-        return 3;
+        return gauge==null?0:3;
     }
 
     @Override
@@ -74,5 +74,10 @@ public class GaugePagerAdapter extends FragmentPagerAdapter implements TitleProv
         default:
             return null;
         }
+    }
+
+    public void setGauge(Gauge gauge) {
+        this.gauge = gauge;
+        notifyDataSetChanged();
     }
 }
