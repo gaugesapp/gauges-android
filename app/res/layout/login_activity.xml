@@ -78,8 +78,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:onClick="handleLogin"
-            android:text="@string/login_activity_ok_button"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:text="@string/login_activity_ok_button" />
     </LinearLayout>
 
 </LinearLayout>
