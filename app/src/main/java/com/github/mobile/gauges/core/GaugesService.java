@@ -9,13 +9,10 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Gauges API service
@@ -27,6 +24,36 @@ public class GaugesService {
      */
     public static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd")
             .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+
+    private static class ClientWrapper {
+
+        private Client client;
+    }
+
+    private static class ClientsWrapper {
+
+        private List<Client> clients;
+    }
+
+    private static class GaugesWrapper {
+
+        private List<Gauge> gauges;
+    }
+
+    private static class ContentWrapper {
+
+        private List<PageContent> content;
+    }
+
+    private static class ReferrersWrapper {
+
+        private List<Referrer> referrers;
+    }
+
+    private static class GaugeWrapper {
+
+        private Gauge gauge;
+    }
 
     private final String apiKey;
 
@@ -86,8 +113,10 @@ public class GaugesService {
     public List<Gauge> getGauges() throws IOException {
         try {
             HttpRequest request = execute(HttpRequest.get(URL_EMBEDDED));
-            Gauges gauges = GSON.fromJson(request.reader(), Gauges.class);
-            return gauges != null ? gauges.getGauges() : Collections.<Gauge> emptyList();
+            GaugesWrapper response = GSON.fromJson(request.reader(), GaugesWrapper.class);
+            if (response != null && response.gauges != null)
+                return response.gauges;
+            return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
         }
@@ -103,8 +132,10 @@ public class GaugesService {
     public List<PageContent> getContent(String gaugeId) throws IOException {
         try {
             HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId + "/content"));
-            GaugeContent content = GSON.fromJson(request.reader(), GaugeContent.class);
-            return content != null ? content.getContent() : Collections.<PageContent> emptyList();
+            ContentWrapper response = GSON.fromJson(request.reader(), ContentWrapper.class);
+            if (response != null && response.content != null)
+                return response.content;
+            return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
         }
@@ -120,8 +151,10 @@ public class GaugesService {
     public List<Referrer> getReferrers(String gaugeId) throws IOException {
         try {
             HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId + "/referrers"));
-            GaugeReferrers referrers = GSON.fromJson(request.reader(), GaugeReferrers.class);
-            return referrers != null ? referrers.getReferrers() : Collections.<Referrer> emptyList();
+            ReferrersWrapper response = GSON.fromJson(request.reader(), ReferrersWrapper.class);
+            if (response != null && response.referrers != null)
+                return response.referrers;
+            return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
         }
@@ -140,7 +173,7 @@ public class GaugesService {
             request.form("description", description);
             if (!request.created())
                 throw new IOException("Unexpected response code: " + request.code());
-            CreateClientResponse response = GSON.fromJson(request.reader(), CreateClientResponse.class);
+            ClientWrapper response = GSON.fromJson(request.reader(), ClientWrapper.class);
             return response != null ? response.client : null;
         } catch (HttpRequestException e) {
             throw e.getCause();
@@ -157,12 +190,11 @@ public class GaugesService {
     public Client getClient(String description) throws IOException {
         try {
             HttpRequest request = execute(HttpRequest.get(URL_CLIENTS));
-            GaugesClients clients = GSON.fromJson(request.reader(), GaugesClients.class);
-            if (clients == null)
-                return null;
-            for (Client client : clients)
-                if (description.equals(client.getDescription()))
-                    return client;
+            ClientsWrapper response = GSON.fromJson(request.reader(), ClientsWrapper.class);
+            if (response != null && response.clients == null)
+                for (Client client : response.clients)
+                    if (description.equals(client.getDescription()))
+                        return client;
         } catch (HttpRequestException e) {
             throw e.getCause();
         }
@@ -179,10 +211,8 @@ public class GaugesService {
     public Gauge getGauge(String gaugeId) throws IOException {
         try {
             HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId));
-            Type type = new TypeToken<Map<String, Gauge>>() {
-            }.getType();
-            Map<String, Gauge> gauge = GSON.fromJson(request.reader(), type);
-            return gauge != null ? gauge.get("gauge") : null;
+            GaugeWrapper response = GSON.fromJson(request.reader(), GaugeWrapper.class);
+            return response != null ? response.gauge : null;
         } catch (HttpRequestException e) {
             throw e.getCause();
         }
