@@ -19,7 +19,7 @@ public class GaugeListTest extends ActivityInstrumentationTestCase2<GaugeListAct
     /**
      * Verify activity exists
      */
-    public void testActivity() {
+    public void testActivityExists() {
         assertNotNull(getActivity());
     }
 }
