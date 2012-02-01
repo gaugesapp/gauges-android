@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import roboguice.inject.InjectExtra;
+
 /**
  * Fragment to display list of recent traffic
  */
@@ -41,19 +43,18 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
     @Inject
     private GaugesServiceProvider serviceProvider;
 
+    @InjectExtra(value = GAUGE, optional = true)
     private Gauge gauge;
 
+    @InjectExtra(value = GAUGE_ID, optional = true)
     private String gaugeId;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        gauge = (Gauge) getArguments().getSerializable(GAUGE);
-        if (gauge != null)
+        if (gauge != null && gaugeId == null)
             gaugeId = gauge.getId();
-        if (gaugeId == null)
-            gaugeId = getArguments().getString(GAUGE_ID);
 
         ListView listView = getListView();
 
