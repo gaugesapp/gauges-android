@@ -9,75 +9,76 @@ import java.util.List;
  */
 public class Gauge implements Serializable {
 
-	/** serialVersionUID */
-	private static final long serialVersionUID = -8423297822694434626L;
+    /** serialVersionUID */
+    private static final long serialVersionUID = -8423297822694434626L;
 
-	private DatedViewSummary today;
+    private DatedViewSummary today;
 
-	private List<DatedViewSummary> recentDays;
+    private List<DatedViewSummary> recentDays;
 
-	private String id;
+    private String id;
 
-	private String title;
+    private String title;
 
-	/**
-	 * @param recentDays
-	 */
-	public void setRecentMonths(List<DatedViewSummary> recentDays) {
-		this.recentDays = recentDays;
-	}
+    /**
+     * @param recentDays
+     * @return this gauge
+     */
+    public Gauge setRecentDays(List<DatedViewSummary> recentDays) {
+        this.recentDays = recentDays;
+        return this;
+    }
 
-	/**
-	 * @return recentDays
-	 */
-	public List<DatedViewSummary> getRecentDays() {
-		return recentDays != null ? recentDays : Collections
-				.<DatedViewSummary> emptyList();
-	}
+    /**
+     * @return recentDays
+     */
+    public List<DatedViewSummary> getRecentDays() {
+        return recentDays != null ? recentDays : Collections.<DatedViewSummary> emptyList();
+    }
 
-	/**
-	 * @return today
-	 */
-	public DatedViewSummary getToday() {
-		return today;
-	}
+    /**
+     * @return today
+     */
+    public DatedViewSummary getToday() {
+        return today;
+    }
 
-	/**
-	 * @param today
-	 * @return this gauge
-	 */
-	public Gauge setToday(DatedViewSummary today) {
-		this.today = today;
-		return this;
-	}
+    /**
+     * @param today
+     * @return this gauge
+     */
+    public Gauge setToday(DatedViewSummary today) {
+        this.today = today;
+        return this;
+    }
 
-	/**
-	 * @return id
-	 */
-	public String getId() {
-		return id;
-	}
+    /**
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
 
-	/**
-	 * @param id
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+    /**
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return title
-	 */
-	public String getTitle() {
-		return title;
-	}
+    /**
+     * @return title
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	/**
-	 * @param title
-	 * @return this gauge
-	 */
-	public Gauge setTitle(String title) {
-		this.title = title;
-		return this;
-	}
+    /**
+     * @param title
+     * @return this gauge
+     */
+    public Gauge setTitle(String title) {
+        this.title = title;
+        return this;
+    }
 }

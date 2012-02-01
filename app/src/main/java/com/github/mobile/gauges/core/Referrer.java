@@ -7,70 +7,78 @@ import java.io.Serializable;
  */
 public class Referrer implements Serializable {
 
-	/** serialVersionUID */
-	private static final long serialVersionUID = 7428556345275142034L;
+    /** serialVersionUID */
+    private static final long serialVersionUID = 7428556345275142034L;
 
-	private long views;
+    private long views;
 
-	private String host;
+    private String host;
 
-	private String path;
+    private String path;
 
-	private String url;
+    private String url;
 
-	/**
-	 * @return views
-	 */
-	public long getViews() {
-		return views;
-	}
+    /**
+     * @return views
+     */
+    public long getViews() {
+        return views;
+    }
 
-	/**
-	 * @param views
-	 */
-	public void setViews(long views) {
-		this.views = views;
-	}
+    /**
+     * @param views
+     * @return this referrer
+     */
+    public Referrer setViews(long views) {
+        this.views = views;
+        return this;
+    }
 
-	/**
-	 * @return host
-	 */
-	public String getHost() {
-		return host;
-	}
+    /**
+     * @return host
+     */
+    public String getHost() {
+        return host;
+    }
 
-	/**
-	 * @param host
-	 */
-	public void setHost(String host) {
-		this.host = host;
-	}
+    /**
+     * @param host
+     * @return this referrer
+     */
+    public Referrer setHost(String host) {
+        this.host = host;
+        return this;
+    }
 
-	/**
-	 * @return path
-	 */
-	public String getPath() {
-		return path;
-	}
+    /**
+     * @return path
+     */
+    public String getPath() {
+        return path;
+    }
 
-	/**
-	 * @param path
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
+    /**
+     * @param path
+     * @return this referrer
+     */
+    public Referrer setPath(String path) {
+        this.path = path;
+        return this;
+    }
 
-	/**
-	 * @return url
-	 */
-	public String getUrl() {
-		return url;
-	}
+    /**
+     * @return url
+     */
+    public String getUrl() {
+        return url;
+    }
 
-	/**
-	 * @param url
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    /**
+     * @param url
+     * @return this referrer
+     */
+    public Referrer setUrl(String url) {
+        this.url = url;
+        return this;
+    }
 }
