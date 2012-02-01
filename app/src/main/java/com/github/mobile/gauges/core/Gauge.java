@@ -61,9 +61,11 @@ public class Gauge implements Serializable {
 
     /**
      * @param id
+     * @return this gauge
      */
-    public void setId(String id) {
+    public Gauge setId(String id) {
         this.id = id;
+        return this;
     }
 
     /**
