@@ -54,6 +54,7 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
         super.onDestroyView();
     }
 
+    @Override
     public Loader<List<PageContent>> onCreateLoader(int id, Bundle args) {
         return new AsyncLoader<List<PageContent>>(getActivity()) {
 
@@ -70,11 +71,13 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
         };
     }
 
+    @Override
     protected ListAdapter adapterFor(List<PageContent> items) {
         return new ViewHoldingListAdapter<PageContent>(items, ViewInflator.viewInflatorFor(getActivity(),
                 layout.content_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(ContentViewHolder.class));
     }
 
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         String url = ((PageContent) l.getItemAtPosition(position)).getUrl();
         startActivity(new Intent(ACTION_VIEW, Uri.parse(url)));

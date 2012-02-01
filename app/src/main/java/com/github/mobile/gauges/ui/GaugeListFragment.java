@@ -49,6 +49,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
         getListView().setFastScrollEnabled(true);
     }
 
+    @Override
     public Loader<List<Gauge>> onCreateLoader(int id, Bundle args) {
         return new AsyncLoader<List<Gauge>>(getActivity()) {
             public List<Gauge> loadInBackground() {
@@ -70,6 +71,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
             containerCallback.onGaugeSelected((Gauge) l.getItemAtPosition(position));
     }
 
+    @Override
     protected ListAdapter adapterFor(List<Gauge> items) {
         return new ViewHoldingListAdapter<Gauge>(items, ViewInflator.viewInflatorFor(getActivity(),
                 layout.gauge_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(GaugeViewHolder.class,

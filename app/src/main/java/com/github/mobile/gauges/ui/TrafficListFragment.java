@@ -71,6 +71,7 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
         listView.setFastScrollEnabled(true);
     }
 
+    @Override
     public Loader<List<DatedViewSummary>> onCreateLoader(int id, Bundle args) {
         return new AsyncLoader<List<DatedViewSummary>>(getActivity()) {
 
@@ -98,6 +99,7 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
         super.refresh();
     }
 
+    @Override
     public void onLoadFinished(Loader<List<DatedViewSummary>> loader, List<DatedViewSummary> items) {
         super.onLoadFinished(loader, items);
 
@@ -134,6 +136,7 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
             barGraph.setVisibility(View.GONE);
     }
 
+    @Override
     protected ListAdapter adapterFor(List<DatedViewSummary> items) {
         return new ViewHoldingListAdapter<DatedViewSummary>(items, ViewInflator.viewInflatorFor(getActivity(),
                 layout.traffic_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(TrafficViewHolder.class));
