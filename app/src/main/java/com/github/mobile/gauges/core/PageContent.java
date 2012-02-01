@@ -7,70 +7,78 @@ import java.io.Serializable;
  */
 public class PageContent implements Serializable {
 
-	/** serialVersionUID */
-	private static final long serialVersionUID = 3578053478298223202L;
+    /** serialVersionUID */
+    private static final long serialVersionUID = 3578053478298223202L;
 
-	private long views;
+    private long views;
 
-	private String path;
+    private String path;
 
-	private String title;
+    private String title;
 
-	private String url;
+    private String url;
 
-	/**
-	 * @return views
-	 */
-	public long getViews() {
-		return views;
-	}
+    /**
+     * @return views
+     */
+    public long getViews() {
+        return views;
+    }
 
-	/**
-	 * @param views
-	 */
-	public void setViews(long views) {
-		this.views = views;
-	}
+    /**
+     * @param views
+     * @return this content
+     */
+    public PageContent setViews(long views) {
+        this.views = views;
+        return this;
+    }
 
-	/**
-	 * @return path
-	 */
-	public String getPath() {
-		return path;
-	}
+    /**
+     * @return path
+     */
+    public String getPath() {
+        return path;
+    }
 
-	/**
-	 * @param path
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
+    /**
+     * @param path
+     * @return this content
+     */
+    public PageContent setPath(String path) {
+        this.path = path;
+        return this;
+    }
 
-	/**
-	 * @return title
-	 */
-	public String getTitle() {
-		return title;
-	}
+    /**
+     * @return title
+     */
+    public String getTitle() {
+        return title;
+    }
 
-	/**
-	 * @param title
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /**
+     * @param title
+     * @return this content
+     */
+    public PageContent setTitle(String title) {
+        this.title = title;
+        return this;
+    }
 
-	/**
-	 * @return url
-	 */
-	public String getUrl() {
-		return url;
-	}
+    /**
+     * @return url
+     */
+    public String getUrl() {
+        return url;
+    }
 
-	/**
-	 * @param url
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    /**
+     * @param url
+     * @return this content
+     */
+    public PageContent setUrl(String url) {
+        this.url = url;
+        return this;
+    }
 }
