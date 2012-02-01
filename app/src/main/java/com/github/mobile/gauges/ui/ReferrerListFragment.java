@@ -35,12 +35,6 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
     @Inject
     private GaugesServiceProvider serviceProvider;
 
-    /**
-     * Create referrer list fragment
-     */
-    public ReferrerListFragment() {
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
