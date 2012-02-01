@@ -7,14 +7,19 @@ import com.github.mobile.gauges.ui.GaugeListActivity;
 /**
  * Tests of displaying a list of gauges
  */
-public class GaugeListTest extends
-		ActivityInstrumentationTestCase2<GaugeListActivity> {
+public class GaugeListTest extends ActivityInstrumentationTestCase2<GaugeListActivity> {
 
-	public GaugeListTest() {
-		super("com.github.mobile.gauges.ui", GaugeListActivity.class);
-	}
+    /**
+     * Create test for {@link GaugeListActivity}
+     */
+    public GaugeListTest() {
+        super("com.github.mobile.gauges.ui", GaugeListActivity.class);
+    }
 
-	public void testActivity() {
-		assertNotNull(getActivity());
-	}
+    /**
+     * Verify activity exists
+     */
+    public void testActivity() {
+        assertNotNull(getActivity());
+    }
 }
