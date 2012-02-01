@@ -36,12 +36,6 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
     @Inject
     private GaugesServiceProvider serviceProvider;
 
-    /**
-     * Create content list fragment
-     */
-    public ContentListFragment() {
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
