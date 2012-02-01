@@ -38,29 +38,17 @@
 
             <AutoCompleteTextView
                 android:id="@+id/et_email"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autoText="false"
-                android:capitalize="none"
+                style="@style/SignInEditText"
                 android:completionThreshold="1"
                 android:hint="@string/sign_in_username_field_hint"
-                android:inputType="textEmailAddress"
-                android:minWidth="250dp"
-                android:scrollHorizontally="true"
-                android:singleLine="true" />
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/et_password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autoText="false"
-                android:capitalize="none"
+                style="@style/SignInEditText"
                 android:hint="@string/sign_in_password_field_hint"
                 android:inputType="textPassword"
-                android:minWidth="250dp"
-                android:password="true"
-                android:scrollHorizontally="true"
-                android:singleLine="true" />
+                android:password="true" />
         </LinearLayout>
     </ScrollView>
 
