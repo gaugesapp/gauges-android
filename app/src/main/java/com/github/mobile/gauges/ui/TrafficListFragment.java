@@ -68,6 +68,7 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
         listView.setSelector(R.color.transparent);
         listView.setCacheColorHint(getResources().getColor(R.color.transparent));
         listView.setDrawSelectorOnTop(false);
+        listView.setFastScrollEnabled(true);
     }
 
     public Loader<List<DatedViewSummary>> onCreateLoader(int id, Bundle args) {

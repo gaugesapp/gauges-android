@@ -40,6 +40,7 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
         super.onActivityCreated(savedInstanceState);
 
         getListView().setCacheColorHint(getResources().getColor(R.color.transparent));
+        getListView().setFastScrollEnabled(true);
 
         if (getListAdapter() == null)
             getListView().addHeaderView(
