@@ -112,18 +112,6 @@
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
-				<version>3.0.2</version>
-				<extensions>true</extensions>
-				<configuration>
-					<sdk>
-						<platform>14</platform>
-					</sdk>
-					<undeployBeforeDeploy>true</undeployBeforeDeploy>
-					<proguard>
-						<skip>false</skip>
-						<config>../proguard.cfg</config>
-					</proguard>
-				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
