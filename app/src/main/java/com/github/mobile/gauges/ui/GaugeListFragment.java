@@ -1,16 +1,13 @@
 package com.github.mobile.gauges.ui;
 
 import android.R;
-import android.accounts.AccountsException;
 import android.os.Bundle;
 import android.support.v4.app.SupportActivity;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
@@ -18,8 +15,6 @@ import com.madgag.android.listviews.ReflectiveHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
