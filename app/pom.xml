@@ -89,6 +89,11 @@
 			<type>apklib</type>
 		</dependency>
 		<dependency>
+			<groupId>com.nineoldandroids</groupId>
+			<artifactId>library</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
