@@ -31,19 +31,6 @@
         <activity android:name=".ui.GaugeViewActivity" >
         </activity>
 
-        <service
-            android:name="com.github.mobile.gauges.AirTrafficWallpaper"
-            android:label="@string/wallpaper_name"
-            android:permission="android.permission.BIND_WALLPAPER" >
-            <intent-filter>
-                <action android:name="android.service.wallpaper.WallpaperService" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.service.wallpaper"
-                android:resource="@xml/gauges_wallpaper" />
-        </service>
-
         <service android:name=".authenticator.AccountAuthenticatorService"
                  android:exported="true" android:process=":auth">
             <intent-filter>
