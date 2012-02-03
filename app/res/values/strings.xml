@@ -4,6 +4,7 @@
     <string name="app_name">Gauges</string>
     <string name="views">views</string>
     <string name="people">people</string>
+    <string name="airtraffic">AirTraffic</string>
     <string name="views_column">Views</string>
     <string name="people_column">People</string>
     <string name="referrer_column">Referrer</string>

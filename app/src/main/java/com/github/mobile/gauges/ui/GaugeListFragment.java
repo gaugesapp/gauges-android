@@ -27,10 +27,8 @@ import java.util.List;
  */
 public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
-    private final static String TAG = "GLF";
-
     @Inject
-    private GaugesServiceProvider serviceProvider;
+    private GaugeListLoader gaugeListLoader;
 
     private OnGaugeSelectedListener containerCallback;
 
@@ -51,18 +49,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
     @Override
     public Loader<List<Gauge>> onCreateLoader(int id, Bundle args) {
-        return new AsyncLoader<List<Gauge>>(getActivity()) {
-            public List<Gauge> loadInBackground() {
-                try {
-                    return serviceProvider.getService().getGauges();
-                } catch (IOException e) {
-                    Log.d(TAG, "Exception getting gauges", e);
-                } catch (AccountsException e) {
-                    Log.d(TAG, "Exception getting gauges", e);
-                }
-                return Collections.emptyList();
-            }
-        };
+        return gaugeListLoader;
     }
 
     @Override
