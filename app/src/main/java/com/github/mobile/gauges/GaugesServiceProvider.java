@@ -19,6 +19,9 @@ public class GaugesServiceProvider {
     /**
      * Get service for configured key provider
      *
+     * Note this method gets an auth key and so it BLOCKS - it shouldn't be
+     * called on the main thread.
+     *
      * @return gauges service
      * @throws IOException
      * @throws AccountsException
