@@ -4,10 +4,11 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.view.View.STATUS_BAR_HIDDEN;
 import static com.github.mobile.gauges.R.layout.airtraffic_activity;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 
-import com.github.mobile.gauges.R;
+import com.github.mobile.gauges.GaugesServiceProvider;
+import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.ui.GaugeListLoader;
 import com.google.inject.Inject;
@@ -20,28 +21,27 @@ import roboguice.inject.InjectView;
 /**
  * Activity to display list of gauge summaries
  */
-public class AirTrafficActivity extends RoboFragmentActivity implements
-    		LoaderManager.LoaderCallbacks<List<Gauge>> {
+public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCallbacks<List<Gauge>> {
 
     @Inject
-    private GaugeListLoader gaugeListLoader;
+    private GaugesServiceProvider serviceProvider;
 
-    private @InjectView(R.id.air_traffic) AirTrafficView airTrafficView;
+    @InjectView(id.air_traffic)
+    private AirTrafficView airTrafficView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().hide();
+        setContentView(airtraffic_activity);
 
+        getActionBar().hide();
 
         if (SDK_INT >= 14)
             // On ICS this equivalent to SYSTEM_UI_FLAG_LOW_PROFILE - the dimmed-menu-buttons mode
             getWindow().getDecorView().setSystemUiVisibility(STATUS_BAR_HIDDEN);
 
         getSupportLoaderManager().initLoader(0, null, this);
-        setContentView(airtraffic_activity);
     }
-
 
     @Override
     protected void onPause() {
@@ -55,10 +55,9 @@ public class AirTrafficActivity extends RoboFragmentActivity implements
         airTrafficView.resume();
     }
 
-
     @Override
     public Loader<List<Gauge>> onCreateLoader(int id, Bundle args) {
-        return gaugeListLoader;
+        return new GaugeListLoader(this, serviceProvider);
     }
 
     @Override
@@ -67,5 +66,6 @@ public class AirTrafficActivity extends RoboFragmentActivity implements
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Gauge>> listLoader) {}
+    public void onLoaderReset(Loader<List<Gauge>> listLoader) {
+    }
 }
