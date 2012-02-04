@@ -1,21 +1,19 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.os.Build.VERSION.SDK_INT;
-import static android.support.v4.view.Window.FEATURE_ACTION_BAR_OVERLAY;
 import static android.view.View.STATUS_BAR_HIDDEN;
 import static com.github.mobile.gauges.R.layout.airtraffic_activity;
+import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 
 import com.github.mobile.gauges.R;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.ui.GaugeListLoader;
 import com.google.inject.Inject;
+
 import java.util.List;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 
@@ -33,14 +31,12 @@ public class AirTrafficActivity extends RoboFragmentActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature((int) FEATURE_ACTION_BAR_OVERLAY);
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        getActionBar().hide();
 
 
-        if (SDK_INT >= 14) {
+        if (SDK_INT >= 14)
             // On ICS this equivalent to SYSTEM_UI_FLAG_LOW_PROFILE - the dimmed-menu-buttons mode
             getWindow().getDecorView().setSystemUiVisibility(STATUS_BAR_HIDDEN);
-        }
 
         getSupportLoaderManager().initLoader(0, null, this);
         setContentView(airtraffic_activity);
