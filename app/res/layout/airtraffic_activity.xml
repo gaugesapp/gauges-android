@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background" >
+    android:background="@color/background"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="1dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="1dp" >
+
+        <ImageView
+            android:id="@+id/iv_pin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/tv_gauge_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/text" />
+    </LinearLayout>
 
     <com.github.mobile.gauges.ui.airtraffic.AirTrafficView
-            android:id="@+id/air_traffic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+        android:id="@+id/air_traffic"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
-</FrameLayout>
+</LinearLayout>
