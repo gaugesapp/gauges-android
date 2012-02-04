@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
@@ -22,10 +23,10 @@ import java.util.List;
  */
 public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
-    @Inject
-    private GaugeListLoader gaugeListLoader;
-
     private OnGaugeSelectedListener containerCallback;
+
+    @Inject
+    private GaugesServiceProvider serviceProvider;
 
     @Override
     public void onAttach(SupportActivity activity) {
@@ -44,7 +45,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
     @Override
     public Loader<List<Gauge>> onCreateLoader(int id, Bundle args) {
-        return gaugeListLoader;
+        return new GaugeListLoader(getActivity(), serviceProvider);
     }
 
     @Override
