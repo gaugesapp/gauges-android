@@ -26,6 +26,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  * View to display an Air Traffic map
@@ -116,6 +118,8 @@ public class AirTrafficView extends View {
     private int outerRingWidth;
 
     private final Map<String, Integer> gaugeColors = new LinkedHashMap<String, Integer>();
+
+    private final Executor backgroundThread = Executors.newFixedThreadPool(1);
 
     /**
      * Used to track elapsed time for animations and fps
@@ -219,15 +223,15 @@ public class AirTrafficView extends View {
      * @param gauges
      */
     public void setGauges(List<Gauge> gauges) {
-        unsubscribeFromGaugeChannels();
+        unsubscribeFromGaugeChannels(this.gauges);
         this.gauges = gauges;
-        subscribeToGaugeChannels();
-        generatePinColors();
+        subscribeToGaugeChannels(gauges);
+        generatePinColors(gauges);
     }
 
-    private void generatePinColors() {
+    private void generatePinColors(final List<Gauge> newGauges) {
         gaugeColors.clear();
-        for (Gauge gauge : gauges) {
+        for (Gauge gauge : newGauges) {
             gaugeColors.put(gauge.getId(), pinIndex++);
             if (pinIndex == pins.length)
                 pinIndex = 0;
@@ -322,7 +326,7 @@ public class AirTrafficView extends View {
      * Pause the animated view
      */
     public void pause() {
-        unsubscribeFromGaugeChannels();
+        unsubscribeFromGaugeChannels(this.gauges);
         // Make sure the animator's not spinning in the background when the activity is paused.
         animator.cancel();
     }
@@ -331,19 +335,32 @@ public class AirTrafficView extends View {
      * Resume the animated view
      */
     public void resume() {
-        subscribeToGaugeChannels();
+        subscribeToGaugeChannels(this.gauges);
         animator.start();
     }
 
-    private void subscribeToGaugeChannels() {
-        AirTrafficPusherCallback callback = new AirTrafficPusherCallback(hits);
+    private void subscribeToGaugeChannels(final List<Gauge> subscribeGauges) {
+        if (subscribeGauges.isEmpty())
+            return;
+        backgroundThread.execute(new Runnable() {
 
-        for (Gauge gauge : gauges)
-            pusher.subscribe(gauge.getId()).bind("hit", callback);
+            public void run() {
+                final AirTrafficPusherCallback callback = new AirTrafficPusherCallback(hits);
+                for (Gauge gauge : subscribeGauges)
+                    pusher.subscribe(gauge.getId()).bind("hit", callback);
+            }
+        });
     }
 
-    private void unsubscribeFromGaugeChannels() {
-        for (Gauge gauge : gauges)
-            pusher.unsubscribe(gauge.getId());
+    private void unsubscribeFromGaugeChannels(final List<Gauge> unsubscribeGauges) {
+        if (unsubscribeGauges.isEmpty())
+            return;
+        backgroundThread.execute(new Runnable() {
+
+            public void run() {
+                for (Gauge gauge : unsubscribeGauges)
+                    pusher.unsubscribe(gauge.getId());
+            }
+        });
     }
 }
