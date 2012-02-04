@@ -15,26 +15,17 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import com.emorym.android_pusher.Pusher;
 import com.github.mobile.gauges.R.drawable;
-import com.github.mobile.gauges.core.Gauge;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 /**
  * View to display an Air Traffic map
  */
 public class AirTrafficView extends View {
-
-    private static final String PUSHER_APP_KEY = "887bd32ce6b7c2049e0b";
 
     /**
      * Unscaled width of map image used
@@ -95,15 +86,9 @@ public class AirTrafficView extends View {
      */
     private static final double BITMAP_ORIGIN = 16.0 / 2.0;
 
-    private ConcurrentLinkedQueue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
-
     private ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
 
-    private final Bitmap[] pins = new Bitmap[10];
-
-    private final Bitmap[] rings = new Bitmap[10];
-
-    private int pinIndex = 0;
+    private AirTrafficResourceProvider resourceProvider;
 
     private int pinHeight;
 
@@ -116,10 +101,6 @@ public class AirTrafficView extends View {
     private int outerRingHeight;
 
     private int outerRingWidth;
-
-    private final Map<String, Integer> gaugeColors = new LinkedHashMap<String, Integer>();
-
-    private final Executor backgroundThread = Executors.newFixedThreadPool(1);
 
     /**
      * Used to track elapsed time for animations and fps
@@ -136,12 +117,12 @@ public class AirTrafficView extends View {
      */
     private float fps = 0; // frames per second
 
-    private Pusher pusher;
     private double xMapScale;
     private double yMapScale;
     private Bitmap map, fittedMap;
     private Paint mapPaint;
-    private List<Gauge> gauges = Collections.emptyList();
+
+    private Collection<Hit> hits = Collections.emptyList();
 
     /**
      * Constructor. Create objects used throughout the life of the View: the Paint and the animator
@@ -151,42 +132,8 @@ public class AirTrafficView extends View {
      */
     public AirTrafficView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        pusher = new Pusher(PUSHER_APP_KEY);
         final Resources resources = getResources();
         map = BitmapFactory.decodeResource(resources, drawable.map);
-
-        // Load all the pin images
-        pins[0] = BitmapFactory.decodeResource(resources, drawable.pin0);
-        pins[1] = BitmapFactory.decodeResource(resources, drawable.pin1);
-        pins[2] = BitmapFactory.decodeResource(resources, drawable.pin2);
-        pins[3] = BitmapFactory.decodeResource(resources, drawable.pin3);
-        pins[4] = BitmapFactory.decodeResource(resources, drawable.pin4);
-        pins[5] = BitmapFactory.decodeResource(resources, drawable.pin5);
-        pins[6] = BitmapFactory.decodeResource(resources, drawable.pin6);
-        pins[7] = BitmapFactory.decodeResource(resources, drawable.pin7);
-        pins[8] = BitmapFactory.decodeResource(resources, drawable.pin8);
-        pins[9] = BitmapFactory.decodeResource(resources, drawable.pin9);
-
-        pinHeight = pins[0].getHeight() / 2;
-        pinWidth = pins[0].getWidth() / 2;
-
-        // Load all the ring images
-        rings[0] = BitmapFactory.decodeResource(resources, drawable.ring0);
-        rings[1] = BitmapFactory.decodeResource(resources, drawable.ring1);
-        rings[2] = BitmapFactory.decodeResource(resources, drawable.ring2);
-        rings[3] = BitmapFactory.decodeResource(resources, drawable.ring3);
-        rings[4] = BitmapFactory.decodeResource(resources, drawable.ring4);
-        rings[5] = BitmapFactory.decodeResource(resources, drawable.ring5);
-        rings[6] = BitmapFactory.decodeResource(resources, drawable.ring6);
-        rings[7] = BitmapFactory.decodeResource(resources, drawable.ring7);
-        rings[8] = BitmapFactory.decodeResource(resources, drawable.ring8);
-        rings[9] = BitmapFactory.decodeResource(resources, drawable.ring9);
-
-        outerRingHeight = rings[0].getHeight() * 2 / 3;
-        outerRingWidth = rings[0].getWidth() * 2 / 3;
-
-        innerRingHeight = outerRingHeight / 2;
-        innerRingWidth = outerRingWidth / 2;
 
         mapPaint = new Paint();
         animator.addUpdateListener(new AnimatorUpdateListener() {
@@ -197,6 +144,27 @@ public class AirTrafficView extends View {
         });
         animator.setRepeatCount(INFINITE);
         animator.setDuration(3000);
+    }
+
+    /**
+     * Set resource provider
+     *
+     * @param provider
+     * @return this view
+     */
+    public AirTrafficView setResourceProvider(final AirTrafficResourceProvider provider) {
+        this.resourceProvider = provider;
+
+        pinHeight = provider.getPinHeight() / 2;
+        pinWidth = provider.getPinWidth() / 2;
+
+        outerRingHeight = provider.getRingHeight() * 2 / 3;
+        outerRingWidth = provider.getRingWidth() * 2 / 3;
+
+        innerRingHeight = outerRingHeight / 2;
+        innerRingWidth = outerRingWidth / 2;
+
+        return this;
     }
 
     @Override
@@ -218,24 +186,12 @@ public class AirTrafficView extends View {
     }
 
     /**
-     * Set the list of {@link Gauge} items to display
+     * Set the {@link Collection} to draw {@link Hit} items from
      *
-     * @param gauges
+     * @param hits
      */
-    public void setGauges(List<Gauge> gauges) {
-        unsubscribeFromGaugeChannels(this.gauges);
-        this.gauges = gauges;
-        subscribeToGaugeChannels(gauges);
-        generatePinColors(gauges);
-    }
-
-    private void generatePinColors(final List<Gauge> newGauges) {
-        gaugeColors.clear();
-        for (Gauge gauge : newGauges) {
-            gaugeColors.put(gauge.getId(), pinIndex++);
-            if (pinIndex == pins.length)
-                pinIndex = 0;
-        }
+    public void setHits(final Collection<Hit> hits) {
+        this.hits = hits;
     }
 
     @Override
@@ -257,8 +213,8 @@ public class AirTrafficView extends View {
 
     private void draw(Hit hit, Canvas canvas, long now) {
         // Find the color index for the given site id
-        Integer colorIndex = gaugeColors.get(hit.siteId);
-        if (colorIndex == null)
+        int key = resourceProvider.getKey(hit.siteId);
+        if (key == -1)
             return;
 
         // Determine the x and y positions to draw the hit at.
@@ -275,7 +231,7 @@ public class AirTrafficView extends View {
         x *= xMapScale;
         y *= yMapScale;
 
-        Bitmap pin = pins[colorIndex.intValue()];
+        Bitmap pin = resourceProvider.getPin(key);
         RectF rect = new RectF();
         rect.top = y - pinHeight / 2;
         rect.left = x - pinWidth / 2;
@@ -285,14 +241,14 @@ public class AirTrafficView extends View {
 
         // Draw rings if the hit just occurred
         if (now - hit.time < 250) {
-            Bitmap ring = rings[colorIndex.intValue()];
+            Bitmap ring = resourceProvider.getRing(key);
             rect.top = y - innerRingHeight / 2;
             rect.left = x - innerRingWidth / 2;
             rect.right = rect.left + innerRingWidth;
             rect.bottom = rect.top + innerRingHeight;
             canvas.drawBitmap(ring, null, rect, mapPaint);
         } else if (now - hit.time < 500) {
-            Bitmap ring = rings[colorIndex.intValue()];
+            Bitmap ring = resourceProvider.getRing(key);
             rect.top = y - outerRingHeight / 2;
             rect.left = x - outerRingWidth / 2;
             rect.right = rect.left + outerRingWidth;
@@ -326,7 +282,6 @@ public class AirTrafficView extends View {
      * Pause the animated view
      */
     public void pause() {
-        unsubscribeFromGaugeChannels(this.gauges);
         // Make sure the animator's not spinning in the background when the activity is paused.
         animator.cancel();
     }
@@ -335,32 +290,6 @@ public class AirTrafficView extends View {
      * Resume the animated view
      */
     public void resume() {
-        subscribeToGaugeChannels(this.gauges);
         animator.start();
-    }
-
-    private void subscribeToGaugeChannels(final List<Gauge> subscribeGauges) {
-        if (subscribeGauges.isEmpty())
-            return;
-        backgroundThread.execute(new Runnable() {
-
-            public void run() {
-                final AirTrafficPusherCallback callback = new AirTrafficPusherCallback(hits);
-                for (Gauge gauge : subscribeGauges)
-                    pusher.subscribe(gauge.getId()).bind("hit", callback);
-            }
-        });
-    }
-
-    private void unsubscribeFromGaugeChannels(final List<Gauge> unsubscribeGauges) {
-        if (unsubscribeGauges.isEmpty())
-            return;
-        backgroundThread.execute(new Runnable() {
-
-            public void run() {
-                for (Gauge gauge : unsubscribeGauges)
-                    pusher.unsubscribe(gauge.getId());
-            }
-        });
     }
 }

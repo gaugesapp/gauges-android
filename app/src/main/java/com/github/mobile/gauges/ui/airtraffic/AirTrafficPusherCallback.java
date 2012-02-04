@@ -27,15 +27,24 @@ public class AirTrafficPusherCallback extends PusherCallback {
         this.hits = hits;
     }
 
+    /**
+     * Process hit
+     *
+     * @param hit
+     */
+    protected void onHit(final Hit hit) {
+        hits.add(hit);
+        if (hits.size() > 40)
+            hits.poll();
+    }
+
     @Override
     public void onEvent(JSONObject eventData) {
         try {
             float longitude = (float) eventData.getDouble("longitude");
             float latitude = (float) eventData.getDouble("latitude");
             String id = eventData.getString("site_id");
-            hits.add(new Hit(id, longitude, latitude, currentTimeMillis()));
-            if (hits.size() > 40)
-                hits.poll();
+            onHit(new Hit(id, longitude, latitude, currentTimeMillis()));
         } catch (JSONException e) {
             Log.d(TAG, "JSON exception", e);
         }
