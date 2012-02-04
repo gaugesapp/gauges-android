@@ -34,6 +34,11 @@ import roboguice.inject.InjectView;
  */
 public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCallbacks<List<Gauge>> {
 
+    /**
+     * The maximum numbers of hits to retain
+     */
+    private static final int MAX_HITS = 40;
+
     private static final String PUSHER_APP_KEY = "887bd32ce6b7c2049e0b";
 
     @Inject
@@ -116,7 +121,9 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
         backgroundThread.execute(new Runnable() {
 
             public void run() {
-                final AirTrafficPusherCallback callback = new AirTrafficPusherCallback(hits) {
+                final AirTrafficPusherCallback callback = new AirTrafficPusherCallback(hits, MAX_HITS) {
+
+                    @Override
                     protected void onHit(final Hit hit) {
                         super.onHit(hit);
                         gaugeText.post(new Runnable() {
