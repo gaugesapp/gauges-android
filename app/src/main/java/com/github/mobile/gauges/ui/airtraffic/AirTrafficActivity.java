@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,8 +17,10 @@ import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.ui.GaugeListLoader;
+import com.google.common.base.Joiner;
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -132,12 +135,26 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
                                 Gauge gauge = gauges.get(hit.siteId);
                                 if (gauge == null)
                                     return;
+
                                 Bitmap bitmap = resourceProvider.getPin(hit.siteId);
                                 if (bitmap != null)
                                     pinImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
                                 else
                                     pinImage.setBackgroundDrawable(null);
-                                gaugeText.setText(gauge.getTitle());
+
+                                StringBuilder hitText = new StringBuilder(gauge.getTitle());
+                                List<String> segments = new ArrayList<String>();
+                                if (!TextUtils.isEmpty(hit.city))
+                                    segments.add(hit.city);
+                                if (!TextUtils.isEmpty(hit.region))
+                                    segments.add(hit.region);
+                                if (!TextUtils.isEmpty(hit.country))
+                                    segments.add(hit.country);
+                                if (!segments.isEmpty()) {
+                                    hitText.append(" - ");
+                                    Joiner.on(", ").appendTo(hitText, segments);
+                                }
+                                gaugeText.setText(hitText);
                             }
                         });
                     }
