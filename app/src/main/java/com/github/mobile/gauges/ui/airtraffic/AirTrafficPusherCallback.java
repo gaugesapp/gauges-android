@@ -18,13 +18,19 @@ public class AirTrafficPusherCallback extends PusherCallback {
 
     private final Queue<Hit> hits;
 
+    private final int maxSize;
+
     /**
      * Create callback that pushes hits to given {@link Queue}
      *
      * @param hits
+     *            the {@link Queue} to add hits to
+     * @param maxSize
+     *            the maximum number of hits to retain in the given {@link Queue}
      */
-    public AirTrafficPusherCallback(Queue<Hit> hits) {
+    public AirTrafficPusherCallback(Queue<Hit> hits, final int maxSize) {
         this.hits = hits;
+        this.maxSize = maxSize;
     }
 
     /**
@@ -34,7 +40,7 @@ public class AirTrafficPusherCallback extends PusherCallback {
      */
     protected void onHit(final Hit hit) {
         hits.add(hit);
-        if (hits.size() > 40)
+        if (hits.size() > maxSize)
             hits.poll();
     }
 
