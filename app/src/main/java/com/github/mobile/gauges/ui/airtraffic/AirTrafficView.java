@@ -1,6 +1,7 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.graphics.Bitmap.createScaledBitmap;
+import static android.graphics.Color.BLACK;
 import static com.nineoldandroids.animation.ValueAnimator.INFINITE;
 import static java.lang.Math.PI;
 import static java.lang.System.currentTimeMillis;
@@ -15,6 +16,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.drawable;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
@@ -36,6 +38,8 @@ public class AirTrafficView extends View {
      * Unscaled height of map image used
      */
     private static final double MAP_HEIGHT = 596.0;
+
+    private static final String MAP_LABEL = "AirTraffic";
 
     /**
      * Divisor used to compute the scaling value
@@ -112,6 +116,8 @@ public class AirTrafficView extends View {
      */
     private int frames = 0;
 
+    private float mapLabelWidth;
+
     /**
      * Frames per second
      */
@@ -136,6 +142,7 @@ public class AirTrafficView extends View {
         map = BitmapFactory.decodeResource(resources, drawable.map);
 
         mapPaint = new Paint();
+        mapPaint.setColor(resources.getColor(color.text));
         animator.addUpdateListener(new AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animator) {
@@ -144,6 +151,18 @@ public class AirTrafficView extends View {
         });
         animator.setRepeatCount(INFINITE);
         animator.setDuration(3000);
+    }
+
+    /**
+     * Set the height to use when drawing text on the map
+     *
+     * @param height
+     * @return this view
+     */
+    public AirTrafficView setLabelHeight(final float height) {
+        mapPaint.setTextSize(height);
+        mapLabelWidth = mapPaint.measureText(MAP_LABEL);
+        return this;
     }
 
     /**
@@ -201,6 +220,13 @@ public class AirTrafficView extends View {
 
         if (fittedMap != null)
             canvas.drawBitmap(fittedMap, 0, 0, mapPaint);
+
+        if (mapLabelWidth > 0) {
+            mapPaint.setShadowLayer(5, 0, 0, BLACK);
+            canvas.drawText(MAP_LABEL, fittedMap.getWidth() / 2 - mapLabelWidth / 2,
+                    fittedMap.getHeight() - mapPaint.getTextSize(), mapPaint);
+            mapPaint.clearShadowLayer();
+        }
 
         long now = currentTimeMillis();
         for (Hit hit : hits)
