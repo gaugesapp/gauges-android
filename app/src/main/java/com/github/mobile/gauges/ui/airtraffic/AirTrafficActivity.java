@@ -73,7 +73,8 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
         resourceProvider = new AirTrafficResourceProvider(getResources());
 
-        airTrafficView.setResourceProvider(resourceProvider).setLabelHeight(gaugeText.getTextSize()).setHits(hits);
+        airTrafficView.setResourceProvider(resourceProvider).setHits(hits)
+                .setLabelHeight(gaugeText.getTextSize() * 3 / 2);
 
         getSupportActionBar().hide();
 
