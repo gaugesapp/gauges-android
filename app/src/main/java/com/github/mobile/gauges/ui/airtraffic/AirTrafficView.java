@@ -208,9 +208,11 @@ public class AirTrafficView extends View {
      * Set the {@link Collection} to draw {@link Hit} items from
      *
      * @param hits
+     * @return this view
      */
-    public void setHits(final Collection<Hit> hits) {
+    public AirTrafficView setHits(final Collection<Hit> hits) {
         this.hits = hits;
+        return this;
     }
 
     @Override
