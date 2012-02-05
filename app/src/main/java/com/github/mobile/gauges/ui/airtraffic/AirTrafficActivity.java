@@ -75,7 +75,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
         airTrafficView.setResourceProvider(resourceProvider).setLabelHeight(gaugeText.getTextSize()).setHits(hits);
 
-        getActionBar().hide();
+        getSupportActionBar().hide();
 
         if (SDK_INT >= 14)
             // On ICS this equivalent to SYSTEM_UI_FLAG_LOW_PROFILE - the dimmed-menu-buttons mode
