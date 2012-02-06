@@ -191,7 +191,7 @@ public class GaugesService {
         try {
             HttpRequest request = execute(HttpRequest.get(URL_CLIENTS));
             ClientsWrapper response = GSON.fromJson(request.reader(), ClientsWrapper.class);
-            if (response != null && response.clients == null)
+            if (response != null && response.clients != null)
                 for (Client client : response.clients)
                     if (description.equals(client.getDescription()))
                         return client;
