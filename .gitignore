@@ -18,4 +18,5 @@ logs
 gen-external-apklibs
 .idea
 out
+.DS_Store
 
