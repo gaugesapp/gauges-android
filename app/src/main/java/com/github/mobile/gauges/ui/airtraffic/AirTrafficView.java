@@ -39,6 +39,16 @@ public class AirTrafficView extends View {
     private static final double SCALE_DIVISOR = 720.0;
 
     /**
+     * Corrector used to adjust X position
+     */
+    private static final double X_CORRECTOR = 1.1;
+
+    /**
+     * Corrector used to adjust Y position
+     */
+    private static final double Y_CORRECTOR = 70.0;
+
+    /**
      * Multiplier used to compute the scaling value
      * <p>
      * Constant taken from gaug.es site
@@ -181,8 +191,8 @@ public class AirTrafficView extends View {
         double relativeWidth = map.getWidth() / SCALE_DIVISOR;
         scale = relativeWidth * SCALE_MULTIPLIER;
 
-        xCorrector = relativeWidth;
-        yCorrector = 65 * relativeWidth;
+        xCorrector = X_CORRECTOR * relativeWidth;
+        yCorrector = Y_CORRECTOR * relativeWidth;
 
         fittedMap = createScaledBitmap(map, width, height, true);
 
