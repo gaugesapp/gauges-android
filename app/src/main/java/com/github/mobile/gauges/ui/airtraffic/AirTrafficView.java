@@ -1,7 +1,6 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.graphics.Bitmap.createScaledBitmap;
-import static android.graphics.Color.BLACK;
 import static com.nineoldandroids.animation.ValueAnimator.INFINITE;
 import static java.lang.Math.PI;
 import static java.lang.System.currentTimeMillis;
@@ -30,7 +29,7 @@ import java.util.Collections;
  */
 public class AirTrafficView extends View {
 
-    private static final String MAP_LABEL = "AirTraffic";
+    private static final String MAP_LABEL = "AirTraffic Live";
 
     /**
      * Divisor used to compute the scaling value
@@ -225,12 +224,9 @@ public class AirTrafficView extends View {
         if (fittedMap != null)
             canvas.drawBitmap(fittedMap, 0, 0, mapPaint);
 
-        if (mapLabelWidth > 0) {
-            mapPaint.setShadowLayer(5, 0, 0, BLACK);
+        if (mapLabelWidth > 0)
             canvas.drawText(MAP_LABEL, fittedMap.getWidth() / 2 - mapLabelWidth / 2,
                     fittedMap.getHeight() - mapPaint.getTextSize(), mapPaint);
-            mapPaint.clearShadowLayer();
-        }
 
         long now = currentTimeMillis();
         for (Hit hit : hits)
