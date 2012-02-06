@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -261,28 +262,35 @@ public class AirTrafficView extends View {
         y *= yMapScale;
 
         Bitmap pin = resourceProvider.getPin(key);
-        RectF rect = new RectF();
-        rect.top = y - pinHeight / 2;
-        rect.left = x - pinWidth / 2;
-        rect.right = rect.left + pinWidth;
-        rect.bottom = rect.top + pinHeight;
-        canvas.drawBitmap(pin, null, rect, mapPaint);
+        Rect source = new Rect();
+        RectF destination = new RectF();
+        destination.top = y - pinHeight / 2;
+        destination.left = x - pinWidth / 2;
+        destination.right = destination.left + pinWidth;
+        destination.bottom = destination.top + pinHeight;
+        source.right = pin.getWidth();
+        source.bottom = pin.getHeight();
+        canvas.drawBitmap(pin, source, destination, mapPaint);
 
         // Draw rings if the hit just occurred
         if (now - hit.time < 250) {
             Bitmap ring = resourceProvider.getRing(key);
-            rect.top = y - innerRingHeight / 2;
-            rect.left = x - innerRingWidth / 2;
-            rect.right = rect.left + innerRingWidth;
-            rect.bottom = rect.top + innerRingHeight;
-            canvas.drawBitmap(ring, null, rect, mapPaint);
+            destination.top = y - innerRingHeight / 2;
+            destination.left = x - innerRingWidth / 2;
+            destination.right = destination.left + innerRingWidth;
+            destination.bottom = destination.top + innerRingHeight;
+            source.right = ring.getWidth();
+            source.bottom = ring.getHeight();
+            canvas.drawBitmap(ring, source, destination, mapPaint);
         } else if (now - hit.time < 500) {
             Bitmap ring = resourceProvider.getRing(key);
-            rect.top = y - outerRingHeight / 2;
-            rect.left = x - outerRingWidth / 2;
-            rect.right = rect.left + outerRingWidth;
-            rect.bottom = rect.top + outerRingHeight;
-            canvas.drawBitmap(ring, null, rect, mapPaint);
+            destination.top = y - outerRingHeight / 2;
+            destination.left = x - outerRingWidth / 2;
+            destination.right = destination.left + outerRingWidth;
+            destination.bottom = destination.top + outerRingHeight;
+            source.right = ring.getWidth();
+            source.bottom = ring.getHeight();
+            canvas.drawBitmap(ring, source, destination, mapPaint);
         }
     }
 
