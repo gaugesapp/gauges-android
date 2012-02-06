@@ -29,16 +29,6 @@ import java.util.Collections;
  */
 public class AirTrafficView extends View {
 
-    /**
-     * Unscaled width of map image used
-     */
-    private static final double MAP_WIDTH = 960.0;
-
-    /**
-     * Unscaled height of map image used
-     */
-    private static final double MAP_HEIGHT = 596.0;
-
     private static final String MAP_LABEL = "AirTraffic";
 
     /**
@@ -54,26 +44,6 @@ public class AirTrafficView extends View {
      * Constant taken from gaug.es site
      */
     private static final double SCALE_MULTIPLIER = 0.169;
-
-    /**
-     * Relative width used for x/y correction and scale value
-     */
-    private static final double RELATIVE_WIDTH = MAP_WIDTH / SCALE_DIVISOR;
-
-    /**
-     * Scale value used based on map image dimensions
-     */
-    private static final double SCALE = RELATIVE_WIDTH * SCALE_MULTIPLIER;
-
-    /**
-     * Correction value used to adjust scaled y position
-     */
-    private static final double Y_CORRECTOR = 65 * RELATIVE_WIDTH;
-
-    /**
-     * Correction value used to adjust scaled x position
-     */
-    private static final double X_CORRECTOR = RELATIVE_WIDTH;
 
     /**
      * Constant taken from gaug.es site
@@ -93,6 +63,21 @@ public class AirTrafficView extends View {
     private ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
 
     private AirTrafficResourceProvider resourceProvider;
+
+    /**
+     * Scale value used based on map image dimensions
+     */
+    private double scale;
+
+    /**
+     * Correction value used to adjust scaled y position
+     */
+    private double yCorrector;
+
+    /**
+     * Correction value used to adjust scaled x position
+     */
+    private double xCorrector;
 
     private int pinHeight;
 
@@ -190,8 +175,14 @@ public class AirTrafficView extends View {
     protected void onSizeChanged(final int width, final int height, final int oldw, final int oldh) {
         super.onSizeChanged(width, height, oldw, oldh);
 
-        xMapScale = (double) width / MAP_WIDTH;
-        yMapScale = (double) height / MAP_HEIGHT;
+        xMapScale = (double) width / map.getWidth();
+        yMapScale = (double) height / map.getHeight();
+
+        double relativeWidth = map.getWidth() / SCALE_DIVISOR;
+        scale = relativeWidth * SCALE_MULTIPLIER;
+
+        xCorrector = relativeWidth;
+        yCorrector = 65 * relativeWidth;
 
         fittedMap = createScaledBitmap(map, width, height, true);
 
@@ -252,8 +243,8 @@ public class AirTrafficView extends View {
         e = Math.max(Math.min(e, 0.9999), -0.9999);
         double globalY = (BITMAP_ORIGIN + 0.5 * Math.log((1.0 + e) / (1.0 - e)) * NEGATIVE_PIXELS_PER_LONGITUDE_RADIAN) * 256.0;
 
-        float x = (float) (Math.round(globalX * SCALE) - X_CORRECTOR);
-        float y = (float) (Math.round(globalY * SCALE) - Y_CORRECTOR);
+        float x = (float) ((globalX * scale) - xCorrector);
+        float y = (float) ((globalY * scale) - yCorrector);
 
         // Take absolute positions on actual map and scale to actual screen size since map image may have been scaled
         x *= xMapScale;
