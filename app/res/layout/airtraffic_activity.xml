@@ -20,6 +20,7 @@
         android:orientation="horizontal"
         android:paddingBottom="1dp"
         android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:paddingTop="1dp" >
 
         <ImageView
@@ -31,9 +32,20 @@
 
         <TextView
             android:id="@+id/tv_gauge_name"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/text" />
+
+        <TextView
+            android:id="@+id/tv_gauge_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|right"
             android:paddingLeft="5dp"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceSmall"

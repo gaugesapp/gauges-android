@@ -71,7 +71,8 @@ public class AirTrafficPusherCallback extends PusherCallback {
             String city = getString(eventData, "city");
             String region = getString(eventData, "region");
             String country = getString(eventData, "country");
-            onHit(new Hit(id, longitude, latitude, currentTimeMillis(), city, region, country));
+            String title = getString(eventData, "title");
+            onHit(new Hit(id, title, longitude, latitude, currentTimeMillis(), city, region, country));
         } catch (JSONException e) {
             Log.d(TAG, "JSON exception", e);
         }
