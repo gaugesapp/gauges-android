@@ -14,7 +14,7 @@
         android:gravity="left"
         android:text="@string/referrer_column"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/text_light"
+        android:textColor="@color/table_text_header"
         android:textStyle="bold" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:gravity="right"
         android:text="@string/views_column"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/text_light"
+        android:textColor="@color/table_text_header"
         android:textStyle="bold" />
 
 </LinearLayout>
