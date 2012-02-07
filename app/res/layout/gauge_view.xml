@@ -9,7 +9,7 @@
         android:id="@+id/tpi_header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
+        android:background="@drawable/stripe_repeat"
         app:footerColor="@color/pager_footer"
         app:selectedColor="@color/pager_selected_text"
         app:textColor="@color/text_light" />
