@@ -19,7 +19,7 @@
                 <plugin>
                     <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.1.1</version>
                     <extensions>true</extensions>
                     <configuration>
                         <sdk>
@@ -30,7 +30,20 @@
                             <skip>false</skip>
                             <config>../proguard.cfg</config>
                         </proguard>
+                        <manifest>
+                            <versionName /> <!-- defaults to Maven project version -->
+                            <versionCodeUpdateFromVersion>true</versionCodeUpdateFromVersion>
+                        </manifest>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <id>manifestUpdate</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>manifest-update</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
