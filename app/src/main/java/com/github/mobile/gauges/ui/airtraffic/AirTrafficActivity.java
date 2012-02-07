@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,10 +16,8 @@ import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.ui.GaugeListLoader;
-import com.google.common.base.Joiner;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +52,9 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
     @InjectView(id.tv_gauge_name)
     private TextView gaugeText;
+
+    @InjectView(id.tv_gauge_location)
+    private TextView gaugeLocation;
 
     private final ConcurrentLinkedQueue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
 
@@ -143,19 +143,34 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
                                 else
                                     pinImage.setBackgroundDrawable(null);
 
-                                StringBuilder hitText = new StringBuilder(gauge.getTitle());
-                                List<String> segments = new ArrayList<String>();
-                                if (!TextUtils.isEmpty(hit.city))
-                                    segments.add(hit.city);
-                                if (!TextUtils.isEmpty(hit.region))
-                                    segments.add(hit.region);
-                                if (!TextUtils.isEmpty(hit.country))
-                                    segments.add(hit.country);
-                                if (!segments.isEmpty()) {
-                                    hitText.append(" - ");
-                                    Joiner.on(", ").appendTo(hitText, segments);
-                                }
-                                gaugeText.setText(hitText);
+                                String city = hit.city != null ? hit.city : "";
+                                String region = hit.region != null ? hit.region : "";
+                                String country = hit.country != null ? hit.country : "";
+                                String location;
+                                if (country.length() > 0) {
+                                    location = country;
+
+                                    if (("United States".equals(country) || "Canada".equals(country))
+                                            && region.length() > 0)
+                                        location = region;
+
+                                    if (city.length() > 0)
+                                        location = city + ", " + location;
+                                } else
+                                    location = "";
+                                gaugeLocation.setText(location);
+
+                                if (hit.title != null && hit.title.length() > 0) {
+                                    int separator = hit.title.indexOf(" // ");
+                                    if (separator == -1)
+                                        separator = hit.title.indexOf(" - ");
+                                    if (separator > 0)
+                                        gaugeText.setText(gauge.getTitle() + ": " + hit.title.substring(0, separator));
+                                    else
+                                        gaugeText.setText(gauge.getTitle() + ": " + hit.title);
+                                } else
+                                    gaugeText.setText(gauge.getTitle());
+
                             }
                         });
                     }
