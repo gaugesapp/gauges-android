@@ -40,7 +40,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     /**
      * The maximum numbers of hits to retain
      */
-    private static final int MAX_HITS = 40;
+    private static final int MAX_HITS = 500;
 
     private static final String PUSHER_APP_KEY = "887bd32ce6b7c2049e0b";
 
