@@ -19,7 +19,6 @@ import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.core.PageContent;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
@@ -73,8 +72,9 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 
     @Override
     protected ListAdapter adapterFor(List<PageContent> items) {
-        return new ViewHoldingListAdapter<PageContent>(items, ViewInflator.viewInflatorFor(getActivity(),
-                layout.content_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(ContentViewHolder.class));
+        return new AlternatingColorListAdapter<PageContent>(getActivity().getResources(), items,
+                ViewInflator.viewInflatorFor(getActivity(), layout.content_list_item),
+                ReflectiveHolderFactory.reflectiveFactoryFor(ContentViewHolder.class));
     }
 
     @Override

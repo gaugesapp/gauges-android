@@ -18,7 +18,6 @@ import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Referrer;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
@@ -70,8 +69,9 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
     }
 
     protected ListAdapter adapterFor(List<Referrer> items) {
-        return new ViewHoldingListAdapter<Referrer>(items, ViewInflator.viewInflatorFor(getActivity(),
-                layout.referrer_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(ReferrerViewHolder.class));
+        return new AlternatingColorListAdapter<Referrer>(getActivity().getResources(), items,
+                ViewInflator.viewInflatorFor(getActivity(), layout.referrer_list_item),
+                ReflectiveHolderFactory.reflectiveFactoryFor(ReferrerViewHolder.class));
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {

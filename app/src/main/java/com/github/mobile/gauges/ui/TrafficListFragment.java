@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -111,10 +112,10 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
             final int[][] colors = new int[dayCount][];
 
             final Calendar calendar = new GregorianCalendar();
-            final int[] weekdayColors = new int[] { getResources().getColor(color.graph_views_weekday),
-                    getResources().getColor(color.graph_people_weekday) };
-            final int[] weekendColors = new int[] { getResources().getColor(color.graph_views_weekend),
-                    getResources().getColor(color.graph_people_weekend) };
+            final int[] weekdayColors = new int[] { getResources().getColor(color.traffic_views_weekday),
+                    getResources().getColor(color.traffic_people_weekday) };
+            final int[] weekendColors = new int[] { getResources().getColor(color.traffic_views_weekend),
+                    getResources().getColor(color.traffic_people_weekend) };
 
             for (int i = 0; i < dayCount; i++) {
                 // Reverse entry order since entries are in reverse chronological order but graph is drawn left to right
@@ -138,7 +139,8 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
 
     @Override
     protected ListAdapter adapterFor(List<DatedViewSummary> items) {
-        return new ViewHoldingListAdapter<DatedViewSummary>(items, ViewInflator.viewInflatorFor(getActivity(),
-                layout.traffic_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(TrafficViewHolder.class));
+        return new AlternatingColorListAdapter<DatedViewSummary>(getActivity().getResources(), items,
+                ViewInflator.viewInflatorFor(getActivity(), layout.traffic_list_item),
+                ReflectiveHolderFactory.reflectiveFactoryFor(TrafficViewHolder.class));
     }
 }

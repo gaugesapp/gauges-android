@@ -17,8 +17,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/text"
-            android:textStyle="bold" />
+            android:textColor="@color/table_text" />
 
         <TextView
             android:id="@+id/tv_content_path"
@@ -26,7 +25,7 @@
             android:layout_height="fill_parent"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/text_light" />
+            android:textColor="@color/table_text_light" />
     </LinearLayout>
 
     <TextView
@@ -36,6 +35,6 @@
         android:gravity="right"
         android:paddingLeft="15dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/text" />
+        android:textColor="@color/table_text" />
 
 </LinearLayout>
