@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -33,11 +32,6 @@ import roboguice.inject.InjectView;
  * Activity to display list of gauge summaries
  */
 public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCallbacks<List<Gauge>> {
-
-    /**
-     * The maximum numbers of hits to retain
-     */
-    private static final int MAX_HITS = 500;
 
     private static final String PUSHER_APP_KEY = "887bd32ce6b7c2049e0b";
 
@@ -56,8 +50,6 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     @InjectView(id.tv_gauge_location)
     private TextView gaugeLocation;
 
-    private final ConcurrentLinkedQueue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
-
     private Map<String, Gauge> gauges = new HashMap<String, Gauge>();
 
     private final Executor backgroundThread = Executors.newFixedThreadPool(1);
@@ -73,8 +65,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
         resourceProvider = new AirTrafficResourceProvider(getResources());
 
-        airTrafficView.setResourceProvider(resourceProvider).setHits(hits)
-                .setLabelHeight(gaugeText.getTextSize() * 3 / 2);
+        airTrafficView.setResourceProvider(resourceProvider).setLabelHeight(gaugeText.getTextSize() * 3 / 2);
 
         getSupportActionBar().hide();
 
@@ -88,15 +79,14 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     @Override
     protected void onPause() {
         super.onPause();
-        unsubscribeFromGaugeChannels(this.gauges.values());
+        unsubscribeFromGaugeChannels(gauges.values());
         airTrafficView.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        subscribeToGaugeChannels(this.gauges.values());
-        airTrafficView.resume();
+        subscribeToGaugeChannels(gauges.values());
     }
 
     @Override
@@ -115,6 +105,48 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
         subscribeToGaugeChannels(gauges);
     }
 
+    /**
+     * Get geographic location label for hit
+     *
+     * @param hit
+     * @return label
+     */
+    protected String getLocation(final Hit hit) {
+        String city = hit.city != null ? hit.city : "";
+        String region = hit.region != null ? hit.region : "";
+        String country = hit.country != null ? hit.country : "";
+        if (country.length() > 0) {
+            String location = country;
+
+            if (("United States".equals(country) || "Canada".equals(country)) && region.length() > 0)
+                location = region;
+
+            if (city.length() > 0)
+                location = city + ", " + location;
+            return location;
+        } else
+            return "";
+    }
+
+    /**
+     * Get page title of hit
+     *
+     * @param hit
+     * @return title
+     */
+    protected String getTitle(final Hit hit) {
+        if (hit.title != null && hit.title.length() > 0) {
+            int separator = hit.title.indexOf(" // ");
+            if (separator == -1)
+                separator = hit.title.indexOf(" - ");
+            if (separator > 0)
+                return hit.title.substring(0, separator);
+            else
+                return hit.title;
+        } else
+            return "";
+    }
+
     @Override
     public void onLoaderReset(Loader<List<Gauge>> listLoader) {
     }
@@ -125,14 +157,15 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
         backgroundThread.execute(new Runnable() {
 
             public void run() {
-                final AirTrafficPusherCallback callback = new AirTrafficPusherCallback(hits, MAX_HITS) {
+                final AirTrafficPusherCallback callback = new AirTrafficPusherCallback() {
 
                     @Override
                     protected void onHit(final Hit hit) {
-                        super.onHit(hit);
                         gaugeText.post(new Runnable() {
 
                             public void run() {
+                                airTrafficView.addHit(hit);
+
                                 Gauge gauge = gauges.get(hit.siteId);
                                 if (gauge == null)
                                     return;
@@ -143,32 +176,12 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
                                 else
                                     pinImage.setBackgroundDrawable(null);
 
-                                String city = hit.city != null ? hit.city : "";
-                                String region = hit.region != null ? hit.region : "";
-                                String country = hit.country != null ? hit.country : "";
-                                String location;
-                                if (country.length() > 0) {
-                                    location = country;
+                                gaugeLocation.setText(getLocation(hit));
 
-                                    if (("United States".equals(country) || "Canada".equals(country))
-                                            && region.length() > 0)
-                                        location = region;
-
-                                    if (city.length() > 0)
-                                        location = city + ", " + location;
-                                } else
-                                    location = "";
-                                gaugeLocation.setText(location);
-
-                                if (hit.title != null && hit.title.length() > 0) {
-                                    int separator = hit.title.indexOf(" // ");
-                                    if (separator == -1)
-                                        separator = hit.title.indexOf(" - ");
-                                    if (separator > 0)
-                                        gaugeText.setText(gauge.getTitle() + ": " + hit.title.substring(0, separator));
-                                    else
-                                        gaugeText.setText(gauge.getTitle() + ": " + hit.title);
-                                } else
+                                String title = getTitle(hit);
+                                if (title.length() > 0)
+                                    gaugeText.setText(gauge.getTitle() + ": " + title);
+                                else
                                     gaugeText.setText(gauge.getTitle());
 
                             }
