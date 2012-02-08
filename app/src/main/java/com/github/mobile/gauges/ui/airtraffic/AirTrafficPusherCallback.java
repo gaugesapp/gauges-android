@@ -6,45 +6,22 @@ import android.util.Log;
 
 import com.emorym.android_pusher.PusherCallback;
 
-import java.util.Queue;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Callback that delivers pushed air traffic events to a {@link Queue}
+ * Callback that delivers pushed air traffic events to an implemented {@link #onHit(Hit)} callback
  */
-public class AirTrafficPusherCallback extends PusherCallback {
+public abstract class AirTrafficPusherCallback extends PusherCallback {
 
     private static final String TAG = "ATPC";
-
-    private final Queue<Hit> hits;
-
-    private final int maxSize;
-
-    /**
-     * Create callback that pushes hits to given {@link Queue}
-     *
-     * @param hits
-     *            the {@link Queue} to add hits to
-     * @param maxSize
-     *            the maximum number of hits to retain in the given {@link Queue}
-     */
-    public AirTrafficPusherCallback(Queue<Hit> hits, final int maxSize) {
-        this.hits = hits;
-        this.maxSize = maxSize;
-    }
 
     /**
      * Process hit
      *
      * @param hit
      */
-    protected void onHit(final Hit hit) {
-        hits.add(hit);
-        if (hits.size() > maxSize)
-            hits.poll();
-    }
+    protected abstract void onHit(final Hit hit);
 
     /**
      * Get the value of the key as a {@link String}

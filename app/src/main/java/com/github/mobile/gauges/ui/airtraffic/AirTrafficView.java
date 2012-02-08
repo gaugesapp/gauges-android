@@ -1,7 +1,6 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.graphics.Bitmap.createScaledBitmap;
-import static com.nineoldandroids.animation.ValueAnimator.INFINITE;
 import static java.lang.Math.PI;
 import static java.lang.System.currentTimeMillis;
 import android.content.Context;
@@ -10,24 +9,109 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.drawable;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * View to display an Air Traffic map
  */
 public class AirTrafficView extends View {
+
+    /**
+     * The maximum numbers of hits to retain
+     */
+    private static final int MAX_HITS = 500;
+
+    /**
+     * Size scales the ring does through while being animated
+     */
+    private static final float[] RING_SIZES = new float[] { .2F, .3F, .4F, .5F, .6F };
+
+    /**
+     * Ring Animation
+     */
+    public class RingAnimation {
+
+        private int state;
+
+        private Hit hit;
+
+        /**
+         * Create animation for hit
+         *
+         * @param hit
+         */
+        public RingAnimation(final Hit hit) {
+            this.hit = hit;
+        }
+
+        /**
+         * @param state
+         */
+        public void setState(final int state) {
+            this.state = state;
+        }
+
+        /**
+         * @return size
+         */
+        public int getState() {
+            return state;
+        }
+
+        /**
+         * Draw ring on canvas
+         *
+         * @param canvas
+         * @param location
+         * @param paint
+         */
+        public void onDraw(final Canvas canvas, final PointF location, final Paint paint) {
+            if (state >= RING_SIZES.length)
+                return;
+
+            int key = resourceProvider.getKey(hit.siteId);
+            if (key == -1)
+                return;
+
+            getLocation(hit, location);
+
+            Rect source = new Rect();
+            RectF destination = new RectF();
+            Bitmap ring = resourceProvider.getRing(key);
+            int width = Math.round(innerRingWidth * RING_SIZES[state]);
+            int height = Math.round(innerRingHeight * RING_SIZES[state]);
+            destination.top = location.y - height / 2;
+            destination.left = location.x - width / 2;
+            destination.right = destination.left + width;
+            destination.bottom = destination.top + height;
+            source.right = ring.getWidth();
+            source.bottom = ring.getHeight();
+            int rename = mapPaint.getAlpha();
+            try {
+                mapPaint.setAlpha(Math.round(255F - (((float) state / RING_SIZES.length) * 255F)));
+                canvas.drawBitmap(ring, source, destination, mapPaint);
+            } finally {
+                mapPaint.setAlpha(rename);
+            }
+        }
+    }
 
     private static final String MAP_LABEL = "AirTraffic Live";
 
@@ -70,8 +154,6 @@ public class AirTrafficView extends View {
      */
     private static final double BITMAP_ORIGIN = 16.0 / 2.0;
 
-    private ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-
     private AirTrafficResourceProvider resourceProvider;
 
     /**
@@ -97,33 +179,16 @@ public class AirTrafficView extends View {
 
     private int innerRingWidth;
 
-    private int outerRingHeight;
-
-    private int outerRingWidth;
-
-    /**
-     * Used to track elapsed time for animations and fps
-     */
-    private long startTime;
-
-    /**
-     * Used to track frames per second
-     */
-    private int frames = 0;
-
     private float mapLabelWidth;
 
-    /**
-     * Frames per second
-     */
-    private float fps = 0; // frames per second
+    private final Collection<ObjectAnimator> rings = Collections.synchronizedSet(new HashSet<ObjectAnimator>());
 
     private double xMapScale;
     private double yMapScale;
     private Bitmap map, fittedMap;
     private Paint mapPaint;
 
-    private Collection<Hit> hits = Collections.emptyList();
+    private final ConcurrentLinkedQueue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
 
     /**
      * Constructor. Create objects used throughout the life of the View: the Paint and the animator
@@ -138,14 +203,6 @@ public class AirTrafficView extends View {
 
         mapPaint = new Paint();
         mapPaint.setColor(resources.getColor(color.text));
-        animator.addUpdateListener(new AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                invalidate(); // Force a redraw
-            }
-        });
-        animator.setRepeatCount(INFINITE);
-        animator.setDuration(3000);
     }
 
     /**
@@ -172,11 +229,8 @@ public class AirTrafficView extends View {
         pinHeight = provider.getPinHeight() / 2;
         pinWidth = provider.getPinWidth() / 2;
 
-        outerRingHeight = provider.getRingHeight() * 2 / 3;
-        outerRingWidth = provider.getRingWidth() * 2 / 3;
-
-        innerRingHeight = outerRingHeight / 2;
-        innerRingWidth = outerRingWidth / 2;
+        innerRingHeight = provider.getRingHeight();
+        innerRingWidth = provider.getRingWidth();
 
         return this;
     }
@@ -197,29 +251,11 @@ public class AirTrafficView extends View {
         fittedMap = createScaledBitmap(map, width, height, true);
 
         hits.clear();
-        // Cancel animator in case it was already running
-        animator.cancel();
-
-        resetFramesPerSecondCalc();
-
-        animator.start();
-    }
-
-    /**
-     * Set the {@link Collection} to draw {@link Hit} items from
-     *
-     * @param hits
-     * @return this view
-     */
-    public AirTrafficView setHits(final Collection<Hit> hits) {
-        this.hits = hits;
-        return this;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.save();
 
         if (fittedMap != null)
             canvas.drawBitmap(fittedMap, 0, 0, mapPaint);
@@ -229,20 +265,22 @@ public class AirTrafficView extends View {
                     fittedMap.getHeight() - mapPaint.getTextSize(), mapPaint);
 
         long now = currentTimeMillis();
+        PointF point = new PointF();
         for (Hit hit : hits)
-            draw(hit, canvas, now);
+            draw(hit, canvas, getLocation(hit, point), now);
 
-        canvas.restore();
-
-        calcFramesPerSecond();
+        for (ObjectAnimator ring : rings)
+            ((RingAnimation) ring.getTarget()).onDraw(canvas, point, mapPaint);
     }
 
-    private void draw(Hit hit, Canvas canvas, long now) {
-        // Find the color index for the given site id
-        int key = resourceProvider.getKey(hit.siteId);
-        if (key == -1)
-            return;
-
+    /**
+     * Get location of hit on map
+     *
+     * @param hit
+     * @param point
+     * @return point
+     */
+    protected PointF getLocation(final Hit hit, final PointF point) {
         // Determine the x and y positions to draw the hit at.
         // This code was taken from the gaug.es site
         double globalX = (BITMAP_ORIGIN + hit.lon * PIXELS_PER_LONGITUDE_DEGREE) * 256.0;
@@ -253,76 +291,68 @@ public class AirTrafficView extends View {
         float x = (float) ((globalX * scale) - xCorrector);
         float y = (float) ((globalY * scale) - yCorrector);
 
-        // Take absolute positions on actual map and scale to actual screen size since map image may have been scaled
-        x *= xMapScale;
-        y *= yMapScale;
+        // Take absolute positions on actual map and scale to actual screen size since map image may have been
+        // scaled
+        point.x = (float) (x * xMapScale);
+        point.y = (float) (y * yMapScale);
+
+        return point;
+    }
+
+    private void draw(Hit hit, Canvas canvas, PointF location, long now) {
+        // Find the color index for the given site id
+        int key = resourceProvider.getKey(hit.siteId);
+        if (key == -1)
+            return;
 
         Bitmap pin = resourceProvider.getPin(key);
         Rect source = new Rect();
         RectF destination = new RectF();
-        destination.top = y - pinHeight / 2;
-        destination.left = x - pinWidth / 2;
+        destination.top = location.y - pinHeight / 2;
+        destination.left = location.x - pinWidth / 2;
         destination.right = destination.left + pinWidth;
         destination.bottom = destination.top + pinHeight;
         source.right = pin.getWidth();
         source.bottom = pin.getHeight();
         canvas.drawBitmap(pin, source, destination, mapPaint);
-
-        // Draw rings if the hit just occurred
-        if (now - hit.time < 250) {
-            Bitmap ring = resourceProvider.getRing(key);
-            destination.top = y - innerRingHeight / 2;
-            destination.left = x - innerRingWidth / 2;
-            destination.right = destination.left + innerRingWidth;
-            destination.bottom = destination.top + innerRingHeight;
-            source.right = ring.getWidth();
-            source.bottom = ring.getHeight();
-            canvas.drawBitmap(ring, source, destination, mapPaint);
-        } else if (now - hit.time < 500) {
-            Bitmap ring = resourceProvider.getRing(key);
-            destination.top = y - outerRingHeight / 2;
-            destination.left = x - outerRingWidth / 2;
-            destination.right = destination.left + outerRingWidth;
-            destination.bottom = destination.top + outerRingHeight;
-            source.right = ring.getWidth();
-            source.bottom = ring.getHeight();
-            canvas.drawBitmap(ring, source, destination, mapPaint);
-        }
     }
 
-    private void resetFramesPerSecondCalc() {
-        // Set up fps tracking and start the animation
-        startTime = currentTimeMillis();
-        frames = 0;
-    }
+    /**
+     * Add hit to view
+     *
+     * @param newHit
+     */
+    public void addHit(Hit newHit) {
+        hits.add(newHit);
+        while (hits.size() >= MAX_HITS)
+            hits.poll();
 
-    private void calcFramesPerSecond() {
-        // fps counter: count how many frames we draw and once a second calculate the
-        // frames per second
-        ++frames;
-        long nowTime = currentTimeMillis();
-        long deltaTime = nowTime - startTime;
-        if (deltaTime > 1000) {
-            float secs = (float) deltaTime / 1000f;
-            fps = (float) frames / secs;
-            Log.d("ATV", "fps = " + fps);
-            startTime = nowTime;
-            frames = 0;
-        }
+        ObjectAnimator animator = ObjectAnimator.ofInt(new RingAnimation(newHit), "state", 0, RING_SIZES.length);
+        animator.setDuration(500);
+        animator.addListener(new AnimatorListenerAdapter() {
+
+            public void onAnimationEnd(Animator animation) {
+                rings.remove(animation);
+                postInvalidate();
+            }
+        });
+        animator.addUpdateListener(new AnimatorUpdateListener() {
+
+            public void onAnimationUpdate(ValueAnimator animation) {
+                postInvalidate();
+            }
+        });
+        animator.start();
+        rings.add(animator);
+
+        invalidate();
     }
 
     /**
      * Pause the animated view
      */
     public void pause() {
-        // Make sure the animator's not spinning in the background when the activity is paused.
-        animator.cancel();
-    }
-
-    /**
-     * Resume the animated view
-     */
-    public void resume() {
-        animator.start();
+        for (ObjectAnimator animator : rings)
+            animator.end();
     }
 }
