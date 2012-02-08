@@ -20,5 +20,7 @@
     <color name="traffic_people_weekday">#97CCB1</color>
     <color name="traffic_views_weekend">#A6A6A6</color>
     <color name="traffic_people_weekend">#999999</color>
+    <color name="gauge_background_start">#373737</color>
+    <color name="gauge_background_end">#272727</color>
 
 </resources>
