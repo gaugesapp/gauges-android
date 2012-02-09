@@ -1,14 +1,11 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.os.Build.VERSION.SDK_INT;
-import static android.os.PowerManager.FULL_WAKE_LOCK;
 import static android.view.View.STATUS_BAR_HIDDEN;
 import static com.github.mobile.gauges.R.layout.airtraffic_activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import android.widget.ImageView;
@@ -36,8 +33,6 @@ import roboguice.inject.InjectView;
  */
 public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCallbacks<List<Gauge>> {
 
-    private static final String TAG = "ATA";
-
     private static final String PUSHER_APP_KEY = "887bd32ce6b7c2049e0b";
 
     @Inject
@@ -63,15 +58,10 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
     private AirTrafficResourceProvider resourceProvider;
 
-    private WakeLock wakeLock;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(airtraffic_activity);
-
-        wakeLock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(FULL_WAKE_LOCK, TAG);
-        wakeLock.acquire();
 
         resourceProvider = new AirTrafficResourceProvider(getResources());
 
@@ -98,12 +88,6 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
         super.onResume();
         airTrafficView.resume();
         subscribeToGaugeChannels(gauges.values());
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        wakeLock.release();
     }
 
     @Override
