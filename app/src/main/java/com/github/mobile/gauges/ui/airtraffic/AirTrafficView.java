@@ -24,8 +24,6 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -183,7 +181,7 @@ public class AirTrafficView extends View {
 
     private boolean running = true;
 
-    private final Collection<ObjectAnimator> rings = Collections.synchronizedSet(new HashSet<ObjectAnimator>());
+    private final Collection<ObjectAnimator> rings = new ConcurrentLinkedQueue<ObjectAnimator>();
 
     private double xMapScale;
 
