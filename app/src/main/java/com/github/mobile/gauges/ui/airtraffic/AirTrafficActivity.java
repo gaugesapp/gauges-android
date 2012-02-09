@@ -86,6 +86,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     @Override
     protected void onResume() {
         super.onResume();
+        airTrafficView.resume();
         subscribeToGaugeChannels(gauges.values());
     }
 

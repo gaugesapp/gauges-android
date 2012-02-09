@@ -181,11 +181,18 @@ public class AirTrafficView extends View {
 
     private float mapLabelWidth;
 
+    private boolean running = true;
+
     private final Collection<ObjectAnimator> rings = Collections.synchronizedSet(new HashSet<ObjectAnimator>());
 
     private double xMapScale;
+
     private double yMapScale;
-    private Bitmap map, fittedMap;
+
+    private Bitmap map;
+
+    private Bitmap fittedMap;
+
     private Paint mapPaint;
 
     private final ConcurrentLinkedQueue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
@@ -269,8 +276,10 @@ public class AirTrafficView extends View {
         for (Hit hit : hits)
             draw(hit, canvas, getLocation(hit, point), now);
 
-        for (ObjectAnimator ring : rings)
-            ((RingAnimation) ring.getTarget()).onDraw(canvas, point, mapPaint);
+        synchronized (rings) {
+            for (ObjectAnimator ring : rings)
+                ((RingAnimation) ring.getTarget()).onDraw(canvas, point, mapPaint);
+        }
     }
 
     /**
@@ -323,6 +332,9 @@ public class AirTrafficView extends View {
      * @param newHit
      */
     public void addHit(Hit newHit) {
+        if (!running)
+            return;
+
         hits.add(newHit);
         while (hits.size() >= MAX_HITS)
             hits.poll();
@@ -333,7 +345,6 @@ public class AirTrafficView extends View {
 
             public void onAnimationEnd(Animator animation) {
                 rings.remove(animation);
-                postInvalidate();
             }
         });
         animator.addUpdateListener(new AnimatorUpdateListener() {
@@ -343,16 +354,27 @@ public class AirTrafficView extends View {
             }
         });
         animator.start();
-        rings.add(animator);
 
-        invalidate();
+        rings.add(animator);
+        postInvalidate();
     }
 
     /**
      * Pause the animated view
      */
     public void pause() {
-        for (ObjectAnimator animator : rings)
-            animator.end();
+        running = false;
+        synchronized (rings) {
+            for (ObjectAnimator animator : rings)
+                animator.end();
+            rings.clear();
+        }
+    }
+
+    /**
+     * Resume the animated view
+     */
+    public void resume() {
+        running = true;
     }
 }
