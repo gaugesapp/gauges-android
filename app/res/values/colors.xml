@@ -24,5 +24,7 @@
     <color name="gauge_background_end">#272727</color>
     <color name="header_background_start">#ECECEC</color>
     <color name="header_background_end">#C3C3C3</color>
+    <color name="header_background_top">#F9F9F9</color>
+    <color name="header_background_bottom">#A7A7A7</color>
 
 </resources>
