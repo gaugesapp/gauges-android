@@ -11,11 +11,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fl_header_line"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1px"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:background="@color/header_background_top" >
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fl_header_line"
         android:background="@drawable/map_header_background"
         android:orientation="horizontal"
         android:paddingBottom="1dp"
@@ -51,5 +60,12 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/table_text" />
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/ll_header"
+        android:background="@color/header_background_bottom" >
+    </FrameLayout>
 
 </RelativeLayout>
