@@ -1,6 +1,5 @@
 <resources>
 
-    <color name="background_ab">#212121</color>
     <color name="background">#3B3B3B</color>
     <color name="text">#FCFCFC</color>
     <color name="text_light">#999999</color>
@@ -26,5 +25,7 @@
     <color name="header_background_end">#C3C3C3</color>
     <color name="header_background_top">#F9F9F9</color>
     <color name="header_background_bottom">#A7A7A7</color>
+    <color name="actionbar_background_start">#272727</color>
+    <color name="actionbar_background_end">#1A1A1A</color>
 
 </resources>
