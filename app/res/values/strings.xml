@@ -13,6 +13,10 @@
     <string name="page_traffic">Traffic</string>
     <string name="page_referrers">Referrers</string>
     <string name="refresh_action">Refresh</string>
+    <string name="error_loading_gauges">Loading gauges failed</string>
+    <string name="error_loading_traffic">Loading traffic failed</string>
+    <string name="error_loading_contents">Loading contents failed</string>
+    <string name="error_loading_referrers">Loading referrers failed</string>
 
     <!-- AuthenticatorActivity -->
 

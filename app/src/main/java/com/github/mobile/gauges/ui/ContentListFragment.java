@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
+import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.core.PageContent;
 import com.google.inject.Inject;
@@ -62,8 +63,10 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
                     return serviceProvider.getService().getContent(getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting page content", e);
+                    showError(string.error_loading_contents);
                 } catch (AccountsException e) {
                     Log.d(TAG, "Exception getting page content", e);
+                    showError(string.error_loading_contents);
                 }
                 return Collections.emptyList();
             }

@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -19,11 +18,11 @@ import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
+import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
@@ -86,8 +85,10 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                         return latest.getRecentDays();
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting gauge", e);
+                    showError(string.error_loading_traffic);
                 } catch (AccountsException e) {
                     Log.d(TAG, "Exception getting gauge", e);
+                    showError(string.error_loading_traffic);
                 }
                 return Collections.emptyList();
             }

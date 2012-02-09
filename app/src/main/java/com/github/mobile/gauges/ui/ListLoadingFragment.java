@@ -7,6 +7,7 @@ import android.support.v4.view.Menu;
 import android.support.v4.view.MenuItem;
 import android.view.MenuInflater;
 import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import com.github.mobile.gauges.R;
 
@@ -19,15 +20,14 @@ import roboguice.fragment.RoboListFragment;
  *
  * @param <E>
  */
-public abstract class ListLoadingFragment<E> extends RoboListFragment implements
-		LoaderCallbacks<List<E>> {
+public abstract class ListLoadingFragment<E> extends RoboListFragment implements LoaderCallbacks<List<E>> {
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		setListShown(false);
-		getLoaderManager().initLoader(0, null, this);
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setListShown(false);
+        getLoaderManager().initLoader(0, null, this);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,39 +43,55 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.refresh:
-                refresh();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        case R.id.refresh:
+            refresh();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 
-	/**
-	 * Refresh the fragment's list
-	 */
-	public void refresh() {
-		getLoaderManager().restartLoader(0, null, this);
-	}
+    /**
+     * Refresh the fragment's list
+     */
+    public void refresh() {
+        getLoaderManager().restartLoader(0, null, this);
+    }
 
-	public void onLoadFinished(Loader<List<E>> loader, List<E> items) {
-		setListAdapter(adapterFor(items));
+    public void onLoadFinished(Loader<List<E>> loader, List<E> items) {
+        setListAdapter(adapterFor(items));
 
-		if (isResumed())
-			setListShown(true);
-		else
-			setListShownNoAnimation(true);
-	}
+        if (isResumed())
+            setListShown(true);
+        else
+            setListShownNoAnimation(true);
+    }
 
-	/**
-	 * Create adapter for list of items
-	 *
-	 * @param items
-	 * @return list adapter
-	 */
-	protected abstract ListAdapter adapterFor(List<E> items);
+    /**
+     * Create adapter for list of items
+     *
+     * @param items
+     * @return list adapter
+     */
+    protected abstract ListAdapter adapterFor(List<E> items);
 
-	@Override
-	public void onLoaderReset(Loader<List<E>> listLoader) {
-	}
+    @Override
+    public void onLoaderReset(Loader<List<E>> listLoader) {
+    }
+
+    /**
+     * Show message via a {@link Toast}
+     * <p>
+     * This method ensures the {@link Toast} is displayed on the UI thread and so it may be called from any thread
+     *
+     * @param message
+     */
+    protected void showError(final int message) {
+        getActivity().runOnUiThread(new Runnable() {
+
+            public void run() {
+                Toast.makeText(getActivity(), getString(message), 5000).show();
+            }
+        });
+    }
 }

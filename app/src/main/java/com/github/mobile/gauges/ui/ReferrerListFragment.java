@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
+import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Referrer;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
@@ -60,8 +61,10 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
                     return serviceProvider.getService().getReferrers(getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting referrers", e);
+                    showError(string.error_loading_referrers);
                 } catch (AccountsException e) {
                     Log.d(TAG, "Exception getting referrers", e);
+                    showError(string.error_loading_referrers);
                 }
                 return Collections.emptyList();
             }
