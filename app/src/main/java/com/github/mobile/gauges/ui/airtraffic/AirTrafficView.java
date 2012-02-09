@@ -24,6 +24,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 
 import java.util.Collection;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -193,7 +194,7 @@ public class AirTrafficView extends View {
 
     private Paint mapPaint;
 
-    private final ConcurrentLinkedQueue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
+    private final Queue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
 
     /**
      * Constructor. Create objects used throughout the life of the View: the Paint and the animator
@@ -274,10 +275,8 @@ public class AirTrafficView extends View {
         for (Hit hit : hits)
             draw(hit, canvas, getLocation(hit, point), now);
 
-        synchronized (rings) {
-            for (ObjectAnimator ring : rings)
-                ((RingAnimation) ring.getTarget()).onDraw(canvas, point, mapPaint);
-        }
+        for (ObjectAnimator ring : rings)
+            ((RingAnimation) ring.getTarget()).onDraw(canvas, point, mapPaint);
     }
 
     /**
@@ -362,11 +361,9 @@ public class AirTrafficView extends View {
      */
     public void pause() {
         running = false;
-        synchronized (rings) {
-            for (ObjectAnimator animator : rings)
-                animator.end();
-            rings.clear();
-        }
+        for (ObjectAnimator animator : rings)
+            animator.end();
+        rings.clear();
     }
 
     /**
