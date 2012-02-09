@@ -162,11 +162,11 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
                     @Override
                     protected void onHit(final Hit hit) {
+                        airTrafficView.addHit(hit);
+
                         gaugeText.post(new Runnable() {
 
                             public void run() {
-                                airTrafficView.addHit(hit);
-
                                 Gauge gauge = gauges.get(hit.siteId);
                                 if (gauge == null)
                                     return;
