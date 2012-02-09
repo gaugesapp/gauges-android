@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="@color/background"
+        android:background="@drawable/map_header_background"
         android:orientation="horizontal"
         android:paddingBottom="1dp"
         android:paddingLeft="5dp"
@@ -38,7 +38,7 @@
             android:paddingLeft="5dp"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/text" />
+            android:textColor="@color/table_text" />
 
         <TextView
             android:id="@+id/tv_gauge_location"
@@ -49,7 +49,7 @@
             android:paddingLeft="5dp"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/text" />
+            android:textColor="@color/table_text" />
     </LinearLayout>
 
 </RelativeLayout>
