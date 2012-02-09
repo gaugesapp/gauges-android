@@ -8,7 +8,6 @@ import com.github.mobile.gauges.R.color;
 import com.madgag.android.listviews.ViewCreator;
 import com.madgag.android.listviews.ViewHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
-import com.madgag.android.listviews.ViewInflator;
 
 import java.util.List;
 
