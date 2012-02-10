@@ -1,5 +1,6 @@
 package com.github.mobile.gauges.ui;
 
+import static android.widget.Toast.LENGTH_LONG;
 import android.accounts.AccountsException;
 import android.app.Activity;
 import android.util.Log;
@@ -48,7 +49,7 @@ public class GaugeListLoader extends AsyncLoader<List<Gauge>> {
         activity.runOnUiThread(new Runnable() {
 
             public void run() {
-                Toast.makeText(activity, activity.getString(string.error_loading_gauges), 5000).show();
+                Toast.makeText(activity, activity.getString(string.error_loading_gauges), LENGTH_LONG).show();
             }
         });
     }
