@@ -10,14 +10,13 @@ import android.os.Bundle;
  */
 public interface IntentConstants {
 
-	/**
-	 * Reference to a {@link Gauge}
-	 */
-	String GAUGE = "gauge";
+    /**
+     * Reference to a {@link Gauge}
+     */
+    String GAUGE = "gauge";
 
-	/**
-	 * Gauge id
-	 */
-	String GAUGE_ID = "gaugeId";
-
+    /**
+     * Gauge id
+     */
+    String GAUGE_ID = "gaugeId";
 }
