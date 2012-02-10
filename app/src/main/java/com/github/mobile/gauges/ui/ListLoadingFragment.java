@@ -10,7 +10,8 @@ import android.view.MenuInflater;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import com.github.mobile.gauges.R;
+import com.github.mobile.gauges.R.id;
+import com.github.mobile.gauges.R.menu;
 
 import java.util.List;
 
@@ -37,14 +38,14 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.gauges, menu);
+    public void onCreateOptionsMenu(Menu optionsMenu, MenuInflater inflater) {
+        inflater.inflate(menu.gauges, optionsMenu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.refresh:
+        case id.refresh:
             refresh();
             return true;
         default:
