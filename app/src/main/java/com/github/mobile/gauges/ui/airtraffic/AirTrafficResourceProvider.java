@@ -1,5 +1,6 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
+import static android.util.DisplayMetrics.DENSITY_DEFAULT;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,8 +51,9 @@ public class AirTrafficResourceProvider {
         pins[8] = BitmapFactory.decodeResource(resources, drawable.pin8);
         pins[9] = BitmapFactory.decodeResource(resources, drawable.pin9);
 
-        pinHeight = pins[0].getHeight();
-        pinWidth = pins[0].getWidth();
+        float pinScale = (float) pins[0].getDensity() / DENSITY_DEFAULT;
+        pinHeight = Math.round(pins[0].getHeight() / pinScale);
+        pinWidth = Math.round(pins[0].getWidth() / pinScale);
 
         // Load all the ring images
         rings[0] = BitmapFactory.decodeResource(resources, drawable.ring0);
@@ -65,8 +67,9 @@ public class AirTrafficResourceProvider {
         rings[8] = BitmapFactory.decodeResource(resources, drawable.ring8);
         rings[9] = BitmapFactory.decodeResource(resources, drawable.ring9);
 
-        ringHeight = rings[0].getHeight();
-        ringWidth = rings[0].getWidth();
+        float ringScale = (float) rings[0].getDensity() / DENSITY_DEFAULT;
+        ringHeight = Math.round(rings[0].getHeight() / ringScale);
+        ringWidth = Math.round(rings[0].getWidth() / ringScale);
     }
 
     /**
