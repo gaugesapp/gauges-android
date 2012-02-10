@@ -39,8 +39,9 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getListView().setCacheColorHint(getResources().getColor(R.color.transparent));
-        getListView().setFastScrollEnabled(true);
+        ListView listView = getListView();
+        listView.setCacheColorHint(getResources().getColor(R.color.transparent));
+        listView.setFastScrollEnabled(true);
     }
 
     @Override

@@ -40,12 +40,13 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getListView().setCacheColorHint(getResources().getColor(R.color.transparent));
-        getListView().setFastScrollEnabled(true);
+        ListView listView = getListView();
+        listView.setCacheColorHint(getResources().getColor(R.color.transparent));
+        listView.setFastScrollEnabled(true);
 
         if (getListAdapter() == null)
-            getListView().addHeaderView(
-                    getActivity().getLayoutInflater().inflate(layout.content_list_item_labels, null), null, false);
+            listView.addHeaderView(getActivity().getLayoutInflater().inflate(layout.content_list_item_labels, null),
+                    null, false);
     }
 
     @Override
