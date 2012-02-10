@@ -40,7 +40,7 @@ public class AirTrafficView extends View {
     /**
      * Size scales the ring does through while being animated
      */
-    private static final float[] RING_SIZES = new float[] { .2F, .3F, .4F, .5F, .6F };
+    private static final float[] RING_SIZES = new float[] { .5F, .6F, .7F, .8F, .9F };
 
     /**
      * Ring Animation
@@ -234,8 +234,8 @@ public class AirTrafficView extends View {
     public AirTrafficView setResourceProvider(final AirTrafficResourceProvider provider) {
         this.resourceProvider = provider;
 
-        pinHeight = provider.getPinHeight() / 2;
-        pinWidth = provider.getPinWidth() / 2;
+        pinHeight = provider.getPinHeight();
+        pinWidth = provider.getPinWidth();
 
         innerRingHeight = provider.getRingHeight();
         innerRingWidth = provider.getRingWidth();
