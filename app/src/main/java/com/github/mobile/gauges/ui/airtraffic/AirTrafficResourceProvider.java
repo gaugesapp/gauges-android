@@ -1,9 +1,11 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
+import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.util.DisplayMetrics.DENSITY_DEFAULT;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 
 import com.github.mobile.gauges.R.drawable;
 import com.github.mobile.gauges.core.Gauge;
@@ -39,33 +41,38 @@ public class AirTrafficResourceProvider {
      * @param resources
      */
     public AirTrafficResourceProvider(final Resources resources) {
+        Options options = new Options();
+        options.inPreferQualityOverSpeed = true;
+        options.inDither = true;
+        options.inPreferredConfig = ARGB_8888;
+
         // Load all the pin images
-        pins[0] = BitmapFactory.decodeResource(resources, drawable.pin0);
-        pins[1] = BitmapFactory.decodeResource(resources, drawable.pin1);
-        pins[2] = BitmapFactory.decodeResource(resources, drawable.pin2);
-        pins[3] = BitmapFactory.decodeResource(resources, drawable.pin3);
-        pins[4] = BitmapFactory.decodeResource(resources, drawable.pin4);
-        pins[5] = BitmapFactory.decodeResource(resources, drawable.pin5);
-        pins[6] = BitmapFactory.decodeResource(resources, drawable.pin6);
-        pins[7] = BitmapFactory.decodeResource(resources, drawable.pin7);
-        pins[8] = BitmapFactory.decodeResource(resources, drawable.pin8);
-        pins[9] = BitmapFactory.decodeResource(resources, drawable.pin9);
+        pins[0] = BitmapFactory.decodeResource(resources, drawable.pin0, options);
+        pins[1] = BitmapFactory.decodeResource(resources, drawable.pin1, options);
+        pins[2] = BitmapFactory.decodeResource(resources, drawable.pin2, options);
+        pins[3] = BitmapFactory.decodeResource(resources, drawable.pin3, options);
+        pins[4] = BitmapFactory.decodeResource(resources, drawable.pin4, options);
+        pins[5] = BitmapFactory.decodeResource(resources, drawable.pin5, options);
+        pins[6] = BitmapFactory.decodeResource(resources, drawable.pin6, options);
+        pins[7] = BitmapFactory.decodeResource(resources, drawable.pin7, options);
+        pins[8] = BitmapFactory.decodeResource(resources, drawable.pin8, options);
+        pins[9] = BitmapFactory.decodeResource(resources, drawable.pin9, options);
 
         float pinScale = (float) pins[0].getDensity() / DENSITY_DEFAULT;
         pinHeight = Math.round(pins[0].getHeight() / pinScale);
         pinWidth = Math.round(pins[0].getWidth() / pinScale);
 
         // Load all the ring images
-        rings[0] = BitmapFactory.decodeResource(resources, drawable.ring0);
-        rings[1] = BitmapFactory.decodeResource(resources, drawable.ring1);
-        rings[2] = BitmapFactory.decodeResource(resources, drawable.ring2);
-        rings[3] = BitmapFactory.decodeResource(resources, drawable.ring3);
-        rings[4] = BitmapFactory.decodeResource(resources, drawable.ring4);
-        rings[5] = BitmapFactory.decodeResource(resources, drawable.ring5);
-        rings[6] = BitmapFactory.decodeResource(resources, drawable.ring6);
-        rings[7] = BitmapFactory.decodeResource(resources, drawable.ring7);
-        rings[8] = BitmapFactory.decodeResource(resources, drawable.ring8);
-        rings[9] = BitmapFactory.decodeResource(resources, drawable.ring9);
+        rings[0] = BitmapFactory.decodeResource(resources, drawable.ring0, options);
+        rings[1] = BitmapFactory.decodeResource(resources, drawable.ring1, options);
+        rings[2] = BitmapFactory.decodeResource(resources, drawable.ring2, options);
+        rings[3] = BitmapFactory.decodeResource(resources, drawable.ring3, options);
+        rings[4] = BitmapFactory.decodeResource(resources, drawable.ring4, options);
+        rings[5] = BitmapFactory.decodeResource(resources, drawable.ring5, options);
+        rings[6] = BitmapFactory.decodeResource(resources, drawable.ring6, options);
+        rings[7] = BitmapFactory.decodeResource(resources, drawable.ring7, options);
+        rings[8] = BitmapFactory.decodeResource(resources, drawable.ring8, options);
+        rings[9] = BitmapFactory.decodeResource(resources, drawable.ring9, options);
 
         float ringScale = (float) rings[0].getDensity() / DENSITY_DEFAULT;
         ringHeight = Math.round(rings[0].getHeight() / ringScale);
