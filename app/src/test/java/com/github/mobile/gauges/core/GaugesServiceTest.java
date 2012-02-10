@@ -6,6 +6,7 @@ import static org.mockito.Mockito.doReturn;
 
 import com.github.kevinsawicki.http.HttpRequest;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,8 +31,9 @@ public class GaugesServiceTest {
      * @return input stream reader
      * @throws IOException
      */
-    private static InputStreamReader createReader(String value) throws IOException {
-        return new InputStreamReader(new ByteArrayInputStream(value.getBytes(HttpRequest.CHARSET_UTF8)));
+    private static BufferedReader createReader(String value) throws IOException {
+        return new BufferedReader(new InputStreamReader(new ByteArrayInputStream(
+                value.getBytes(HttpRequest.CHARSET_UTF8))));
     }
 
     @Mock
@@ -61,7 +63,7 @@ public class GaugesServiceTest {
      */
     @Test
     public void getGaugesEmptyResponse() throws IOException {
-        doReturn(createReader("")).when(request).reader();
+        doReturn(createReader("")).when(request).bufferedReader();
         List<Gauge> gauges = service.getGauges();
         assertNotNull(gauges);
         assertTrue(gauges.isEmpty());
@@ -74,7 +76,7 @@ public class GaugesServiceTest {
      */
     @Test
     public void getContentEmptyResponse() throws IOException {
-        doReturn(createReader("")).when(request).reader();
+        doReturn(createReader("")).when(request).bufferedReader();
         List<PageContent> content = service.getContent("id");
         assertNotNull(content);
         assertTrue(content.isEmpty());
@@ -87,7 +89,7 @@ public class GaugesServiceTest {
      */
     @Test
     public void getReferrersEmptyResponse() throws IOException {
-        doReturn(createReader("")).when(request).reader();
+        doReturn(createReader("")).when(request).bufferedReader();
         List<Referrer> referrers = service.getReferrers("id");
         assertNotNull(referrers);
         assertTrue(referrers.isEmpty());
