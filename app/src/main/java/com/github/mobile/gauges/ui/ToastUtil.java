@@ -6,6 +6,9 @@ import android.app.Application;
 import android.util.Log;
 import android.widget.Toast;
 
+/**
+ * Utilities for displaying toast notifications
+ */
 public class ToastUtil {
 
     private final static String TAG = "ToastUtil";
@@ -19,9 +22,11 @@ public class ToastUtil {
      * on a destroyed activity may throw exceptions, and keeping a reference to it is technically a
      * short-term memory-leak: http://developer.android.com/resources/articles/avoiding-memory-leaks.html
      *
+     * @param activity
+     * @param message
      */
     public static void toastOnUiThread(Activity activity, final String message) {
-        Log.d(TAG, "Will display toast : "+ message);
+        Log.d(TAG, "Will display toast : " + message);
         final Application application = activity.getApplication();
         activity.runOnUiThread(new Runnable() {
             public void run() {
@@ -29,5 +34,5 @@ public class ToastUtil {
             }
         });
     }
-    
+
 }
