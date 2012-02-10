@@ -40,7 +40,7 @@ public class AirTrafficView extends View {
     /**
      * Size scales the ring does through while being animated
      */
-    private static final float[] RING_SIZES = new float[] { .5F, .6F, .7F, .8F, .9F };
+    private static final float[] RING_SIZES = new float[] { .5F, .625F, .75F, .875F, 1.0F };
 
     /**
      * Ring Animation
