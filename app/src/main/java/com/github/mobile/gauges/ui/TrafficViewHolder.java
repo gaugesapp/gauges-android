@@ -3,11 +3,11 @@ package com.github.mobile.gauges.ui;
 import android.view.View;
 import android.widget.TextView;
 
+import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.core.DatedViewSummary;
 import com.madgag.android.listviews.ViewHolder;
-import com.github.mobile.gauges.R.id;
 
-import java.text.MessageFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
 /**
@@ -37,7 +37,7 @@ public class TrafficViewHolder implements ViewHolder<DatedViewSummary> {
 
 	public void updateViewFor(final DatedViewSummary item) {
 		dateText.setText(FORMATTER.format(item.getDate()));
-		viewsText.setText(MessageFormat.format("{0}", item.getViews()));
-		peopleText.setText(MessageFormat.format("{0}", item.getPeople()));
+		viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
+		peopleText.setText(NumberFormat.getIntegerInstance().format(item.getPeople()));
 	}
 }

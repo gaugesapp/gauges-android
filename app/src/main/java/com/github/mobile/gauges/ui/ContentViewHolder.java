@@ -7,7 +7,7 @@ import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.core.PageContent;
 import com.madgag.android.listviews.ViewHolder;
 
-import java.text.MessageFormat;
+import java.text.NumberFormat;
 
 /**
  * View holder for a {@link PageContent} item
@@ -34,6 +34,6 @@ public class ContentViewHolder implements ViewHolder<PageContent> {
 	public void updateViewFor(final PageContent item) {
 		titleText.setText(item.getTitle());
 		pathText.setText(item.getPath());
-		viewsText.setText(MessageFormat.format("{0}", item.getViews()));
+		viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
 	}
 }

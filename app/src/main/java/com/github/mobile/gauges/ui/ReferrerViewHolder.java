@@ -7,7 +7,7 @@ import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.core.Referrer;
 import com.madgag.android.listviews.ViewHolder;
 
-import java.text.MessageFormat;
+import java.text.NumberFormat;
 
 /**
  * View holder for a {@link Referrer}
@@ -34,6 +34,6 @@ public class ReferrerViewHolder implements ViewHolder<Referrer> {
 	public void updateViewFor(final Referrer item) {
 		hostText.setText(item.getHost());
 		pathText.setText(item.getPath());
-		viewsText.setText(MessageFormat.format("{0}", item.getViews()));
+		viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
 	}
 }
