@@ -8,13 +8,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.madgag.android.listviews.ViewHolder;
 
-import java.text.MessageFormat;
-import com.github.mobile.gauges.R.color;
+import java.text.NumberFormat;
 import java.util.GregorianCalendar;
 
 /**
@@ -61,10 +61,8 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
 
 	public void updateViewFor(final Gauge gauge) {
 		nameText.setText(gauge.getTitle());
-		viewsText.setText(MessageFormat.format("{0}", gauge.getToday()
-				.getViews()));
-		peopleText.setText(MessageFormat.format("{0}", gauge.getToday()
-				.getPeople()));
+		viewsText.setText(NumberFormat.getIntegerInstance().format(gauge.getToday().getViews()));
+		peopleText.setText(NumberFormat.getIntegerInstance().format(gauge.getToday().getPeople()));
 		int index = data.length - 1;
 		GregorianCalendar calendar = new GregorianCalendar();
 		for (DatedViewSummary day : gauge.getRecentDays()) {
