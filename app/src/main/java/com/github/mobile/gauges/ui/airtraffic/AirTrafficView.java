@@ -211,6 +211,7 @@ public class AirTrafficView extends View {
         mapPaint.setColor(resources.getColor(color.text));
         mapPaint.setAntiAlias(true);
         mapPaint.setSubpixelText(true);
+        mapPaint.setFilterBitmap(true);
     }
 
     /**
