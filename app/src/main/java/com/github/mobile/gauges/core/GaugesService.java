@@ -25,6 +25,11 @@ public class GaugesService {
     public static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd")
             .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
 
+    /**
+     * Read and connect timeout in milliseconds
+     */
+    private static final int TIMEOUT = 30 * 1000;
+
     private static class ClientWrapper {
 
         private Client client;
@@ -92,9 +97,14 @@ public class GaugesService {
      * @throws IOException
      */
     protected HttpRequest execute(HttpRequest request) throws IOException {
-        if (!addCredentialsTo(request).ok())
+        if (!configure(request).ok())
             throw new IOException("Unexpected response code: " + request.code());
         return request;
+    }
+
+    private HttpRequest configure(final HttpRequest request) {
+        request.connectTimeout(TIMEOUT).readTimeout(TIMEOUT);
+        return addCredentialsTo(request);
     }
 
     private HttpRequest addCredentialsTo(HttpRequest request) {
@@ -169,7 +179,7 @@ public class GaugesService {
      */
     public Client createClient(String description) throws IOException {
         try {
-            HttpRequest request = addCredentialsTo(HttpRequest.post(URL_CLIENTS));
+            HttpRequest request = configure(HttpRequest.post(URL_CLIENTS));
             request.form("description", description);
             if (!request.created())
                 throw new IOException("Unexpected response code: " + request.code());
