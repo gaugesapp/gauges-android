@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="@drawable/gauge_background"
     android:orientation="horizontal"
-    android:paddingBottom="5dp"
+    android:paddingBottom="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="20dp"
     android:paddingTop="10dp" >
@@ -85,8 +85,9 @@
     <LinearLayout
         android:id="@+id/ll_bars"
         android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_weight="33" >
+        android:layout_height="fill_parent"
+        android:layout_weight="33"
+        android:minHeight="80dp" >
     </LinearLayout>
 
 </LinearLayout>
