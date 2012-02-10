@@ -14,26 +14,26 @@ import java.text.NumberFormat;
  */
 public class ContentViewHolder implements ViewHolder<PageContent> {
 
-	private final TextView titleText;
+    private final TextView titleText;
 
-	private final TextView pathText;
+    private final TextView pathText;
 
-	private final TextView viewsText;
+    private final TextView viewsText;
 
-	/**
-	 * Create view holder
-	 *
-	 * @param view
-	 */
-	public ContentViewHolder(final View view) {
-		titleText = (TextView) view.findViewById(id.tv_content_title);
-		pathText = (TextView) view.findViewById(id.tv_content_path);
-		viewsText = (TextView) view.findViewById(id.tv_content_views);
-	}
+    /**
+     * Create view holder
+     *
+     * @param view
+     */
+    public ContentViewHolder(final View view) {
+        titleText = (TextView) view.findViewById(id.tv_content_title);
+        pathText = (TextView) view.findViewById(id.tv_content_path);
+        viewsText = (TextView) view.findViewById(id.tv_content_views);
+    }
 
-	public void updateViewFor(final PageContent item) {
-		titleText.setText(item.getTitle());
-		pathText.setText(item.getPath());
-		viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
-	}
+    public void updateViewFor(final PageContent item) {
+        titleText.setText(item.getTitle());
+        pathText.setText(item.getPath());
+        viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
+    }
 }

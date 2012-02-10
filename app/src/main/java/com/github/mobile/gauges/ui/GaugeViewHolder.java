@@ -22,61 +22,59 @@ import java.util.GregorianCalendar;
  */
 public class GaugeViewHolder implements ViewHolder<Gauge> {
 
-	private final TextView nameText;
+    private final TextView nameText;
 
-	private final TextView viewsText;
+    private final TextView viewsText;
 
-	private final TextView peopleText;
+    private final TextView peopleText;
 
-	private final LinearLayout barGraph;
+    private final LinearLayout barGraph;
 
-	private final int[] weekendColors;
+    private final int[] weekendColors;
 
-	private final int[] weekdayColors;
+    private final int[] weekdayColors;
 
-	private final long[][] data;
+    private final long[][] data;
 
-	private final int[][] colors;
+    private final int[][] colors;
 
-	/**
-	 * Create view holder
-	 *
-	 * @param view
-	 * @param resources
-	 */
-	public GaugeViewHolder(final View view, final Resources resources) {
-		nameText = (TextView) view.findViewById(id.tv_gauge_name);
-		viewsText = (TextView) view.findViewById(id.tv_gauge_views);
-		peopleText = (TextView) view.findViewById(id.tv_gauge_people);
-		barGraph = (LinearLayout) view.findViewById(id.ll_bars);
-		data = new long[7][];
-		colors = new int[7][];
-		weekdayColors = new int[] {
-				resources.getColor(color.graph_views_weekday),
-				resources.getColor(color.graph_people_weekday) };
-		weekendColors = new int[] {
-				resources.getColor(color.graph_views_weekend),
-				resources.getColor(color.graph_people_weekend) };
-	}
+    /**
+     * Create view holder
+     *
+     * @param view
+     * @param resources
+     */
+    public GaugeViewHolder(final View view, final Resources resources) {
+        nameText = (TextView) view.findViewById(id.tv_gauge_name);
+        viewsText = (TextView) view.findViewById(id.tv_gauge_views);
+        peopleText = (TextView) view.findViewById(id.tv_gauge_people);
+        barGraph = (LinearLayout) view.findViewById(id.ll_bars);
+        data = new long[7][];
+        colors = new int[7][];
+        weekdayColors = new int[] { resources.getColor(color.graph_views_weekday),
+                resources.getColor(color.graph_people_weekday) };
+        weekendColors = new int[] { resources.getColor(color.graph_views_weekend),
+                resources.getColor(color.graph_people_weekend) };
+    }
 
-	public void updateViewFor(final Gauge gauge) {
-		nameText.setText(gauge.getTitle());
-		viewsText.setText(NumberFormat.getIntegerInstance().format(gauge.getToday().getViews()));
-		peopleText.setText(NumberFormat.getIntegerInstance().format(gauge.getToday().getPeople()));
-		int index = data.length - 1;
-		GregorianCalendar calendar = new GregorianCalendar();
-		for (DatedViewSummary day : gauge.getRecentDays()) {
-			data[index] = new long[] { day.getViews(), day.getPeople() };
-			calendar.setTime(day.getDate());
-			int dayOfWeek = calendar.get(DAY_OF_WEEK);
-			if (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY)
-				colors[index] = weekendColors;
-			else
-				colors[index] = weekdayColors;
-			index--;
-			if (index < 0)
-				break;
-		}
-		barGraph.setBackgroundDrawable(new BarGraphDrawable(data, colors));
-	}
+    public void updateViewFor(final Gauge gauge) {
+        nameText.setText(gauge.getTitle());
+        viewsText.setText(NumberFormat.getIntegerInstance().format(gauge.getToday().getViews()));
+        peopleText.setText(NumberFormat.getIntegerInstance().format(gauge.getToday().getPeople()));
+        int index = data.length - 1;
+        GregorianCalendar calendar = new GregorianCalendar();
+        for (DatedViewSummary day : gauge.getRecentDays()) {
+            data[index] = new long[] { day.getViews(), day.getPeople() };
+            calendar.setTime(day.getDate());
+            int dayOfWeek = calendar.get(DAY_OF_WEEK);
+            if (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY)
+                colors[index] = weekendColors;
+            else
+                colors[index] = weekdayColors;
+            index--;
+            if (index < 0)
+                break;
+        }
+        barGraph.setBackgroundDrawable(new BarGraphDrawable(data, colors));
+    }
 }
