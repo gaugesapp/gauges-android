@@ -1,6 +1,5 @@
 package com.github.mobile.gauges.ui;
 
-import static android.widget.Toast.LENGTH_LONG;
 import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
