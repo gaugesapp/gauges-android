@@ -11,7 +11,6 @@ import static android.text.TextUtils.isEmpty;
 import static com.github.kevinsawicki.http.HttpRequest.post;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
-import static com.google.common.collect.Lists.newArrayList;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
@@ -40,6 +39,7 @@ import com.github.mobile.gauges.ui.LeavingBlankTextFieldWarner;
 import com.github.mobile.gauges.ui.TextWatcherAdapter;
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import roboguice.activity.RoboFragmentActivity;
@@ -145,11 +145,10 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     }
 
     private List<String> userEmailAccounts() {
-        List<String> emailAddresses = newArrayList();
         Account[] accounts = accountManager.getAccountsByType("com.google");
-        for (Account account : accounts) {
+        List<String> emailAddresses = new ArrayList<String>(accounts.length);
+        for (Account account : accounts)
             emailAddresses.add(account.name);
-        }
         return emailAddresses;
     }
 
