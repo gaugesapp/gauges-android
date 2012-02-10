@@ -14,26 +14,26 @@ import java.text.NumberFormat;
  */
 public class ReferrerViewHolder implements ViewHolder<Referrer> {
 
-	private final TextView hostText;
+    private final TextView hostText;
 
-	private final TextView pathText;
+    private final TextView pathText;
 
-	private final TextView viewsText;
+    private final TextView viewsText;
 
-	/**
-	 * Create view holder
-	 *
-	 * @param view
-	 */
-	public ReferrerViewHolder(final View view) {
-		hostText = (TextView) view.findViewById(id.tv_referrer_host);
-		pathText = (TextView) view.findViewById(id.tv_referrer_path);
-		viewsText = (TextView) view.findViewById(id.tv_referrer_views);
-	}
+    /**
+     * Create view holder
+     *
+     * @param view
+     */
+    public ReferrerViewHolder(final View view) {
+        hostText = (TextView) view.findViewById(id.tv_referrer_host);
+        pathText = (TextView) view.findViewById(id.tv_referrer_path);
+        viewsText = (TextView) view.findViewById(id.tv_referrer_views);
+    }
 
-	public void updateViewFor(final Referrer item) {
-		hostText.setText(item.getHost());
-		pathText.setText(item.getPath());
-		viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
-	}
+    public void updateViewFor(final Referrer item) {
+        hostText.setText(item.getHost());
+        pathText.setText(item.getPath());
+        viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
+    }
 }

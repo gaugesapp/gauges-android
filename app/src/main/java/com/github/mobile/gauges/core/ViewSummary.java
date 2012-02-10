@@ -7,42 +7,42 @@ import java.io.Serializable;
  */
 public class ViewSummary implements Serializable {
 
-	/** serialVersionUID */
-	private static final long serialVersionUID = 1916316095553659715L;
+    /** serialVersionUID */
+    private static final long serialVersionUID = 1916316095553659715L;
 
-	private long people;
+    private long people;
 
-	private long views;
+    private long views;
 
-	/**
-	 * @return people
-	 */
-	public long getPeople() {
-		return people;
-	}
+    /**
+     * @return people
+     */
+    public long getPeople() {
+        return people;
+    }
 
-	/**
-	 * @param people
-	 * @return this summary
-	 */
-	public ViewSummary setPeople(long people) {
-		this.people = people;
-		return this;
-	}
+    /**
+     * @param people
+     * @return this summary
+     */
+    public ViewSummary setPeople(long people) {
+        this.people = people;
+        return this;
+    }
 
-	/**
-	 * @return views
-	 */
-	public long getViews() {
-		return views;
-	}
+    /**
+     * @return views
+     */
+    public long getViews() {
+        return views;
+    }
 
-	/**
-	 * @param views
-	 * @return this summary
-	 */
-	public ViewSummary setViews(long views) {
-		this.views = views;
-		return this;
-	}
+    /**
+     * @param views
+     * @return this summary
+     */
+    public ViewSummary setViews(long views) {
+        this.views = views;
+        return this;
+    }
 }

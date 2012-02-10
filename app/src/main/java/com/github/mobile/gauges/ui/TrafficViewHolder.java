@@ -15,29 +15,28 @@ import java.text.SimpleDateFormat;
  */
 public class TrafficViewHolder implements ViewHolder<DatedViewSummary> {
 
-	private static final SimpleDateFormat FORMATTER = new SimpleDateFormat(
-			"MMMM dd");
+    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("MMMM dd");
 
-	private final TextView dateText;
+    private final TextView dateText;
 
-	private final TextView viewsText;
+    private final TextView viewsText;
 
-	private final TextView peopleText;
+    private final TextView peopleText;
 
-	/**
-	 * Create traffic view holder
-	 *
-	 * @param view
-	 */
-	public TrafficViewHolder(final View view) {
-		dateText = (TextView) view.findViewById(id.tv_traffic_date);
-		viewsText = (TextView) view.findViewById(id.tv_traffic_views);
-		peopleText = (TextView) view.findViewById(id.tv_traffic_people);
-	}
+    /**
+     * Create traffic view holder
+     *
+     * @param view
+     */
+    public TrafficViewHolder(final View view) {
+        dateText = (TextView) view.findViewById(id.tv_traffic_date);
+        viewsText = (TextView) view.findViewById(id.tv_traffic_views);
+        peopleText = (TextView) view.findViewById(id.tv_traffic_people);
+    }
 
-	public void updateViewFor(final DatedViewSummary item) {
-		dateText.setText(FORMATTER.format(item.getDate()));
-		viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
-		peopleText.setText(NumberFormat.getIntegerInstance().format(item.getPeople()));
-	}
+    public void updateViewFor(final DatedViewSummary item) {
+        dateText.setText(FORMATTER.format(item.getDate()));
+        viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
+        peopleText.setText(NumberFormat.getIntegerInstance().format(item.getPeople()));
+    }
 }
