@@ -1,6 +1,7 @@
 package com.github.mobile.gauges.ui;
 
 import static android.widget.Toast.LENGTH_LONG;
+import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
 import android.accounts.AccountsException;
 import android.app.Activity;
 import android.util.Log;
@@ -46,12 +47,7 @@ public class GaugeListLoader extends AsyncLoader<List<Gauge>> {
      */
     protected void showError(final Exception e) {
         Log.d(TAG, "Exception getting gauges", e);
-        activity.runOnUiThread(new Runnable() {
-
-            public void run() {
-                Toast.makeText(activity, activity.getString(string.error_loading_gauges), LENGTH_LONG).show();
-            }
-        });
+        toastOnUiThread(activity, activity.getString(string.error_loading_gauges));
     }
 
     @Override
