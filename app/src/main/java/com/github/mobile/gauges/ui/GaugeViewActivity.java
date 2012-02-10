@@ -39,7 +39,7 @@ public class GaugeViewActivity extends RoboFragmentActivity {
 
         setTitle(gauge.getTitle());
 
-        pager.setAdapter(new GaugePagerAdapter(getApplicationContext(), gauge, getSupportFragmentManager()));
+        pager.setAdapter(new GaugePagerAdapter(getResources(), gauge, getSupportFragmentManager()));
 
         indicator.setViewPager(pager);
         pager.setCurrentItem(1);

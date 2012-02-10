@@ -2,7 +2,7 @@ package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,21 +17,20 @@ import com.viewpagerindicator.TitleProvider;
  */
 public class GaugePagerAdapter extends FragmentPagerAdapter implements TitleProvider {
 
-    private final Context context;
+    private final Resources resources;
 
     private final Gauge gauge;
 
     /**
      * Create pager adapter
      *
-     * @param context
-     *
+     * @param resources
      * @param gauge
      * @param fragmentManager
      */
-    public GaugePagerAdapter(Context context, Gauge gauge, FragmentManager fragmentManager) {
+    public GaugePagerAdapter(Resources resources, Gauge gauge, FragmentManager fragmentManager) {
         super(fragmentManager);
-        this.context = context;
+        this.resources = resources;
         this.gauge = gauge;
     }
 
@@ -66,11 +65,11 @@ public class GaugePagerAdapter extends FragmentPagerAdapter implements TitleProv
     public String getTitle(int position) {
         switch (position) {
         case 0:
-            return context.getString(string.page_content);
+            return resources.getString(string.page_content);
         case 1:
-            return context.getString(string.page_traffic);
+            return resources.getString(string.page_traffic);
         case 2:
-            return context.getString(string.page_referrers);
+            return resources.getString(string.page_referrers);
         default:
             return null;
         }
