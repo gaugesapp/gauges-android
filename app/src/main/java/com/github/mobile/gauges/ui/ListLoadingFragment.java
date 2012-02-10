@@ -1,6 +1,7 @@
 package com.github.mobile.gauges.ui;
 
 import static android.widget.Toast.LENGTH_LONG;
+import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -88,11 +89,6 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
      * @param message
      */
     protected void showError(final int message) {
-        getActivity().runOnUiThread(new Runnable() {
-
-            public void run() {
-                Toast.makeText(getActivity(), getString(message), LENGTH_LONG).show();
-            }
-        });
+        toastOnUiThread(getActivity(), getString(message));
     }
 }
