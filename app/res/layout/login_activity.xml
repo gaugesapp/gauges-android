@@ -41,14 +41,18 @@
                 style="@style/SignInEditText"
                 android:completionThreshold="1"
                 android:hint="@string/sign_in_username_field_hint"
-                android:inputType="textEmailAddress" />
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:nextFocusDown="@+id/et_password" />
 
             <EditText
                 android:id="@+id/et_password"
                 style="@style/SignInEditText"
                 android:hint="@string/sign_in_password_field_hint"
+                android:imeOptions="actionGo"
                 android:inputType="textPassword"
-                android:password="true" />
+                android:password="true"
+                android:singleLine="true" />
         </LinearLayout>
     </ScrollView>
 
