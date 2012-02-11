@@ -89,6 +89,11 @@
 			<version>2.2.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.github.kevinsawicki</groupId>
+			<artifactId>android-pusher</artifactId>
+			<version>0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
