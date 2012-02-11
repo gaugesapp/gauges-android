@@ -8,6 +8,8 @@ import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static android.text.TextUtils.isEmpty;
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
 import static com.github.kevinsawicki.http.HttpRequest.post;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
@@ -24,7 +26,9 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -135,6 +139,18 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         setContentView(layout.login_activity);
 
         emailText.setAdapter(new ArrayAdapter<String>(this, simple_dropdown_item_1line, userEmailAccounts()));
+
+        passwordText.setOnKeyListener(new OnKeyListener() {
+
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event != null && ACTION_DOWN == event.getAction() && keyCode == KEYCODE_ENTER
+                        && signinButton.isEnabled()) {
+                    handleLogin(signinButton);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         setNonBlankValidationFor(emailText);
         setNonBlankValidationFor(passwordText);
