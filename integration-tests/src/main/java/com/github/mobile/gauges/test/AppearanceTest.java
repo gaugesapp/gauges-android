@@ -38,7 +38,7 @@ public class AppearanceTest extends ActivityInstrumentationTestCase2<GaugeListAc
 
     @Override
     public void setUp() throws Exception {
-        solo = new Solo(getInstrumentation(), getActivity());
+        solo = new Solo(getInstrumentation());
     }
 
     @Override
