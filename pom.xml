@@ -13,13 +13,14 @@
 		<module>app</module>
 		<module>integration-tests</module>
 	</modules>
+
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                    <groupId>com.madgag</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.1.1.99.0.5-UNOFFICIAL-ROBERTO-RELEASE</version>
                     <extensions>true</extensions>
                     <configuration>
                         <sdk>
