@@ -89,7 +89,7 @@ public class AirTrafficView extends View {
             if (key == -1)
                 return;
 
-            getLocation(hit, location);
+            calculateScreenLocation(hit, location);
 
             Rect source = new Rect();
             RectF destination = new RectF();
@@ -274,22 +274,21 @@ public class AirTrafficView extends View {
                     fittedMap.getHeight() - mapPaint.getTextSize(), mapPaint);
 
         long now = currentTimeMillis();
-        PointF point = new PointF();
+        PointF reusablePoint = new PointF();
         for (Hit hit : hits)
-            draw(hit, canvas, getLocation(hit, point), now);
+            drawPin(hit, canvas, reusablePoint, now);
 
         for (ObjectAnimator ring : rings)
-            ((RingAnimation) ring.getTarget()).onDraw(canvas, point, ringPaint);
+            ((RingAnimation) ring.getTarget()).onDraw(canvas, reusablePoint, ringPaint);
     }
 
     /**
      * Get location of hit on map
      *
      * @param hit
-     * @param point
-     * @return point
+     * @param result a point updated the screen location of the hit
      */
-    protected PointF getLocation(final Hit hit, final PointF point) {
+    protected void calculateScreenLocation(final Hit hit, final PointF result) {
         // Determine the x and y positions to draw the hit at.
         // This code was taken from the gaug.es site
         double globalX = (BITMAP_ORIGIN + hit.lon * PIXELS_PER_LONGITUDE_DEGREE) * 256.0;
@@ -302,23 +301,22 @@ public class AirTrafficView extends View {
 
         // Take absolute positions on actual map and scale to actual screen size since map image may have been
         // scaled
-        point.x = (float) (x * xMapScale);
-        point.y = (float) (y * yMapScale);
-
-        return point;
+        result.x = (float) (x * xMapScale);
+        result.y = (float) (y * yMapScale);
     }
 
-    private void draw(Hit hit, Canvas canvas, PointF location, long now) {
+    private void drawPin(Hit hit, Canvas canvas, PointF point, long now) {
         // Find the color index for the given site id
         int key = resourceProvider.getKey(hit.siteId);
         if (key == -1)
             return;
 
         Bitmap pin = resourceProvider.getPin(key);
+        calculateScreenLocation(hit, point);
         Rect source = new Rect();
         RectF destination = new RectF();
-        destination.top = location.y - pinHeight / 2;
-        destination.left = location.x - pinWidth / 2;
+        destination.top = point.y - pinHeight / 2;
+        destination.left = point.x - pinWidth / 2;
         destination.right = destination.left + pinWidth;
         destination.bottom = destination.top + pinHeight;
         source.right = pin.getWidth();
