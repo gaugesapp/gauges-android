@@ -2,6 +2,26 @@ package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.graphics.Bitmap.Config.ARGB_8888;
 import static android.util.DisplayMetrics.DENSITY_DEFAULT;
+import static com.github.mobile.gauges.R.drawable.pin0;
+import static com.github.mobile.gauges.R.drawable.pin1;
+import static com.github.mobile.gauges.R.drawable.pin2;
+import static com.github.mobile.gauges.R.drawable.pin3;
+import static com.github.mobile.gauges.R.drawable.pin4;
+import static com.github.mobile.gauges.R.drawable.pin5;
+import static com.github.mobile.gauges.R.drawable.pin6;
+import static com.github.mobile.gauges.R.drawable.pin7;
+import static com.github.mobile.gauges.R.drawable.pin8;
+import static com.github.mobile.gauges.R.drawable.pin9;
+import static com.github.mobile.gauges.R.drawable.ring0;
+import static com.github.mobile.gauges.R.drawable.ring1;
+import static com.github.mobile.gauges.R.drawable.ring2;
+import static com.github.mobile.gauges.R.drawable.ring3;
+import static com.github.mobile.gauges.R.drawable.ring4;
+import static com.github.mobile.gauges.R.drawable.ring5;
+import static com.github.mobile.gauges.R.drawable.ring6;
+import static com.github.mobile.gauges.R.drawable.ring7;
+import static com.github.mobile.gauges.R.drawable.ring8;
+import static com.github.mobile.gauges.R.drawable.ring9;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,33 +65,17 @@ public class AirTrafficResourceProvider {
         options.inDither = true;
         options.inPreferredConfig = ARGB_8888;
 
-        // Load all the pin images
-        pins[0] = BitmapFactory.decodeResource(resources, drawable.pin0, options);
-        pins[1] = BitmapFactory.decodeResource(resources, drawable.pin1, options);
-        pins[2] = BitmapFactory.decodeResource(resources, drawable.pin2, options);
-        pins[3] = BitmapFactory.decodeResource(resources, drawable.pin3, options);
-        pins[4] = BitmapFactory.decodeResource(resources, drawable.pin4, options);
-        pins[5] = BitmapFactory.decodeResource(resources, drawable.pin5, options);
-        pins[6] = BitmapFactory.decodeResource(resources, drawable.pin6, options);
-        pins[7] = BitmapFactory.decodeResource(resources, drawable.pin7, options);
-        pins[8] = BitmapFactory.decodeResource(resources, drawable.pin8, options);
-        pins[9] = BitmapFactory.decodeResource(resources, drawable.pin9, options);
+        // Load all the pin and ring images
+        int []  pinDrawables = new int[] {  pin0,  pin1,  pin2,  pin3,  pin4,  pin5,  pin6,  pin7,  pin8,  pin9 };
+        int [] ringDrawables = new int[] { ring0, ring1, ring2, ring3, ring4, ring5, ring6, ring7, ring8, ring9 };
+        for (int colourIndex=0; colourIndex<10; ++colourIndex) {
+            pins[colourIndex] = BitmapFactory.decodeResource(resources, pinDrawables[colourIndex], options);
+            rings[colourIndex] = BitmapFactory.decodeResource(resources, ringDrawables[colourIndex], options);
+        }
 
         float pinScale = (float) pins[0].getDensity() / DENSITY_DEFAULT;
         pinHeight = Math.round(pins[0].getHeight() / pinScale);
         pinWidth = Math.round(pins[0].getWidth() / pinScale);
-
-        // Load all the ring images
-        rings[0] = BitmapFactory.decodeResource(resources, drawable.ring0, options);
-        rings[1] = BitmapFactory.decodeResource(resources, drawable.ring1, options);
-        rings[2] = BitmapFactory.decodeResource(resources, drawable.ring2, options);
-        rings[3] = BitmapFactory.decodeResource(resources, drawable.ring3, options);
-        rings[4] = BitmapFactory.decodeResource(resources, drawable.ring4, options);
-        rings[5] = BitmapFactory.decodeResource(resources, drawable.ring5, options);
-        rings[6] = BitmapFactory.decodeResource(resources, drawable.ring6, options);
-        rings[7] = BitmapFactory.decodeResource(resources, drawable.ring7, options);
-        rings[8] = BitmapFactory.decodeResource(resources, drawable.ring8, options);
-        rings[9] = BitmapFactory.decodeResource(resources, drawable.ring9, options);
 
         float ringScale = (float) rings[0].getDensity() / DENSITY_DEFAULT;
         ringHeight = Math.round(rings[0].getHeight() / ringScale);
