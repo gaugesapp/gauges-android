@@ -1,6 +1,5 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
-import static java.lang.System.currentTimeMillis;
 import static org.json.JSONObject.NULL;
 import android.util.Log;
 
@@ -49,7 +48,7 @@ public abstract class AirTrafficPusherCallback extends PusherCallback {
             String region = getString(eventData, "region");
             String country = getString(eventData, "country");
             String title = getString(eventData, "title");
-            onHit(new Hit(id, title, longitude, latitude, currentTimeMillis(), city, region, country));
+            onHit(new Hit(id, title, longitude, latitude, city, region, country));
         } catch (JSONException e) {
             Log.d(TAG, "JSON exception", e);
         }
