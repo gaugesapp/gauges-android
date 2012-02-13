@@ -27,7 +27,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 
-import com.github.mobile.gauges.R.drawable;
 import com.github.mobile.gauges.core.Gauge;
 
 import java.util.LinkedHashMap;
