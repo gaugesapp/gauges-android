@@ -13,8 +13,6 @@ public class Hit {
 
     final float lat;
 
-    final long time;
-
     final String city;
 
     final String region;
@@ -28,18 +26,16 @@ public class Hit {
      * @param title
      * @param lon
      * @param lat
-     * @param time
      * @param city
      * @param region
      * @param country
      */
-    public Hit(final String siteId, final String title, final float lon, final float lat, final long time,
-            final String city, final String region, final String country) {
+    public Hit(final String siteId, final String title, final float lon, final float lat, final String city,
+            final String region, final String country) {
         this.siteId = siteId;
         this.title = title;
         this.lon = lon;
         this.lat = lat;
-        this.time = time;
         this.city = city;
         this.region = region;
         this.country = country;
