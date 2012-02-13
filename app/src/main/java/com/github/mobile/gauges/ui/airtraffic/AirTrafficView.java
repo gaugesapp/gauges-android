@@ -89,8 +89,6 @@ public class AirTrafficView extends View {
             if (key == -1)
                 return;
 
-            getLocation(hit, location);
-
             Rect source = new Rect();
             RectF destination = new RectF();
             Bitmap ring = resourceProvider.getRing(key);
