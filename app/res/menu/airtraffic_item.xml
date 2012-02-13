@@ -5,7 +5,7 @@
         android:id="@+id/airtraffic"
         android:icon="@drawable/ic_action_airtraffic"
         android:showAsAction="ifRoom"
-        android:title="@string/refresh_action">
+        android:title="@string/airtraffic_action">
     </item>
 
 </menu>
