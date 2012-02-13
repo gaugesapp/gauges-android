@@ -42,7 +42,6 @@ public class AirTrafficResourceProvider {
      */
     public AirTrafficResourceProvider(final Resources resources) {
         Options options = new Options();
-        options.inPreferQualityOverSpeed = true;
         options.inDither = true;
         options.inPreferredConfig = ARGB_8888;
 
