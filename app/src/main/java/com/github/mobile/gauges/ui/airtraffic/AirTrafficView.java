@@ -2,7 +2,6 @@ package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.graphics.Bitmap.createScaledBitmap;
 import static java.lang.Math.PI;
-import static java.lang.System.currentTimeMillis;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -273,10 +272,9 @@ public class AirTrafficView extends View {
             canvas.drawText(MAP_LABEL, fittedMap.getWidth() / 2 - mapLabelWidth / 2,
                     fittedMap.getHeight() - mapPaint.getTextSize(), mapPaint);
 
-        long now = currentTimeMillis();
         PointF reusablePoint = new PointF();
         for (Hit hit : hits)
-            drawPin(hit, canvas, reusablePoint, now);
+            drawPin(hit, canvas, reusablePoint);
 
         for (ObjectAnimator ring : rings)
             ((RingAnimation) ring.getTarget()).onDraw(canvas, reusablePoint, ringPaint);
@@ -305,7 +303,7 @@ public class AirTrafficView extends View {
         result.y = (float) (y * yMapScale);
     }
 
-    private void drawPin(Hit hit, Canvas canvas, PointF point, long now) {
+    private void drawPin(Hit hit, Canvas canvas, PointF point) {
         // Find the color index for the given site id
         int key = resourceProvider.getKey(hit.siteId);
         if (key == -1)
