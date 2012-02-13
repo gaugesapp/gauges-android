@@ -79,9 +79,9 @@ public class AirTrafficView extends View {
          *
          * @param canvas
          * @param location
-         * @param paint
+         * @param ringPaint - paint used for drawing rings, won't affect other UI elements
          */
-        public void onDraw(final Canvas canvas, final PointF location, final Paint paint) {
+        public void onDraw(final Canvas canvas, final PointF location, final Paint ringPaint) {
             if (state >= RING_SIZES.length)
                 return;
 
@@ -102,13 +102,9 @@ public class AirTrafficView extends View {
             destination.bottom = destination.top + height;
             source.right = ring.getWidth();
             source.bottom = ring.getHeight();
-            int rename = mapPaint.getAlpha();
-            try {
-                mapPaint.setAlpha(Math.round(255F - (((float) state / RING_SIZES.length) * 255F)));
-                canvas.drawBitmap(ring, source, destination, mapPaint);
-            } finally {
-                mapPaint.setAlpha(rename);
-            }
+
+            ringPaint.setAlpha(Math.round(255F - (((float) state / RING_SIZES.length) * 255F)));
+            canvas.drawBitmap(ring, source, destination, ringPaint);
         }
     }
 
@@ -192,7 +188,9 @@ public class AirTrafficView extends View {
 
     private Bitmap fittedMap;
 
-    private Paint mapPaint;
+    private final Paint mapPaint = new Paint();
+
+    private final Paint ringPaint = new Paint();
 
     private final Queue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
 
@@ -207,11 +205,13 @@ public class AirTrafficView extends View {
         final Resources resources = getResources();
         map = BitmapFactory.decodeResource(resources, drawable.map);
 
-        mapPaint = new Paint();
         mapPaint.setColor(resources.getColor(color.text));
         mapPaint.setAntiAlias(true);
         mapPaint.setSubpixelText(true);
         mapPaint.setFilterBitmap(true);
+
+        ringPaint.setAntiAlias(true);
+        ringPaint.setFilterBitmap(true);
     }
 
     /**
@@ -279,7 +279,7 @@ public class AirTrafficView extends View {
             draw(hit, canvas, getLocation(hit, point), now);
 
         for (ObjectAnimator ring : rings)
-            ((RingAnimation) ring.getTarget()).onDraw(canvas, point, mapPaint);
+            ((RingAnimation) ring.getTarget()).onDraw(canvas, point, ringPaint);
     }
 
     /**
