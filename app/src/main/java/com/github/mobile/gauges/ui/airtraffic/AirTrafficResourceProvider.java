@@ -65,8 +65,8 @@ public class AirTrafficResourceProvider {
         options.inPreferredConfig = ARGB_8888;
 
         // Load all the pin and ring images
-        int []  pinDrawables = new int[] {  pin0,  pin1,  pin2,  pin3,  pin4,  pin5,  pin6,  pin7,  pin8,  pin9 };
-        int [] ringDrawables = new int[] { ring0, ring1, ring2, ring3, ring4, ring5, ring6, ring7, ring8, ring9 };
+        int[] pinDrawables = new int[]{pin0, pin1, pin2, pin3, pin4, pin5, pin6, pin7, pin8, pin9};
+        int[] ringDrawables = new int[]{ring0, ring1, ring2, ring3, ring4, ring5, ring6, ring7, ring8, ring9};
         for (int colourIndex=0; colourIndex<10; ++colourIndex) {
             pins[colourIndex] = BitmapFactory.decodeResource(resources, pinDrawables[colourIndex], options);
             rings[colourIndex] = BitmapFactory.decodeResource(resources, ringDrawables[colourIndex], options);
