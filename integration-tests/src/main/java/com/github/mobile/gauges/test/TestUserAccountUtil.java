@@ -1,7 +1,6 @@
 package com.github.mobile.gauges.test;
 
 
-import static android.widget.Toast.LENGTH_LONG;
 import static com.github.mobile.gauges.authenticator.AuthConstants.AUTHTOKEN_TYPE;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.tests.R.string.test_account_api_key;
@@ -10,16 +9,15 @@ import android.accounts.AccountManager;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 public class TestUserAccountUtil {
-    
+
     private static final String TAG = "TestUserAccountUtil";
 
     /**
      * Checks the device has a valid Gauges account, if not, adds one using the test credentials
      * found in system property 'gauges.test.api.key'.
-     * 
+     *
      * The credentials can be passed on the command line like this:
      * mvn -Dgauges.test.api.key=0123456789abcdef0123456789abcdef install
      *
