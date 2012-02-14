@@ -37,7 +37,7 @@ public class AirTrafficView extends View {
     private static final int MAX_HITS = 500;
 
     /**
-     * Size scales the ring does through while being animated
+     * Size scales the ring goes through while being animated
      */
     private static final float[] RING_SIZES = new float[] { .5F, .625F, .75F, .875F, 1.0F };
 
