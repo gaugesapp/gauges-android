@@ -1,5 +1,7 @@
 package com.github.mobile.gauges.ui;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import static java.util.Calendar.DAY_OF_WEEK;
@@ -132,10 +134,10 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                 data[index] = new long[] { graphDays[i].getViews(), graphDays[i].getPeople() };
             }
 
-            barGraph.setVisibility(View.VISIBLE);
+            barGraph.setVisibility(VISIBLE);
             barGraph.setBackgroundDrawable(new BarGraphDrawable(data, colors));
         } else
-            barGraph.setVisibility(View.GONE);
+            barGraph.setVisibility(GONE);
     }
 
     @Override
