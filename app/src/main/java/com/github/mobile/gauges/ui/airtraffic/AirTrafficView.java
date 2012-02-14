@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -48,15 +47,27 @@ public class AirTrafficView extends View {
 
         private int state;
 
-        private Hit hit;
+        private final Bitmap ring;
+
+        private final Rect source;
+
+        private final float x;
+
+        private final float y;
 
         /**
          * Create animation for hit
          *
          * @param hit
+         * @param ring
          */
-        public RingAnimation(final Hit hit) {
-            this.hit = hit;
+        public RingAnimation(final Hit hit, final Bitmap ring) {
+            this.ring = ring;
+            source = new Rect();
+            source.right = ring.getWidth();
+            source.bottom = ring.getHeight();
+            x = calculateScreenX(hit);
+            y = calculateScreenY(hit);
         }
 
         /**
@@ -77,30 +88,20 @@ public class AirTrafficView extends View {
          * Draw ring on canvas
          *
          * @param canvas
-         * @param location
-         * @param ringPaint - paint used for drawing rings, won't affect other UI elements
+         * @param ringPaint
+         *            paint used for drawing rings, won't affect other UI elements
          */
-        public void onDraw(final Canvas canvas, final PointF location, final Paint ringPaint) {
+        public void onDraw(final Canvas canvas, final Paint ringPaint) {
             if (state >= RING_SIZES.length)
                 return;
 
-            int key = resourceProvider.getKey(hit.siteId);
-            if (key == -1)
-                return;
-
-            calculateScreenLocation(hit, location);
-
-            Rect source = new Rect();
             RectF destination = new RectF();
-            Bitmap ring = resourceProvider.getRing(key);
             int width = Math.round(innerRingWidth * RING_SIZES[state]);
             int height = Math.round(innerRingHeight * RING_SIZES[state]);
-            destination.top = location.y - height / 2;
-            destination.left = location.x - width / 2;
+            destination.top = y - height / 2;
+            destination.left = x - width / 2;
             destination.right = destination.left + width;
             destination.bottom = destination.top + height;
-            source.right = ring.getWidth();
-            source.bottom = ring.getHeight();
 
             ringPaint.setAlpha(Math.round(255F - (((float) state / RING_SIZES.length) * 255F)));
             canvas.drawBitmap(ring, source, destination, ringPaint);
@@ -272,49 +273,61 @@ public class AirTrafficView extends View {
             canvas.drawText(MAP_LABEL, fittedMap.getWidth() / 2 - mapLabelWidth / 2,
                     fittedMap.getHeight() - mapPaint.getTextSize(), mapPaint);
 
-        PointF reusablePoint = new PointF();
         for (Hit hit : hits)
-            drawPin(hit, canvas, reusablePoint);
+            drawPin(hit, canvas);
 
         for (ObjectAnimator ring : rings)
-            ((RingAnimation) ring.getTarget()).onDraw(canvas, reusablePoint, ringPaint);
+            ((RingAnimation) ring.getTarget()).onDraw(canvas, ringPaint);
     }
 
     /**
-     * Get location of hit on map
+     * Calculate the x location of the given hit on the map
      *
      * @param hit
-     * @param result a point updated the screen location of the hit
+     * @return x coordinate
      */
-    protected void calculateScreenLocation(final Hit hit, final PointF result) {
-        // Determine the x and y positions to draw the hit at.
+    protected float calculateScreenX(final Hit hit) {
+        // Determine the x positions to draw the hit at.
         // This code was taken from the gaug.es site
         double globalX = (BITMAP_ORIGIN + hit.lon * PIXELS_PER_LONGITUDE_DEGREE) * 256.0;
+        float x = (float) ((globalX * scale) - xCorrector);
+
+        // Take absolute positions on actual map and scale to actual screen size since map image may have been
+        // scaled
+        return (float) (x * xMapScale);
+    }
+
+    /**
+     * Calculate the y location of the given hit on the map
+     *
+     * @param hit
+     * @return y coordinate
+     */
+    protected float calculateScreenY(final Hit hit) {
+        // Determine the x and y positions to draw the hit at.
+        // This code was taken from the gaug.es site
         double e = Math.sin(hit.lat * (PI / 180.0));
         e = Math.max(Math.min(e, 0.9999), -0.9999);
         double globalY = (BITMAP_ORIGIN + 0.5 * Math.log((1.0 + e) / (1.0 - e)) * NEGATIVE_PIXELS_PER_LONGITUDE_RADIAN) * 256.0;
 
-        float x = (float) ((globalX * scale) - xCorrector);
         float y = (float) ((globalY * scale) - yCorrector);
 
         // Take absolute positions on actual map and scale to actual screen size since map image may have been
         // scaled
-        result.x = (float) (x * xMapScale);
-        result.y = (float) (y * yMapScale);
+        return (float) (y * yMapScale);
     }
 
-    private void drawPin(Hit hit, Canvas canvas, PointF point) {
+    private void drawPin(Hit hit, Canvas canvas) {
         // Find the color index for the given site id
         int key = resourceProvider.getKey(hit.siteId);
         if (key == -1)
             return;
 
         Bitmap pin = resourceProvider.getPin(key);
-        calculateScreenLocation(hit, point);
         Rect source = new Rect();
         RectF destination = new RectF();
-        destination.top = point.y - pinHeight / 2;
-        destination.left = point.x - pinWidth / 2;
+        destination.top = calculateScreenY(hit) - pinHeight / 2;
+        destination.left = calculateScreenX(hit) - pinWidth / 2;
         destination.right = destination.left + pinWidth;
         destination.bottom = destination.top + pinHeight;
         source.right = pin.getWidth();
@@ -335,7 +348,12 @@ public class AirTrafficView extends View {
         while (hits.size() >= MAX_HITS)
             hits.poll();
 
-        ObjectAnimator animator = ObjectAnimator.ofInt(new RingAnimation(newHit), "state", 0, RING_SIZES.length);
+        int key = resourceProvider.getKey(newHit.siteId);
+        if (key == -1)
+            return;
+
+        ObjectAnimator animator = ObjectAnimator.ofInt(new RingAnimation(newHit, resourceProvider.getRing(key)),
+                "state", 0, RING_SIZES.length);
         animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
 
