@@ -121,6 +121,7 @@ public class GaugesService {
 
     private HttpRequest configure(final HttpRequest request) {
         request.connectTimeout(TIMEOUT).readTimeout(TIMEOUT);
+        request.userAgent("GaugesAndroid/1.0");
         return addCredentialsTo(request);
     }
 
