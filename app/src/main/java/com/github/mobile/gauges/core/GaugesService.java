@@ -9,6 +9,7 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -59,6 +60,21 @@ public class GaugesService {
     private static class GaugeWrapper {
 
         private Gauge gauge;
+    }
+
+    private static class JsonException extends IOException {
+
+        private static final long serialVersionUID = 3774706606129390273L;
+
+        /**
+         * Create exception from {@link JsonParseException}
+         *
+         * @param cause
+         */
+        public JsonException(JsonParseException cause) {
+            super(cause.getMessage());
+            initCause(cause);
+        }
     }
 
     private final String apiKey;
@@ -140,6 +156,8 @@ public class GaugesService {
             return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
+        } catch (JsonParseException e) {
+            throw new JsonException(e);
         } finally {
             quietClose(reader);
         }
@@ -162,6 +180,8 @@ public class GaugesService {
             return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
+        } catch (JsonParseException e) {
+            throw new JsonException(e);
         } finally {
             quietClose(reader);
         }
@@ -184,6 +204,8 @@ public class GaugesService {
             return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
+        } catch (JsonParseException e) {
+            throw new JsonException(e);
         } finally {
             quietClose(reader);
         }
@@ -208,6 +230,8 @@ public class GaugesService {
             return response != null ? response.client : null;
         } catch (HttpRequestException e) {
             throw e.getCause();
+        } catch (JsonParseException e) {
+            throw new JsonException(e);
         } finally {
             quietClose(reader);
         }
@@ -231,6 +255,8 @@ public class GaugesService {
                         return client;
         } catch (HttpRequestException e) {
             throw e.getCause();
+        } catch (JsonParseException e) {
+            throw new JsonException(e);
         } finally {
             quietClose(reader);
         }
@@ -252,6 +278,8 @@ public class GaugesService {
             return response != null ? response.gauge : null;
         } catch (HttpRequestException e) {
             throw e.getCause();
+        } catch (JsonParseException e) {
+            throw new JsonException(e);
         } finally {
             quietClose(reader);
         }
