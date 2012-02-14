@@ -19,4 +19,14 @@ public interface IntentConstants {
      * Gauge id
      */
     String GAUGE_ID = "gaugeId";
+
+    /**
+     * Action prefix for all intents created
+     */
+    String INTENT_PREFIX = "com.github.mobile.gauges.";
+
+    /**
+     * View Gauge action
+     */
+    String VIEW_GAUGE = INTENT_PREFIX + "gauge.VIEW";
 }

@@ -21,6 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.GaugeViewActivity">
+            <intent-filter>
+                <action android:name="com.github.mobile.gauges.gauge.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity android:label="@string/airtraffic" android:name=".ui.airtraffic.AirTrafficActivity" android:screenOrientation="landscape">
         </activity>

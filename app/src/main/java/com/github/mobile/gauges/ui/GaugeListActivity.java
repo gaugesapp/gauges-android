@@ -1,6 +1,7 @@
 package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
+import static com.github.mobile.gauges.IntentConstants.VIEW_GAUGE;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,7 +27,7 @@ public class GaugeListActivity extends RoboFragmentActivity implements OnGaugeSe
 
     @Override
     public void onGaugeSelected(Gauge gauge) {
-        Intent i = new Intent(this, GaugeViewActivity.class);
+        Intent i = new Intent(VIEW_GAUGE);
         i.putExtra(GAUGE, gauge);
         startActivity(i);
     }
