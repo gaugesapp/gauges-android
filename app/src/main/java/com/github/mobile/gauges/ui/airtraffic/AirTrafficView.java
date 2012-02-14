@@ -42,7 +42,7 @@ public class AirTrafficView extends View {
     /**
      * Ring Animation
      */
-    public class RingAnimation {
+    protected class RingAnimation {
 
         private int state;
 
@@ -100,6 +100,41 @@ public class AirTrafficView extends View {
 
             ringPaint.setAlpha(Math.round(255F - (((float) state / RING_SIZES.length) * 255F)));
             canvas.drawBitmap(ring, resourceProvider.getRingBounds(), destination, ringPaint);
+        }
+    }
+
+    /**
+     * Pin image drawn at a hit's location
+     */
+    protected class PinHit {
+
+        private final RectF bounds;
+
+        private final Bitmap pin;
+
+        /**
+         * Create pin image to draw for hit
+         *
+         * @param x
+         * @param y
+         * @param pin
+         */
+        public PinHit(final float x, final float y, final Bitmap pin) {
+            bounds = new RectF();
+            bounds.top = y - pinHeight / 2;
+            bounds.left = x - pinWidth / 2;
+            bounds.right = bounds.left + pinWidth;
+            bounds.bottom = bounds.top + pinHeight;
+            this.pin = pin;
+        }
+
+        /**
+         * Draw pin on canvas
+         *
+         * @param canvas
+         */
+        public void onDraw(final Canvas canvas) {
+            canvas.drawBitmap(pin, resourceProvider.getPinBounds(), bounds, mapPaint);
         }
     }
 
@@ -187,7 +222,7 @@ public class AirTrafficView extends View {
 
     private final Paint ringPaint = new Paint();
 
-    private final Queue<Hit> hits = new ConcurrentLinkedQueue<Hit>();
+    private final Queue<PinHit> hits = new ConcurrentLinkedQueue<PinHit>();
 
     /**
      * Constructor. Create objects used throughout the life of the View: the Paint and the animator
@@ -268,8 +303,8 @@ public class AirTrafficView extends View {
             canvas.drawText(MAP_LABEL, fittedMap.getWidth() / 2 - mapLabelWidth / 2,
                     fittedMap.getHeight() - mapPaint.getTextSize(), mapPaint);
 
-        for (Hit hit : hits)
-            drawPin(hit, canvas);
+        for (PinHit hit : hits)
+            hit.onDraw(canvas);
 
         for (ObjectAnimator ring : rings)
             ((RingAnimation) ring.getTarget()).onDraw(canvas, ringPaint);
@@ -312,21 +347,6 @@ public class AirTrafficView extends View {
         return (float) (y * yMapScale);
     }
 
-    private void drawPin(Hit hit, Canvas canvas) {
-        // Find the color index for the given site id
-        int key = resourceProvider.getKey(hit.siteId);
-        if (key == -1)
-            return;
-
-        Bitmap pin = resourceProvider.getPin(key);
-        RectF destination = new RectF();
-        destination.top = calculateScreenY(hit) - pinHeight / 2;
-        destination.left = calculateScreenX(hit) - pinWidth / 2;
-        destination.right = destination.left + pinWidth;
-        destination.bottom = destination.top + pinHeight;
-        canvas.drawBitmap(pin, resourceProvider.getPinBounds(), destination, mapPaint);
-    }
-
     /**
      * Add hit to view
      *
@@ -336,16 +356,20 @@ public class AirTrafficView extends View {
         if (!running)
             return;
 
-        hits.add(newHit);
+        int resourceKey = resourceProvider.getKey(newHit.siteId);
+        if (resourceKey == -1)
+            return;
+
+        float x = calculateScreenX(newHit);
+        float y = calculateScreenY(newHit);
+        PinHit pinHit = new PinHit(x, y, resourceProvider.getPin(resourceKey));
+        RingAnimation ringAnimation = new RingAnimation(x, y, resourceProvider.getRing(resourceKey));
+
+        hits.add(pinHit);
         while (hits.size() >= MAX_HITS)
             hits.poll();
 
-        int key = resourceProvider.getKey(newHit.siteId);
-        if (key == -1)
-            return;
-
-        ObjectAnimator animator = ObjectAnimator.ofInt(new RingAnimation(calculateScreenX(newHit),
-                calculateScreenY(newHit), resourceProvider.getRing(key)), "state", 0, RING_SIZES.length);
+        ObjectAnimator animator = ObjectAnimator.ofInt(ringAnimation, "state", 0, RING_SIZES.length);
         animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
 
