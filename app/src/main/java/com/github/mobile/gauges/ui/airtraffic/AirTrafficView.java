@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
@@ -49,8 +48,6 @@ public class AirTrafficView extends View {
 
         private final Bitmap ring;
 
-        private final Rect source;
-
         private final float x;
 
         private final float y;
@@ -58,16 +55,14 @@ public class AirTrafficView extends View {
         /**
          * Create animation for hit
          *
-         * @param hit
+         * @param x
+         * @param y
          * @param ring
          */
-        public RingAnimation(final Hit hit, final Bitmap ring) {
+        public RingAnimation(final float x, final float y, final Bitmap ring) {
             this.ring = ring;
-            source = new Rect();
-            source.right = ring.getWidth();
-            source.bottom = ring.getHeight();
-            x = calculateScreenX(hit);
-            y = calculateScreenY(hit);
+            this.x = x;
+            this.y = y;
         }
 
         /**
@@ -104,7 +99,7 @@ public class AirTrafficView extends View {
             destination.bottom = destination.top + height;
 
             ringPaint.setAlpha(Math.round(255F - (((float) state / RING_SIZES.length) * 255F)));
-            canvas.drawBitmap(ring, source, destination, ringPaint);
+            canvas.drawBitmap(ring, resourceProvider.getRingBounds(), destination, ringPaint);
         }
     }
 
@@ -324,15 +319,12 @@ public class AirTrafficView extends View {
             return;
 
         Bitmap pin = resourceProvider.getPin(key);
-        Rect source = new Rect();
         RectF destination = new RectF();
         destination.top = calculateScreenY(hit) - pinHeight / 2;
         destination.left = calculateScreenX(hit) - pinWidth / 2;
         destination.right = destination.left + pinWidth;
         destination.bottom = destination.top + pinHeight;
-        source.right = pin.getWidth();
-        source.bottom = pin.getHeight();
-        canvas.drawBitmap(pin, source, destination, mapPaint);
+        canvas.drawBitmap(pin, resourceProvider.getPinBounds(), destination, mapPaint);
     }
 
     /**
@@ -352,8 +344,8 @@ public class AirTrafficView extends View {
         if (key == -1)
             return;
 
-        ObjectAnimator animator = ObjectAnimator.ofInt(new RingAnimation(newHit, resourceProvider.getRing(key)),
-                "state", 0, RING_SIZES.length);
+        ObjectAnimator animator = ObjectAnimator.ofInt(new RingAnimation(calculateScreenX(newHit),
+                calculateScreenY(newHit), resourceProvider.getRing(key)), "state", 0, RING_SIZES.length);
         animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
 
