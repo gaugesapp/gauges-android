@@ -26,6 +26,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
+import android.graphics.Rect;
 
 import com.github.mobile.gauges.core.Gauge;
 
@@ -46,9 +47,13 @@ public class AirTrafficResourceProvider {
 
     private final int pinWidth;
 
+    private final Rect pinBounds;
+
     private final int ringHeight;
 
     private final int ringWidth;
+
+    private final Rect ringBounds;
 
     private int pinIndex = 0;
 
@@ -75,10 +80,16 @@ public class AirTrafficResourceProvider {
         float pinScale = (float) pins[0].getDensity() / DENSITY_DEFAULT;
         pinHeight = Math.round(pins[0].getHeight() / pinScale);
         pinWidth = Math.round(pins[0].getWidth() / pinScale);
+        pinBounds = new Rect();
+        pinBounds.right = pins[0].getWidth();
+        pinBounds.bottom = pins[0].getHeight();
 
         float ringScale = (float) rings[0].getDensity() / DENSITY_DEFAULT;
         ringHeight = Math.round(rings[0].getHeight() / ringScale);
         ringWidth = Math.round(rings[0].getWidth() / ringScale);
+        ringBounds = new Rect();
+        ringBounds.right = rings[0].getWidth();
+        ringBounds.bottom = rings[0].getHeight();
     }
 
     /**
@@ -155,6 +166,13 @@ public class AirTrafficResourceProvider {
     }
 
     /**
+     * @return pinBounds
+     */
+    public Rect getPinBounds() {
+        return pinBounds;
+    }
+
+    /**
      * @return ringHeight
      */
     public int getRingHeight() {
@@ -166,5 +184,12 @@ public class AirTrafficResourceProvider {
      */
     public int getRingWidth() {
         return ringWidth;
+    }
+
+    /**
+     * @return ringBounds
+     */
+    public Rect getRingBounds() {
+        return ringBounds;
     }
 }
