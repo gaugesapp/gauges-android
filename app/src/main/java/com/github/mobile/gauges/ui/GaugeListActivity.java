@@ -4,14 +4,14 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.VIEW_GAUGE;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.Menu;
+import android.support.v4.view.MenuItem;
 
 import com.github.mobile.gauges.R;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.ui.airtraffic.AirTrafficActivity;
 
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
 import roboguice.activity.RoboFragmentActivity;
 
 /**
