@@ -91,8 +91,8 @@ public class AirTrafficView extends View {
                 return;
 
             RectF destination = new RectF();
-            int width = Math.round(innerRingWidth * RING_SIZES[state]);
-            int height = Math.round(innerRingHeight * RING_SIZES[state]);
+            int width = Math.round(ringWidth * RING_SIZES[state]);
+            int height = Math.round(ringHeight * RING_SIZES[state]);
             destination.top = y - height / 2;
             destination.left = x - width / 2;
             destination.right = destination.left + width;
@@ -165,9 +165,9 @@ public class AirTrafficView extends View {
 
     private int pinWidth;
 
-    private int innerRingHeight;
+    private int ringHeight;
 
-    private int innerRingWidth;
+    private int ringWidth;
 
     private float mapLabelWidth;
 
@@ -233,8 +233,8 @@ public class AirTrafficView extends View {
         pinHeight = provider.getPinHeight();
         pinWidth = provider.getPinWidth();
 
-        innerRingHeight = provider.getRingHeight();
-        innerRingWidth = provider.getRingWidth();
+        ringHeight = provider.getRingHeight();
+        ringWidth = provider.getRingWidth();
 
         return this;
     }
