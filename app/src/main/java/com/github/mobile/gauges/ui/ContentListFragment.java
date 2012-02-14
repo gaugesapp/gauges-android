@@ -43,6 +43,7 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
         ListView listView = getListView();
         listView.setCacheColorHint(getResources().getColor(R.color.transparent));
         listView.setFastScrollEnabled(true);
+        listView.setDividerHeight(0);
 
         if (getListAdapter() == null)
             listView.addHeaderView(getActivity().getLayoutInflater().inflate(layout.content_list_item_labels, null),
