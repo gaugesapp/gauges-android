@@ -7,7 +7,6 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import static java.util.Calendar.DAY_OF_WEEK;
 import static java.util.Calendar.SATURDAY;
 import static java.util.Calendar.SUNDAY;
-import android.R;
 import android.accounts.AccountsException;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -67,8 +66,8 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                     getLayoutInflater(savedInstanceState).inflate(layout.traffic_list_item_labels, null), null, false);
         }
 
-        listView.setSelector(R.color.transparent);
-        listView.setCacheColorHint(getResources().getColor(R.color.transparent));
+        listView.setSelector(android.R.color.transparent);
+        listView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
         listView.setDrawSelectorOnTop(false);
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);

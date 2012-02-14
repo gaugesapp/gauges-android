@@ -2,7 +2,6 @@ package com.github.mobile.gauges.ui;
 
 import static android.content.Intent.ACTION_VIEW;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import android.R;
 import android.accounts.AccountsException;
 import android.content.Intent;
 import android.net.Uri;
@@ -40,7 +39,7 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
         super.onActivityCreated(savedInstanceState);
 
         ListView listView = getListView();
-        listView.setCacheColorHint(getResources().getColor(R.color.transparent));
+        listView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
 

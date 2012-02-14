@@ -1,6 +1,5 @@
 package com.github.mobile.gauges.ui;
 
-import android.R;
 import android.os.Bundle;
 import android.support.v4.app.SupportActivity;
 import android.support.v4.content.Loader;
@@ -40,7 +39,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
         super.onActivityCreated(savedInstanceState);
 
         ListView listView = getListView();
-        listView.setCacheColorHint(getResources().getColor(R.color.transparent));
+        listView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
         listView.setFastScrollEnabled(true);
     }
 
