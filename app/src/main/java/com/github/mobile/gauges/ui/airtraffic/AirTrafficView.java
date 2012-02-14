@@ -2,6 +2,11 @@ package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.graphics.Bitmap.createScaledBitmap;
 import static java.lang.Math.PI;
+import static java.lang.Math.log;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.lang.Math.round;
+import static java.lang.Math.sin;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -91,14 +96,14 @@ public class AirTrafficView extends View {
                 return;
 
             RectF destination = new RectF();
-            int width = Math.round(ringWidth * RING_SIZES[state]);
-            int height = Math.round(ringHeight * RING_SIZES[state]);
+            int width = round(ringWidth * RING_SIZES[state]);
+            int height = round(ringHeight * RING_SIZES[state]);
             destination.top = y - height / 2;
             destination.left = x - width / 2;
             destination.right = destination.left + width;
             destination.bottom = destination.top + height;
 
-            ringPaint.setAlpha(Math.round(255F - (((float) state / RING_SIZES.length) * 255F)));
+            ringPaint.setAlpha(round(255F - (((float) state / RING_SIZES.length) * 255F)));
             canvas.drawBitmap(ring, resourceProvider.getRingBounds(), destination, ringPaint);
         }
     }
@@ -336,9 +341,9 @@ public class AirTrafficView extends View {
     protected float calculateScreenY(final Hit hit) {
         // Determine the x and y positions to draw the hit at.
         // This code was taken from the gaug.es site
-        double e = Math.sin(hit.lat * (PI / 180.0));
-        e = Math.max(Math.min(e, 0.9999), -0.9999);
-        double globalY = (BITMAP_ORIGIN + 0.5 * Math.log((1.0 + e) / (1.0 - e)) * NEGATIVE_PIXELS_PER_LONGITUDE_RADIAN) * 256.0;
+        double e = sin(hit.lat * (PI / 180.0));
+        e = max(min(e, 0.9999), -0.9999);
+        double globalY = (BITMAP_ORIGIN + 0.5 * log((1.0 + e) / (1.0 - e)) * NEGATIVE_PIXELS_PER_LONGITUDE_RADIAN) * 256.0;
 
         float y = (float) ((globalY * scale) - yCorrector);
 

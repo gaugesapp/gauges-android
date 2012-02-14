@@ -22,6 +22,7 @@ import static com.github.mobile.gauges.R.drawable.ring6;
 import static com.github.mobile.gauges.R.drawable.ring7;
 import static com.github.mobile.gauges.R.drawable.ring8;
 import static com.github.mobile.gauges.R.drawable.ring9;
+import static java.lang.Math.round;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -78,15 +79,15 @@ public class AirTrafficResourceProvider {
         }
 
         float pinScale = (float) pins[0].getDensity() / DENSITY_DEFAULT;
-        pinHeight = Math.round(pins[0].getHeight() / pinScale);
-        pinWidth = Math.round(pins[0].getWidth() / pinScale);
+        pinHeight = round(pins[0].getHeight() / pinScale);
+        pinWidth = round(pins[0].getWidth() / pinScale);
         pinBounds = new Rect();
         pinBounds.right = pins[0].getWidth();
         pinBounds.bottom = pins[0].getHeight();
 
         float ringScale = (float) rings[0].getDensity() / DENSITY_DEFAULT;
-        ringHeight = Math.round(rings[0].getHeight() / ringScale);
-        ringWidth = Math.round(rings[0].getWidth() / ringScale);
+        ringHeight = round(rings[0].getHeight() / ringScale);
+        ringWidth = round(rings[0].getWidth() / ringScale);
         ringBounds = new Rect();
         ringBounds.right = rings[0].getWidth();
         ringBounds.bottom = rings[0].getHeight();
