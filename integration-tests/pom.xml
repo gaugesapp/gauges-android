@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>gauges-android-integration-tests</artifactId>
-	<name>Gauges-Android integration tests</name>
-	<packaging>apk</packaging>
+    <artifactId>gauges-android-integration-tests</artifactId>
+    <name>Gauges-Android integration tests</name>
+    <packaging>apk</packaging>
 
-	<parent>
-		<version>1.0-SNAPSHOT</version>
-		<groupId>com.github.github</groupId>
-		<artifactId>gauges-android-parent</artifactId>
-	</parent>
+    <parent>
+        <version>1.0-SNAPSHOT</version>
+        <groupId>com.github.github</groupId>
+        <artifactId>gauges-android-parent</artifactId>
+    </parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<android.version>3.2_r1</android.version>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <android.version>3.2_r1</android.version>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>android</groupId>
-			<artifactId>android</artifactId>
-			<scope>provided</scope>
-			<version>${android.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.github</groupId>
-			<artifactId>gauges-android</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-			<type>apk</type>
-		</dependency>
-		<dependency>
-			<groupId>com.github.github</groupId>
-			<artifactId>gauges-android</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-			<type>jar</type>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>android</groupId>
+            <artifactId>android</artifactId>
+            <scope>provided</scope>
+            <version>${android.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.github</groupId>
+            <artifactId>gauges-android</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+            <type>apk</type>
+        </dependency>
+        <dependency>
+            <groupId>com.github.github</groupId>
+            <artifactId>gauges-android</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+            <type>jar</type>
+        </dependency>
         <dependency>
             <groupId>com.jayway.android.robotium</groupId>
             <artifactId>robotium-solo</artifactId>
@@ -49,8 +49,8 @@
             <artifactId>android-screenshot-celebrity</artifactId>
             <version>1.3</version>
         </dependency>
-	</dependencies>
-	<build>
+    </dependencies>
+    <build>
         <resources>
             <!-- a pair definition for resource filtering of xml files only (not binary files since they get mangled -->
             <resource>
@@ -70,7 +70,7 @@
                 </excludes>
             </resource>
         </resources>
-		<plugins>
+        <plugins>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
@@ -89,6 +89,6 @@
                     <resourceDirectory>${project.build.directory}/filtered-res</resourceDirectory>
                 </configuration>
             </plugin>
-		</plugins>
-	</build>
+        </plugins>
+    </build>
 </project>
