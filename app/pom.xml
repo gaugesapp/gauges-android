@@ -15,8 +15,6 @@
     </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <android.version>3.2_r1</android.version>
         <abs.version>3.5.1</abs.version>
     </properties>
     <repositories>

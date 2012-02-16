@@ -13,11 +13,6 @@
         <artifactId>gauges-android-parent</artifactId>
     </parent>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <android.version>3.2_r1</android.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>android</groupId>
