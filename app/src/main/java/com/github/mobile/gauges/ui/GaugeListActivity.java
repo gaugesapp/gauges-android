@@ -4,8 +4,8 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.VIEW_GAUGE;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import com.github.mobile.gauges.R;
 import com.github.mobile.gauges.R.layout;
@@ -34,7 +34,7 @@ public class GaugeListActivity extends RoboFragmentActivity implements OnGaugeSe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.airtraffic_item, menu);
+        getSupportMenuInflater().inflate(R.menu.airtraffic_item, menu);
         return true;
     }
 

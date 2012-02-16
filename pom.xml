@@ -16,9 +16,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <android.version>3.2_r1</android.version>
+        <android.version>4.0.1.2</android.version>
     </properties>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -37,7 +36,8 @@
                             <config>../proguard.cfg</config>
                         </proguard>
                         <manifest>
-                            <versionName/> <!-- defaults to Maven project version -->
+                            <versionName/>
+                            <!-- defaults to Maven project version -->
                             <versionCodeUpdateFromVersion>true</versionCodeUpdateFromVersion>
                         </manifest>
                     </configuration>
