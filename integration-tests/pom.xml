@@ -15,8 +15,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>android</groupId>
+            <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
+            <scope>provided</scope>
+            <version>${android.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android-test</artifactId>
             <scope>provided</scope>
             <version>${android.version}</version>
         </dependency>

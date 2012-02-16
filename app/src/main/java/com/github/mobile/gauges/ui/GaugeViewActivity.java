@@ -5,9 +5,9 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.MenuItem;
 import android.support.v4.view.ViewPager;
 
+import com.actionbarsherlock.view.MenuItem;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;

@@ -1,7 +1,7 @@
 package com.github.mobile.gauges.ui;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.SupportActivity;
 import android.support.v4.content.Loader;
 import android.view.View;
 import android.widget.ListAdapter;
@@ -28,7 +28,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     private GaugesServiceProvider serviceProvider;
 
     @Override
-    public void onAttach(SupportActivity activity) {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (activity instanceof OnGaugeSelectedListener)
             containerCallback = (OnGaugeSelectedListener) activity;
