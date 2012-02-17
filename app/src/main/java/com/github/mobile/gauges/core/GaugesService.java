@@ -132,13 +132,19 @@ public class GaugesService {
             return request.basic(username, password);
     }
 
-    private void quietClose(final Reader reader) {
-        if (reader != null)
+    private <V> V fromJson(HttpRequest request, Class<V> target) throws IOException {
+        Reader reader = request.bufferedReader();
+        try {
+            return GSON.fromJson(reader, target);
+        } catch (JsonParseException e) {
+            throw new JsonException(e);
+        } finally {
             try {
                 reader.close();
             } catch (IOException ignored) {
                 // Ignored
             }
+        }
     }
 
     /**
@@ -148,19 +154,14 @@ public class GaugesService {
      * @throws IOException
      */
     public List<Gauge> getGauges() throws IOException {
-        Reader reader = null;
         try {
-            reader = execute(HttpRequest.get(URL_EMBEDDED)).bufferedReader();
-            GaugesWrapper response = GSON.fromJson(reader, GaugesWrapper.class);
+            HttpRequest request = execute(HttpRequest.get(URL_EMBEDDED));
+            GaugesWrapper response = fromJson(request, GaugesWrapper.class);
             if (response != null && response.gauges != null)
                 return response.gauges;
             return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
-        } catch (JsonParseException e) {
-            throw new JsonException(e);
-        } finally {
-            quietClose(reader);
         }
     }
 
@@ -172,19 +173,14 @@ public class GaugesService {
      * @throws IOException
      */
     public List<PageContent> getContent(String gaugeId) throws IOException {
-        Reader reader = null;
         try {
-            reader = execute(HttpRequest.get(URL_GAUGES + gaugeId + "/content")).bufferedReader();
-            ContentWrapper response = GSON.fromJson(reader, ContentWrapper.class);
+            HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId + "/content"));
+            ContentWrapper response = fromJson(request, ContentWrapper.class);
             if (response != null && response.content != null)
                 return response.content;
             return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
-        } catch (JsonParseException e) {
-            throw new JsonException(e);
-        } finally {
-            quietClose(reader);
         }
     }
 
@@ -196,19 +192,14 @@ public class GaugesService {
      * @throws IOException
      */
     public List<Referrer> getReferrers(String gaugeId) throws IOException {
-        Reader reader = null;
         try {
-            reader = execute(HttpRequest.get(URL_GAUGES + gaugeId + "/referrers")).bufferedReader();
-            ReferrersWrapper response = GSON.fromJson(reader, ReferrersWrapper.class);
+            HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId + "/referrers"));
+            ReferrersWrapper response = fromJson(request, ReferrersWrapper.class);
             if (response != null && response.referrers != null)
                 return response.referrers;
             return Collections.emptyList();
         } catch (HttpRequestException e) {
             throw e.getCause();
-        } catch (JsonParseException e) {
-            throw new JsonException(e);
-        } finally {
-            quietClose(reader);
         }
     }
 
@@ -220,21 +211,15 @@ public class GaugesService {
      * @throws IOException
      */
     public Client createClient(String description) throws IOException {
-        Reader reader = null;
         try {
             HttpRequest request = configure(HttpRequest.post(URL_CLIENTS));
             request.form("description", description);
             if (!request.created())
                 throw new IOException("Unexpected response code: " + request.code());
-            reader = request.bufferedReader();
-            ClientWrapper response = GSON.fromJson(reader, ClientWrapper.class);
+            ClientWrapper response = fromJson(request, ClientWrapper.class);
             return response != null ? response.client : null;
         } catch (HttpRequestException e) {
             throw e.getCause();
-        } catch (JsonParseException e) {
-            throw new JsonException(e);
-        } finally {
-            quietClose(reader);
         }
     }
 
@@ -246,20 +231,15 @@ public class GaugesService {
      * @throws IOException
      */
     public Client getClient(String description) throws IOException {
-        Reader reader = null;
         try {
-            reader = execute(HttpRequest.get(URL_CLIENTS)).bufferedReader();
-            ClientsWrapper response = GSON.fromJson(reader, ClientsWrapper.class);
+            HttpRequest request = execute(HttpRequest.get(URL_CLIENTS));
+            ClientsWrapper response = fromJson(request, ClientsWrapper.class);
             if (response != null && response.clients != null)
                 for (Client client : response.clients)
                     if (description.equals(client.getDescription()))
                         return client;
         } catch (HttpRequestException e) {
             throw e.getCause();
-        } catch (JsonParseException e) {
-            throw new JsonException(e);
-        } finally {
-            quietClose(reader);
         }
         return null;
     }
@@ -272,17 +252,12 @@ public class GaugesService {
      * @throws IOException
      */
     public Gauge getGauge(String gaugeId) throws IOException {
-        Reader reader = null;
         try {
-            reader = execute(HttpRequest.get(URL_GAUGES + gaugeId)).bufferedReader();
-            GaugeWrapper response = GSON.fromJson(reader, GaugeWrapper.class);
+            HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId));
+            GaugeWrapper response = fromJson(request, GaugeWrapper.class);
             return response != null ? response.gauge : null;
         } catch (HttpRequestException e) {
             throw e.getCause();
-        } catch (JsonParseException e) {
-            throw new JsonException(e);
-        } finally {
-            quietClose(reader);
         }
     }
 }
