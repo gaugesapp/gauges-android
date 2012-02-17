@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main_background"
     android:orientation="vertical" >
 
     <ScrollView
@@ -15,24 +15,27 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingBottom="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:paddingTop="5dp" >
 
             <TextView
                 android:id="@+id/tv_signup"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:padding="5dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text"
                 android:textColorLink="@color/text_link" />
 
             <TextView
-                android:id="@+id/message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
+                android:text="@string/label_email_address"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/text" />
 
@@ -40,37 +43,42 @@
                 android:id="@+id/et_email"
                 style="@style/SignInEditText"
                 android:completionThreshold="1"
-                android:hint="@string/sign_in_username_field_hint"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:nextFocusDown="@+id/et_password" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
+                android:text="@string/label_password"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/text" />
+
             <EditText
                 android:id="@+id/et_password"
                 style="@style/SignInEditText"
-                android:hint="@string/sign_in_password_field_hint"
                 android:imeOptions="actionGo"
                 android:inputType="textPassword"
-                android:password="true"
-                android:singleLine="true" />
+                android:password="true" />
+
+            <Button
+                android:id="@+id/b_signin"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:onClick="handleLogin"
+                android:padding="10dp"
+                android:text="@string/label_sign_in"
+                android:textColor="@color/text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
-
-        <Button
-            android:id="@+id/b_signin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:onClick="handleLogin"
-            android:text="@string/login_activity_ok_button" />
-    </LinearLayout>
 
 </LinearLayout>

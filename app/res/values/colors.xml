@@ -8,7 +8,7 @@
     <color name="pager_selected_text">#FFFFFF</color>
     <color name="pager_background">#F4F4F4</color>
     <color name="pager_background_alternate">#E7E7E7</color>
-    <color name="text_link">#396</color>
+    <color name="text_link">#20A465</color>
     <color name="graph_views_weekday">#53685E</color>
     <color name="graph_views_weekend">#626262</color>
     <color name="graph_people_weekday">#6E9180</color>
@@ -30,5 +30,11 @@
     <color name="actionbar_background_end">#1A1A1A</color>
     <color name="gauge_divider_top">#000000</color>
     <color name="gauge_divider_bottom">#5A5A5A</color>
+    <color name="main_background_start">#2E2E2E</color>
+    <color name="main_background_end">#2C2C2C</color>
+    <color name="button_background_start">#269C67</color>
+    <color name="button_background_end">#1E7C50</color>
+    <color name="edit_text_background_start">#EFF6FF</color>
+    <color name="edit_text_background_end">#FBFDFF</color>
 
 </resources>

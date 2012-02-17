@@ -7,7 +7,6 @@ import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
-import static android.text.TextUtils.isEmpty;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 import static com.github.kevinsawicki.http.HttpRequest.post;
@@ -41,6 +40,7 @@ import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.ui.LeavingBlankTextFieldWarner;
 import com.github.mobile.gauges.ui.TextWatcherAdapter;
+import com.github.mobile.gauges.ui.ToastUtil;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
@@ -78,9 +78,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     private static final String TAG = "GaugesAuthActivity";
 
     private AccountManager accountManager;
-
-    @InjectView(id.message)
-    private TextView messageText;
 
     @InjectView(id.et_email)
     private AutoCompleteTextView emailText;
@@ -200,7 +197,7 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     @Override
     protected Dialog onCreateDialog(int id) {
         final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setMessage(getText(string.login_activity_authenticating));
+        dialog.setMessage(getText(string.message_signing_in));
         dialog.setIndeterminate(true);
         dialog.setCancelable(true);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -227,44 +224,40 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         if (requestNewAccount)
             email = emailText.getText().toString();
         password = passwordText.getText().toString();
-        if (isEmpty(email) || isEmpty(password))
-            messageText.setText(getMessage());
-        else {
-            showProgress();
+        showProgress();
 
-            authenticationTask = new RoboAsyncTask<Boolean>(this) {
-                public Boolean call() throws Exception {
-                    HttpRequest request = post(URL_AUTH).form("email", email).form("password", password);
-                    Log.d(TAG, "response=" + request.code());
-                    return request.ok();
-                }
+        authenticationTask = new RoboAsyncTask<Boolean>(this) {
+            public Boolean call() throws Exception {
+                HttpRequest request = post(URL_AUTH).form("email", email).form("password", password);
+                Log.d(TAG, "response=" + request.code());
+                return request.ok();
+            }
 
-                @Override
-                protected void onException(Exception e) throws RuntimeException {
-                    Throwable cause = e.getCause() != null ? e.getCause() : e;
+            @Override
+            protected void onException(Exception e) throws RuntimeException {
+                Throwable cause = e.getCause() != null ? e.getCause() : e;
 
-                    String message;
-                    // A 401 is returned as an IOException with this message
-                    if ("Received authentication challenge is null".equals(cause.getMessage()))
-                        message = getResources().getString(string.message_bad_credentials);
-                    else
-                        message = cause.getMessage();
+                String message;
+                // A 401 is returned as an IOException with this message
+                if ("Received authentication challenge is null".equals(cause.getMessage()))
+                    message = getResources().getString(string.message_bad_credentials);
+                else
+                    message = cause.getMessage();
 
-                    messageText.setText(message);
-                }
+                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this, message);
+            }
 
-                @Override
-                public void onSuccess(Boolean authSuccess) {
-                    onAuthenticationResult(authSuccess);
-                }
+            @Override
+            public void onSuccess(Boolean authSuccess) {
+                onAuthenticationResult(authSuccess);
+            }
 
-                @Override
-                protected void onFinally() throws RuntimeException {
-                    hideProgress();
-                }
-            };
-            authenticationTask.execute();
-        }
+            @Override
+            protected void onFinally() throws RuntimeException {
+                hideProgress();
+            }
+        };
+        authenticationTask.execute();
     }
 
     /**
@@ -339,17 +332,10 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         else {
             Log.e(TAG, "onAuthenticationResult: failed to authenticate");
             if (requestNewAccount)
-                messageText.setText(getResources().getString(string.message_auth_failed_new_account));
+                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this, string.message_auth_failed_new_account);
             else
-                messageText.setText(getResources().getString(string.message_auth_failed));
+                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this, string.message_auth_failed);
         }
-    }
-
-    /**
-     * Returns the message to be displayed at the top of the login dialog box.
-     */
-    private CharSequence getMessage() {
-        return null;
     }
 
     /**
