@@ -28,5 +28,7 @@
     <color name="header_background_bottom">#A7A7A7</color>
     <color name="actionbar_background_start">#272727</color>
     <color name="actionbar_background_end">#1A1A1A</color>
+    <color name="gauge_divider_top">#000000</color>
+    <color name="gauge_divider_bottom">#5A5A5A</color>
 
 </resources>
