@@ -16,10 +16,9 @@ public class ToastUtil {
     /**
      * Shows a toast to the user - can be called from any thread, toast will be displayed using the UI-thread.
      * <p>
-     * The important thing about the delayed aspect of the UI-thread code used by this
-     * method is that it may actually run <em>after</em> the associated activity
-     * has been destroyed - so it can not keep a reference to the activity. Calling methods
-     * on a destroyed activity may throw exceptions, and keeping a reference to it is technically a
+     * The important thing about the delayed aspect of the UI-thread code used by this method is that it may actually
+     * run <em>after</em> the associated activity has been destroyed - so it can not keep a reference to the activity.
+     * Calling methods on a destroyed activity may throw exceptions, and keeping a reference to it is technically a
      * short-term memory-leak: http://developer.android.com/resources/articles/avoiding-memory-leaks.html
      *
      * @param activity
@@ -35,4 +34,18 @@ public class ToastUtil {
         });
     }
 
+    /**
+     * Shows a toast to the user - can be called from any thread, toast will be displayed using the UI-thread.
+     * <p>
+     * The important thing about the delayed aspect of the UI-thread code used by this method is that it may actually
+     * run <em>after</em> the associated activity has been destroyed - so it can not keep a reference to the activity.
+     * Calling methods on a destroyed activity may throw exceptions, and keeping a reference to it is technically a
+     * short-term memory-leak: http://developer.android.com/resources/articles/avoiding-memory-leaks.html
+     *
+     * @param activity
+     * @param resId
+     */
+    public static void toastOnUiThread(Activity activity, final int resId) {
+        toastOnUiThread(activity, activity.getString(resId));
+    }
 }
