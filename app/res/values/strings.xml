@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Gauges</string>
+    <string name="app_name">gaug.es</string>
     <string name="views">views</string>
     <string name="people">people</string>
     <string name="airtraffic">AirTraffic</string>
