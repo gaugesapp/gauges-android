@@ -42,8 +42,9 @@
 
         <TextView
             android:id="@+id/tv_gauge_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="5dp"
             android:singleLine="true"
@@ -52,9 +53,8 @@
 
         <TextView
             android:id="@+id/tv_gauge_location"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center_vertical|right"
             android:paddingLeft="5dp"
             android:singleLine="true"
