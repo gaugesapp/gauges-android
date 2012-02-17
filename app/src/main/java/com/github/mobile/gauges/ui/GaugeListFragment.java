@@ -8,6 +8,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.github.mobile.gauges.GaugesServiceProvider;
+import com.github.mobile.gauges.R.drawable;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
@@ -40,6 +41,8 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
         ListView listView = getListView();
         listView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
+        listView.setDivider(getResources().getDrawable(drawable.gauge_divider));
+        listView.setDividerHeight(2);
         listView.setFastScrollEnabled(true);
     }
 
