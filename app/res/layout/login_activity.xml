@@ -61,7 +61,7 @@
             <EditText
                 android:id="@+id/et_password"
                 style="@style/SignInEditText"
-                android:imeOptions="actionGo"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:password="true" />
 
