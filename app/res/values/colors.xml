@@ -32,8 +32,8 @@
     <color name="gauge_divider_bottom">#5A5A5A</color>
     <color name="main_background_start">#2E2E2E</color>
     <color name="main_background_end">#2C2C2C</color>
-    <color name="button_background_start">#269C67</color>
-    <color name="button_background_end">#1E7C50</color>
+    <color name="button_background_start">#279B67</color>
+    <color name="button_background_end">#267755</color>
     <color name="edit_text_background_start">#EFF6FF</color>
     <color name="edit_text_background_end">#FBFDFF</color>
 
