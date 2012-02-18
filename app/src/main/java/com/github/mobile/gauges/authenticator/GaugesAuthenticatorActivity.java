@@ -9,6 +9,7 @@ import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
 import static android.view.KeyEvent.ACTION_DOWN;
 import static android.view.KeyEvent.KEYCODE_ENTER;
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.github.kevinsawicki.http.HttpRequest.post;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
@@ -33,6 +34,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.mobile.gauges.R.id;
@@ -149,6 +151,17 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
             }
         });
 
+        passwordText.setOnEditorActionListener(new OnEditorActionListener() {
+
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == IME_ACTION_DONE && signinButton.isEnabled()) {
+                    handleLogin(signinButton);
+                    return true;
+                }
+                return false;
+            }
+        });
+
         setNonBlankValidationFor(emailText);
         setNonBlankValidationFor(passwordText);
 
@@ -220,6 +233,9 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
      * @param view
      */
     public void handleLogin(View view) {
+        if (authenticationTask != null)
+            return;
+
         Log.d(TAG, "handleLogin hit on" + view);
         if (requestNewAccount)
             email = emailText.getText().toString();
@@ -255,6 +271,7 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
             @Override
             protected void onFinally() throws RuntimeException {
                 hideProgress();
+                authenticationTask = null;
             }
         };
         authenticationTask.execute();
