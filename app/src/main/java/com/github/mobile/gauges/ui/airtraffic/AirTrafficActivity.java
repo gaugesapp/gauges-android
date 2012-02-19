@@ -51,7 +51,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     @InjectView(id.tv_gauge_location)
     private TextView gaugeLocation;
 
-    private Map<String, Gauge> gauges = new HashMap<String, Gauge>();
+    private Map<String, String> gaugeTitles = new HashMap<String, String>();
 
     private final Executor backgroundThread = Executors.newFixedThreadPool(1);
 
@@ -85,7 +85,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     @Override
     protected void onPause() {
         super.onPause();
-        unsubscribeFromGaugeChannels(gauges.values());
+        unsubscribeFromGaugeChannels(gaugeTitles.keySet());
         airTrafficView.pause();
     }
 
@@ -93,7 +93,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     protected void onResume() {
         super.onResume();
         airTrafficView.resume();
-        subscribeToGaugeChannels(gauges.values());
+        subscribeToGaugeChannels(gaugeTitles.keySet());
     }
 
     @Override
@@ -107,13 +107,13 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     }
 
     private void loadGauges(Collection<Gauge> gauges) {
-        unsubscribeFromGaugeChannels(this.gauges.values());
-        Map<String, Gauge> newGauges = new HashMap<String, Gauge>();
+        unsubscribeFromGaugeChannels(gaugeTitles.keySet());
+        Map<String, String> newGauges = new HashMap<String, String>();
         for (Gauge gauge : gauges)
-            newGauges.put(gauge.getId(), gauge);
-        this.gauges = newGauges;
+            newGauges.put(gauge.getId(), gauge.getTitle());
+        gaugeTitles = newGauges;
         resourceProvider.setGauges(gauges);
-        subscribeToGaugeChannels(gauges);
+        subscribeToGaugeChannels(gaugeTitles.keySet());
     }
 
     /**
@@ -165,8 +165,8 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
     public void onLoaderReset(Loader<List<Gauge>> listLoader) {
     }
 
-    private void subscribeToGaugeChannels(final Collection<Gauge> subscribeGauges) {
-        if (subscribeGauges.isEmpty())
+    private void subscribeToGaugeChannels(final Collection<String> subscribeIds) {
+        if (subscribeIds.isEmpty())
             return;
         backgroundThread.execute(new Runnable() {
 
@@ -180,8 +180,8 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
                         gaugeText.post(new Runnable() {
 
                             public void run() {
-                                Gauge gauge = gauges.get(hit.siteId);
-                                if (gauge == null)
+                                String gaugeTitle = gaugeTitles.get(hit.siteId);
+                                if (gaugeTitle == null)
                                     return;
 
                                 Bitmap bitmap = resourceProvider.getPin(hit.siteId);
@@ -194,28 +194,28 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
                                 String title = getTitle(hit);
                                 if (title.length() > 0)
-                                    gaugeText.setText(gauge.getTitle() + ": " + title);
+                                    gaugeText.setText(gaugeTitle + ": " + title);
                                 else
-                                    gaugeText.setText(gauge.getTitle());
+                                    gaugeText.setText(gaugeTitle);
 
                             }
                         });
                     }
                 };
-                for (Gauge gauge : subscribeGauges)
-                    pusher.subscribe(gauge.getId()).bind("hit", callback);
+                for (String gaugeId : subscribeIds)
+                    pusher.subscribe(gaugeId).bind("hit", callback);
             }
         });
     }
 
-    private void unsubscribeFromGaugeChannels(final Collection<Gauge> unsubscribeGauges) {
-        if (unsubscribeGauges.isEmpty())
+    private void unsubscribeFromGaugeChannels(final Collection<String> unsubscribeIds) {
+        if (unsubscribeIds.isEmpty())
             return;
         backgroundThread.execute(new Runnable() {
 
             public void run() {
-                for (Gauge gauge : unsubscribeGauges)
-                    pusher.unsubscribe(gauge.getId());
+                for (String gaugeId : unsubscribeIds)
+                    pusher.unsubscribe(gaugeId);
             }
         });
     }
