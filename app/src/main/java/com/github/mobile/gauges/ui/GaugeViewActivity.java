@@ -3,6 +3,8 @@ package com.github.mobile.gauges.ui;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
+import static com.github.mobile.gauges.IntentConstants.GAUGES;
+import static com.github.mobile.gauges.IntentConstants.VIEW_AIR_TRAFFIC;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -12,6 +14,9 @@ import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
 import com.viewpagerindicator.TitlePageIndicator;
+
+import java.io.Serializable;
+import java.util.Collections;
 
 import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectExtra;
@@ -49,9 +54,14 @@ public class GaugeViewActivity extends RoboFragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
-            Intent intent = new Intent(this, GaugeListActivity.class);
-            intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
+            Intent homeIntent = new Intent(this, GaugeListActivity.class);
+            homeIntent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(homeIntent);
+            return true;
+        case id.air_traffic:
+            Intent trafficIntent = new Intent(VIEW_AIR_TRAFFIC);
+            trafficIntent.putExtra(GAUGES, (Serializable) Collections.singletonList(gauge));
+            startActivity(trafficIntent);
             return true;
         default:
             return super.onOptionsItemSelected(item);

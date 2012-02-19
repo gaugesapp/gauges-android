@@ -2,6 +2,8 @@ package com.github.mobile.gauges;
 
 import com.github.mobile.gauges.core.Gauge;
 
+import java.util.Collection;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -14,6 +16,11 @@ public interface IntentConstants {
      * Reference to a {@link Gauge}
      */
     String GAUGE = "gauge";
+
+    /**
+     * Reference to a {@link Collection} of {@link Gauge} items
+     */
+    String GAUGES = "gauges";
 
     /**
      * Gauge id
@@ -29,4 +36,9 @@ public interface IntentConstants {
      * View Gauge action
      */
     String VIEW_GAUGE = INTENT_PREFIX + "gauge.VIEW";
+
+    /**
+     * View Air Traffic action
+     */
+    String VIEW_AIR_TRAFFIC = INTENT_PREFIX + "airtraffic.VIEW";
 }
