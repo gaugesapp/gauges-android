@@ -123,12 +123,12 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
      * @return label
      */
     protected String getLocation(final Hit hit) {
-        String city = hit.city != null ? hit.city : "";
-        String region = hit.region != null ? hit.region : "";
         String country = hit.country != null ? hit.country : "";
-
         if (country.length() == 0)
             return "";
+
+        String city = hit.city != null ? hit.city : "";
+        String region = hit.region != null ? hit.region : "";
 
         String location;
         if (region.length() > 0 && ("United States".equals(country) || "Canada".equals(country)))
