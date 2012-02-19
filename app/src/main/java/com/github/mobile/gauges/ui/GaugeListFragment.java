@@ -1,8 +1,9 @@
 package com.github.mobile.gauges.ui;
 
+import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGES;
 import static com.github.mobile.gauges.IntentConstants.VIEW_AIR_TRAFFIC;
-import android.app.Activity;
+import static com.github.mobile.gauges.IntentConstants.VIEW_GAUGE;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -29,19 +30,10 @@ import java.util.List;
  */
 public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
-    private OnGaugeSelectedListener containerCallback;
-
     private List<Gauge> gauges;
 
     @Inject
     private GaugesServiceProvider serviceProvider;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof OnGaugeSelectedListener)
-            containerCallback = (OnGaugeSelectedListener) activity;
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -66,9 +58,11 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        if (containerCallback != null)
-            containerCallback.onGaugeSelected((Gauge) l.getItemAtPosition(position));
+    public void onListItemClick(ListView list, View view, int position, long id) {
+        Gauge gauge = (Gauge) list.getItemAtPosition(position);
+        Intent intent = new Intent(VIEW_GAUGE);
+        intent.putExtra(GAUGE, gauge);
+        startActivity(intent);
     }
 
     @Override
@@ -91,4 +85,5 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
             return super.onOptionsItemSelected(item);
         }
     }
+
 }
