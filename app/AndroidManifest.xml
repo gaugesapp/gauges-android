@@ -27,6 +27,10 @@
             </intent-filter>
         </activity>
         <activity android:label="@string/airtraffic" android:name=".ui.airtraffic.AirTrafficActivity" android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.github.mobile.gauges.airtraffic.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
 
         <service android:name=".authenticator.AccountAuthenticatorService" android:process=":auth">

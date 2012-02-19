@@ -31,8 +31,8 @@ import android.graphics.Rect;
 
 import com.github.mobile.gauges.core.Gauge;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -99,7 +99,7 @@ public class AirTrafficResourceProvider {
      * @param gauges
      * @return this provider
      */
-    public AirTrafficResourceProvider setGauges(final List<Gauge> gauges) {
+    public AirTrafficResourceProvider setGauges(final Collection<Gauge> gauges) {
         gaugeColors.clear();
         pinIndex = 0;
         for (Gauge gauge : gauges) {

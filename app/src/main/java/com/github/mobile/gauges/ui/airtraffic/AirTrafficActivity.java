@@ -2,6 +2,7 @@ package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.view.View.STATUS_BAR_HIDDEN;
+import static com.github.mobile.gauges.IntentConstants.GAUGES;
 import static com.github.mobile.gauges.R.layout.airtraffic_activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -73,7 +74,12 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
             // On ICS this equivalent to SYSTEM_UI_FLAG_LOW_PROFILE - the dimmed-menu-buttons mode
             getWindow().getDecorView().setSystemUiVisibility(STATUS_BAR_HIDDEN);
 
-        getSupportLoaderManager().initLoader(0, null, this);
+        @SuppressWarnings("unchecked")
+        Collection<Gauge> intentGauges = (Collection<Gauge>) getIntent().getSerializableExtra(GAUGES);
+        if (intentGauges != null && !intentGauges.isEmpty())
+            loadGauges(intentGauges);
+        else
+            getSupportLoaderManager().initLoader(0, null, this);
     }
 
     @Override
@@ -97,6 +103,10 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
     @Override
     public void onLoadFinished(Loader<List<Gauge>> listLoader, List<Gauge> gauges) {
+        loadGauges(gauges);
+    }
+
+    private void loadGauges(Collection<Gauge> gauges) {
         unsubscribeFromGaugeChannels(this.gauges.values());
         Map<String, Gauge> newGauges = new HashMap<String, Gauge>();
         for (Gauge gauge : gauges)
