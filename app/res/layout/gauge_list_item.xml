@@ -4,35 +4,27 @@
     android:layout_height="fill_parent"
     android:background="@drawable/gauge_background"
     android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="20dp"
-    android:paddingTop="10dp" >
+    android:padding="15dp" >
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:layout_weight="67"
+        android:layout_weight="75"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:paddingRight="20dp" >
+        android:paddingRight="15dp" >
 
         <TextView
-            android:id="@+id/tv_gauge_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/text_light"
-            android:textStyle="bold" />
+                android:id="@+id/tv_gauge_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/GaugeTitle" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp" >
+            android:orientation="horizontal" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -44,17 +36,13 @@
                     android:id="@+id/tv_gauge_views"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/text"
-                    android:textStyle="bold" />
+                    style="@style/GaugeNumericReadout" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/views"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/text_light" />
+                    style="@style/GaugeNumericReadoutName"
+                    android:text="@string/views" />
             </LinearLayout>
 
             <LinearLayout
@@ -67,17 +55,13 @@
                     android:id="@+id/tv_gauge_people"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/text"
-                    android:textStyle="bold" />
+                    style="@style/GaugeNumericReadout" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:text="@string/people"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/text_light" />
+                    style="@style/GaugeNumericReadoutName"
+                    android:text="@string/people" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -86,8 +70,8 @@
         android:id="@+id/ll_bars"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
-        android:layout_weight="33"
-        android:minHeight="80dp" >
+        android:layout_weight="25"
+        android:minHeight="20dp" >
     </LinearLayout>
 
 </LinearLayout>
