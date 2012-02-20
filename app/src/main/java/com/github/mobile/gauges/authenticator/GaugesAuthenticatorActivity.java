@@ -129,22 +129,18 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     protected boolean requestNewAccount = false;
 
     @Override
-    public void onCreate(Bundle icicle) {
-        Log.i(TAG, "onCreate(" + icicle + ")");
-        super.onCreate(icicle);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         accountAuthenticatorResponse = getIntent().getParcelableExtra(KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
 
         if (accountAuthenticatorResponse != null)
             accountAuthenticatorResponse.onRequestContinued();
         accountManager = AccountManager.get(this);
-        Log.i(TAG, "loading data from Intent");
         final Intent intent = getIntent();
         email = intent.getStringExtra(PARAM_USERNAME);
         authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
         requestNewAccount = email == null;
         confirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
-
-        Log.i(TAG, "request new: " + requestNewAccount);
 
         setContentView(layout.login_activity);
 
@@ -221,7 +217,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         dialog.setCancelable(true);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(DialogInterface dialog) {
-                Log.i(TAG, "dialog cancel has been invoked");
                 if (authenticationTask != null) {
                     authenticationTask.cancel(true);
                     finish();
@@ -242,7 +237,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         if (authenticationTask != null)
             return;
 
-        Log.d(TAG, "handleLogin hit on" + view);
         if (requestNewAccount)
             email = emailText.getText().toString();
         password = passwordText.getText().toString();
@@ -290,7 +284,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
      * @param result
      */
     protected void finishConfirmCredentials(boolean result) {
-        Log.i(TAG, "finishConfirmCredentials()");
         final Account account = new Account(email, GAUGES_ACCOUNT_TYPE);
         accountManager.setPassword(account, password);
 
@@ -308,7 +301,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
      */
 
     protected void finishLogin() {
-        Log.i(TAG, "finishLogin()");
         final Account account = new Account(email, GAUGES_ACCOUNT_TYPE);
 
         if (requestNewAccount)
@@ -346,7 +338,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
      * @param result
      */
     public void onAuthenticationResult(boolean result) {
-        Log.i(TAG, "onAuthenticationResult(" + result + ")");
         if (result)
             if (!confirmCredentials)
                 finishLogin();
