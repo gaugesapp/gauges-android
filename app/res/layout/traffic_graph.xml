@@ -26,7 +26,7 @@
     <LinearLayout
         android:id="@+id/ll_bars"
         android:layout_width="fill_parent"
-        android:layout_height="150dp" >
+        android:layout_height="120dp" >
     </LinearLayout>
 
 </LinearLayout>
