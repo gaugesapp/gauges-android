@@ -22,6 +22,6 @@
         android:endColor="@color/button_background_disabled_end"
         android:startColor="@color/button_background_disabled_start" />
 
-    <corners android:radius="6dp" />
+    <corners android:radius="3dp" />
 
 </shape>

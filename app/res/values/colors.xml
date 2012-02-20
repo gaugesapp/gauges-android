@@ -49,12 +49,12 @@
     <color name="gauge_divider_bottom">#5A5A5A</color>
     <color name="main_background_start">#2E2E2E</color>
     <color name="main_background_end">#2C2C2C</color>
-    <color name="button_background_enabled_start">#279B67</color>
-    <color name="button_background_enabled_end">#267755</color>
+    <color name="button_background_enabled_start">#20a465</color>
+    <color name="button_background_enabled_end">#1d7d4f</color>
     <color name="edit_text_background_start">#EFF6FF</color>
     <color name="edit_text_background_end">#FBFDFF</color>
-    <color name="button_background_disabled_start">#626262</color>
-    <color name="button_background_disabled_end">#7C7C7C</color>
+    <color name="button_background_disabled_start">#7b7b7b</color>
+    <color name="button_background_disabled_end">#646464</color>
     <color name="text_shadow">#000000</color>
 
 </resources>
