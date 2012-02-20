@@ -23,6 +23,7 @@
 
     <TextView
         android:id="@+id/tv_signup"
+        style="@style/ShadowText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/stripe_repeat"
@@ -47,6 +48,7 @@
             android:paddingTop="5dp" >
 
             <TextView
+                style="@style/ShadowText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -65,6 +67,7 @@
                 android:nextFocusDown="@+id/et_password" />
 
             <TextView
+                style="@style/ShadowText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp"
@@ -84,6 +87,7 @@
 
             <Button
                 android:id="@+id/b_signin"
+                style="@style/ShadowText"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="15dp"
