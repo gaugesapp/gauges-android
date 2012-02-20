@@ -52,7 +52,6 @@
                 android:paddingBottom="5dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:paddingTop="10dp"
                 android:text="@string/label_email_address"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/text" />
