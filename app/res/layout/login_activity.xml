@@ -87,7 +87,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/button_background"
+                android:background="@drawable/button_background_states"
                 android:gravity="center"
                 android:onClick="handleLogin"
                 android:padding="10dp"

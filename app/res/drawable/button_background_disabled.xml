@@ -13,14 +13,14 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <gradient
         android:angle="270"
-        android:endColor="@color/button_background_end"
-        android:startColor="@color/button_background_start" />
+        android:endColor="@color/button_background_disabled_end"
+        android:startColor="@color/button_background_disabled_start" />
 
     <corners android:radius="6dp" />
 
