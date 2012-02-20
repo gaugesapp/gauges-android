@@ -75,9 +75,7 @@ public class GaugeViewActivity extends RoboFragmentActivity {
             startActivity(homeIntent);
             return true;
         case id.air_traffic:
-            Intent trafficIntent = new Intent(VIEW_AIR_TRAFFIC);
-            trafficIntent.putExtra(GAUGES, (Serializable) Collections.singletonList(gauge));
-            startActivity(trafficIntent);
+            startActivity(new Intent(VIEW_AIR_TRAFFIC));
             return true;
         default:
             return super.onOptionsItemSelected(item);
