@@ -12,7 +12,7 @@ public class BarGraphDrawable extends PaintDrawable {
 
     private static final int MIN_HEIGHT = 4;
 
-    private static final int SPACING_X = 2;
+    private static final int SPACING_X = 1;
 
     private final int[][] colors;
 
