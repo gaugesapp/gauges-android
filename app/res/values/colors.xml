@@ -37,5 +37,6 @@
     <color name="button_background_end">#267755</color>
     <color name="edit_text_background_start">#EFF6FF</color>
     <color name="edit_text_background_end">#FBFDFF</color>
+    <color name="text_shadow">#000000</color>
 
 </resources>

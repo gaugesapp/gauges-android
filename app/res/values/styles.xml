@@ -16,7 +16,7 @@
     </style>
 
     <style name="ShadowText">
-        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowColor">@color/text_shadow</item>
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
