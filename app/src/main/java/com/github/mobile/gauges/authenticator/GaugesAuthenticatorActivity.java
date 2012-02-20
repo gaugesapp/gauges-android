@@ -56,10 +56,8 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
-import com.github.mobile.gauges.ui.LeavingBlankTextFieldWarner;
 import com.github.mobile.gauges.ui.TextWatcherAdapter;
 import com.github.mobile.gauges.ui.ToastUtil;
-import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,9 +103,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
 
     @InjectView(id.b_signin)
     private Button signinButton;
-
-    @Inject
-    private LeavingBlankTextFieldWarner leavingBlankTextFieldWarner;
 
     private TextWatcher watcher = validationTextWatcher();
 
@@ -178,8 +173,8 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
             }
         });
 
-        setNonBlankValidationFor(emailText);
-        setNonBlankValidationFor(passwordText);
+        emailText.addTextChangedListener(watcher);
+        passwordText.addTextChangedListener(watcher);
 
         TextView signupText = (TextView) findViewById(id.tv_signup);
         signupText.setMovementMethod(LinkMovementMethod.getInstance());
@@ -192,11 +187,6 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         for (Account account : accounts)
             emailAddresses.add(account.name);
         return emailAddresses;
-    }
-
-    private void setNonBlankValidationFor(EditText editText) {
-        editText.addTextChangedListener(watcher);
-        editText.setOnFocusChangeListener(leavingBlankTextFieldWarner);
     }
 
     private TextWatcher validationTextWatcher() {
