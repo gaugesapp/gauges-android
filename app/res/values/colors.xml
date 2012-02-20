@@ -4,7 +4,7 @@
     <color name="background">#3B3B3B</color>
     <color name="text">#FCFCFC</color>
     <color name="text_light">#999999</color>
-    <color name="gauge_title_text">#dfdfdf</color>
+    <color name="gauge_title_text">#DFDFDF</color>
     <color name="pager_footer">#18A05D</color>
     <color name="pager_selected_text">#FFFFFF</color>
     <color name="pager_background">#F4F4F4</color>
