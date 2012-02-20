@@ -217,10 +217,8 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         dialog.setCancelable(true);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             public void onCancel(DialogInterface dialog) {
-                if (authenticationTask != null) {
+                if (authenticationTask != null)
                     authenticationTask.cancel(true);
-                    finish();
-                }
             }
         });
         return dialog;
