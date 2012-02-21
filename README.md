@@ -18,7 +18,8 @@ to report any bugs or feature requests and to see the list of known issues.
 
 ## Contributing
 
-Please fork this repository and contribute back using pull requests.
+Please fork this repository and contribute back using
+[pull requests](https://github.com/github/gauges-android/pulls).
 
 Any contributions, large or small, major features, bug fixes, additional
 language translations, unit/integration tests are welcomed and appreciated.
