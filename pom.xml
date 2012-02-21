@@ -25,6 +25,25 @@
     <name>Gauges Android parent</name>
     <packaging>pom</packaging>
 
+    <issueManagement>
+        <url>https://github.com/github/gauges-android/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>Apache License Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/github/gauges-android</url>
+        <connection>scm:git:git://github.com/github/gauges-android.git</connection>
+        <developerConnection>scm:git:git@github.com:github/gauges-android.git</developerConnection>
+    </scm>
+
     <modules>
         <module>app</module>
         <module>integration-tests</module>
