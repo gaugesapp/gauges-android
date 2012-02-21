@@ -56,7 +56,7 @@ public class ApiKeyProvider {
 
         Bundle result = accountManagerFuture.getResult();
         String authToken = result.getString(KEY_AUTHTOKEN);
-        Log.d(TAG, "Got authToken "+(authToken==null?null:authToken.substring(0,2)+"…"));
+        Log.d(TAG, "Got authToken " + (authToken == null ? null : authToken.substring(0, 2) + "…"));
         return authToken;
     }
 }
