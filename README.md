@@ -3,6 +3,9 @@
 This repository contains the application source code for the Gaug.es Android
 application available from the [Android Market](https://market.android.com/).
 
+Please see the [issues](https://github.com/github/gauges-android/issues) section
+to report any bugs or feature requests and to see the list of known issues.
+
 ## License
 
 * [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
