@@ -17,6 +17,7 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.FROYO;
 import static android.view.View.STATUS_BAR_HIDDEN;
 import static com.github.mobile.gauges.IntentConstants.GAUGES;
 import static com.github.mobile.gauges.R.layout.airtraffic_activity;
@@ -71,7 +72,8 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
     private final Executor backgroundThread = Executors.newFixedThreadPool(1);
 
-    private final Pusher pusher = new Pusher(PUSHER_APP_KEY);
+    // Skip certificate validation on Froyo or below
+    private final Pusher pusher = new Pusher(PUSHER_APP_KEY, true, SDK_INT <= FROYO);
 
     private AirTrafficResourceProvider resourceProvider;
 
