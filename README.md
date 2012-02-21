@@ -12,3 +12,10 @@ application available from the [Android Market](https://market.android.com/).
 * Install the Android SDKs into your local [Maven](http://maven.apache.org/)
   repository using the [maven-android-sdk-deployer](https://github.com/mosabua/maven-android-sdk-deployer)
 * Run `mvn clean package` from the `app` directory
+
+## Contributing
+
+Please fork this repository and contribute back using pull requests.
+
+Any contributions, large or small, major features, bug fixes, additional
+language translations, unit/integration tests are welcomed and appreciated.
