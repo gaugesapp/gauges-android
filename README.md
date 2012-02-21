@@ -12,9 +12,25 @@ to report any bugs or feature requests and to see the list of known issues.
 
 ## Building
 
-* Install the Android SDKs into your local [Maven](http://maven.apache.org/)
-  repository using the [maven-android-sdk-deployer](https://github.com/mosabua/maven-android-sdk-deployer)
-* Run `mvn clean package` from the `app` directory
+The build requires [Maven](http://maven.apache.org/download.html)
+(v3.0.3 minimum) and the [Android SDK](http://developer.android.com/sdk/index.html)
+to be installed in your development environment. In addition you'll need to set
+the `ANDROID_HOME` environment variable to the location of your sdk, eg:
+
+    export ANDROID_HOME=/home/roberto/tools/android-sdk
+
+After satisfying those requirements, the build is pretty simple:
+
+* Run `mvn clean package` from the `app` directory - to simply build the APK
+* Run `mvn clean install` from the root directory to build the app and also run
+  the integration tests - you'll need to have an Android device or emulator
+  connected.
+
+You might find that your device doesn't let you install your build if you
+already have the version from the Android Market installed - this is standard
+Android security, it won't let you directly replace an app that's been signed
+with a differing key. Just manully uninstall Gauges from your device and you'll
+then be able to install your own version.
 
 ## Contributing
 
