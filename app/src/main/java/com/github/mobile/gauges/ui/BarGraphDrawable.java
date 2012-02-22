@@ -54,15 +54,15 @@ public class BarGraphDrawable extends PaintDrawable {
     @Override
     public void draw(final Canvas canvas) {
         final Paint paint = getPaint();
-        final Rect bound = getBounds();
-        final int width = bound.width() / data.length - SPACING_X;
-        final int height = bound.height();
-        int x = 0;
+        final Rect bounds = getBounds();
+        final float width = ((float) bounds.width() / data.length) - SPACING_X;
+        final int height = bounds.height();
+        float x = 0;
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
                 paint.setColor(colors[i][j]);
                 float percentage = (float) data[i][j] / max;
-                canvas.drawRect(x, height - Math.max(MIN_HEIGHT, percentage * height), x + width, bound.bottom, paint);
+                canvas.drawRect(x, height - Math.max(MIN_HEIGHT, percentage * height), x + width, bounds.bottom, paint);
             }
             x += width + SPACING_X;
         }
