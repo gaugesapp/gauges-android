@@ -59,7 +59,7 @@
                 <plugin>
                     <groupId>com.madgag</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>3.1.1.99.0.5-UNOFFICIAL-ROBERTO-RELEASE</version>
+                    <version>3.1.1.99.0.6</version>
                     <extensions>true</extensions>
                     <configuration>
                         <sdk>
