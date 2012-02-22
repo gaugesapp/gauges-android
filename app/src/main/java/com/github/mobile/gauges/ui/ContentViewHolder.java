@@ -30,6 +30,8 @@ import java.text.NumberFormat;
  */
 public class ContentViewHolder implements ViewHolder<PageContent> {
 
+    private final static NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
+
     private final TextView titleText;
 
     private final TextView pathText;
@@ -50,6 +52,6 @@ public class ContentViewHolder implements ViewHolder<PageContent> {
     public void updateViewFor(final PageContent item) {
         titleText.setText(item.getTitle());
         pathText.setText(item.getPath());
-        viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
+        viewsText.setText(NUMBER_FORMAT.format(item.getViews()));
     }
 }

@@ -31,7 +31,9 @@ import java.text.SimpleDateFormat;
  */
 public class TrafficViewHolder implements ViewHolder<DatedViewSummary> {
 
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("MMMM dd");
+    private final static NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
+
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd");
 
     private final TextView dateText;
 
@@ -51,8 +53,8 @@ public class TrafficViewHolder implements ViewHolder<DatedViewSummary> {
     }
 
     public void updateViewFor(final DatedViewSummary item) {
-        dateText.setText(FORMATTER.format(item.getDate()));
-        viewsText.setText(NumberFormat.getIntegerInstance().format(item.getViews()));
-        peopleText.setText(NumberFormat.getIntegerInstance().format(item.getPeople()));
+        dateText.setText(DATE_FORMAT.format(item.getDate()));
+        viewsText.setText(NUMBER_FORMAT.format(item.getViews()));
+        peopleText.setText(NUMBER_FORMAT.format(item.getPeople()));
     }
 }

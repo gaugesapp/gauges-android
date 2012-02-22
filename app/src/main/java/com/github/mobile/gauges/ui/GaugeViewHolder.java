@@ -38,6 +38,8 @@ import java.util.GregorianCalendar;
  */
 public class GaugeViewHolder implements ViewHolder<Gauge> {
 
+    private final static NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
+
     private final TextView nameText;
 
     private final TextView viewsText;
@@ -82,8 +84,9 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
             viewsToday = today.getViews();
             peopleToday = today.getPeople();
         }
-        viewsText.setText(NumberFormat.getIntegerInstance().format(viewsToday));
-        peopleText.setText(NumberFormat.getIntegerInstance().format(peopleToday));
+
+        viewsText.setText(NUMBER_FORMAT.format(viewsToday));
+        peopleText.setText(NUMBER_FORMAT.format(peopleToday));
         int index = data.length - 1;
         GregorianCalendar calendar = new GregorianCalendar();
         for (DatedViewSummary day : gauge.getRecentDays()) {
