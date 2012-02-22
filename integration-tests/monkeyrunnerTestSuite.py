@@ -6,7 +6,7 @@ device = MonkeyRunner.waitForConnection()
 
 # Installs the Android package. Notice that this method returns a boolean, so you can test
 # to see if the installation worked.
-device.installPackage('../app/target/gauges-android-1.0-SNAPSHOT.apk')
+device.installPackage('../app/target/gauges-android-1.0.apk')
 
 # sets a variable with the package's internal name
 package = 'com.github.mobile.gauges'
