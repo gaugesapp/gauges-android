@@ -1,10 +1,12 @@
 # Gaug.es for Android
 
 This repository contains the source code for the Gaug.es Android
-application available from the [Android Market](https://market.android.com/).
+application available from the [Android Market](https://market.android.com/details?id=com.github.mobile.gauges).
 
 Please see the [issues](https://github.com/github/gauges-android/issues) section
 to report any bugs or feature requests and to see the list of known issues.
+
+![](http://f.cl.ly/items/0j2o2e2T1s2q1g0B250s/Gauges_AndroidMarket.png)
 
 ## License
 
