@@ -75,8 +75,15 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
 
     public void updateViewFor(final Gauge gauge) {
         nameText.setText(gauge.getTitle());
-        viewsText.setText(NumberFormat.getIntegerInstance().format(gauge.getToday().getViews()));
-        peopleText.setText(NumberFormat.getIntegerInstance().format(gauge.getToday().getPeople()));
+        DatedViewSummary today = gauge.getToday();
+        long viewsToday = 0;
+        long peopleToday = 0;
+        if (today != null) {
+            viewsToday = today.getViews();
+            peopleToday = today.getPeople();
+        }
+        viewsText.setText(NumberFormat.getIntegerInstance().format(viewsToday));
+        peopleText.setText(NumberFormat.getIntegerInstance().format(peopleToday));
         int index = data.length - 1;
         GregorianCalendar calendar = new GregorianCalendar();
         for (DatedViewSummary day : gauge.getRecentDays()) {
