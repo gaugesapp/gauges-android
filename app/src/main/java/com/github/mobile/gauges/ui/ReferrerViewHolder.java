@@ -30,7 +30,7 @@ import java.text.NumberFormat;
  */
 public class ReferrerViewHolder implements ViewHolder<Referrer> {
 
-    private final static NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
+    private static final NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
 
     private final TextView hostText;
 

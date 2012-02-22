@@ -38,7 +38,7 @@ import java.util.GregorianCalendar;
  */
 public class GaugeViewHolder implements ViewHolder<Gauge> {
 
-    private final static NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
+    private static final NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
 
     private final TextView nameText;
 
