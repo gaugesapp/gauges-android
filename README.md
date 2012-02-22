@@ -34,6 +34,24 @@ Android security as it it won't let you directly replace an app that's been
 signed with a different key.  Manually uninstall Gauges from your device and
 you'll then be able to install your own built version.
 
+## Acknowledgements
+
+Gaug.es for Android is built on the awesome [Gauges API](http://get.gaug.es/documentation/api/)
+and uses many great open-source libraries from the Android dev community:
+
+* [ActionBarSherlock](https://github.com/JakeWharton/ActionBarSherlock) for a
+  consistent, great looking header across all Android platforms,
+  [ViewPagerIndicator](https://github.com/JakeWharton/Android-ViewPagerIndicator)
+  for swiping between content, traffic, & referrer pages, and
+  [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) for the
+  AirTraffic view animations - all from the prolific
+  [Jake Wharton](http://jakewharton.com/).
+* [Roboguice](http://code.google.com/p/roboguice/) for dependency-injection.
+* [Robotium](http://code.google.com/p/robotium/)
+  for driving our app during integration tests.
+* [android-maven-plugin](https://github.com/jayway/maven-android-plugin)
+  for automating our build and producing release-ready APKs.
+
 ## Contributing
 
 Please fork this repository and contribute back using
