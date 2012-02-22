@@ -92,10 +92,12 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case id.air_traffic:
-            Intent intent = new Intent(VIEW_AIR_TRAFFIC);
-            if (gauges != null && !gauges.isEmpty())
-                intent.putExtra(GAUGES, (Serializable) gauges);
-            startActivity(intent);
+            if (getActivity() != null) {
+                Intent intent = new Intent(VIEW_AIR_TRAFFIC);
+                if (gauges != null && !gauges.isEmpty())
+                    intent.putExtra(GAUGES, (Serializable) gauges);
+                startActivity(intent);
+            }
             return true;
         default:
             return super.onOptionsItemSelected(item);
