@@ -17,6 +17,7 @@
 package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -73,7 +74,8 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
      * Refresh the fragment's list
      */
     public void refresh() {
-        getLoaderManager().restartLoader(0, null, this);
+        if (getActivity() != null)
+            getLoaderManager().restartLoader(0, null, this);
     }
 
     public void onLoadFinished(Loader<List<E>> loader, List<E> items) {
@@ -105,6 +107,8 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
      * @param message
      */
     protected void showError(final int message) {
-        toastOnUiThread(getActivity(), getString(message));
+        final Activity activity = getActivity();
+        if (activity != null)
+            toastOnUiThread(activity, getString(message));
     }
 }
