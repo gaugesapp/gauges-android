@@ -46,7 +46,7 @@ and uses many great open-source libraries from the Android dev community:
   [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids) for the
   AirTraffic view animations - all from the prolific
   [Jake Wharton](http://jakewharton.com/).
-* [Roboguice](http://code.google.com/p/roboguice/) for dependency-injection.
+* [RoboGuice](http://code.google.com/p/roboguice/) for dependency-injection.
 * [Robotium](http://code.google.com/p/robotium/)
   for driving our app during integration tests.
 * [android-maven-plugin](https://github.com/jayway/maven-android-plugin)
