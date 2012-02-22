@@ -42,10 +42,6 @@
             <id>jakewharton-snapshot</id>
             <url>http://r.jakewharton.com/maven/snapshot/</url>
         </repository>
-        <repository>
-            <id>oss-releases</id>
-            <url>https://oss.sonatype.org/content/repositories/releases/</url>
-        </repository>
     </repositories>
     <dependencies>
         <dependency>
