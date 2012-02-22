@@ -33,7 +33,7 @@ public class TrafficViewHolder implements ViewHolder<DatedViewSummary> {
 
     private final static NumberFormat NUMBER_FORMAT = NumberFormat.getIntegerInstance();
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd");
+    private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd");
 
     private final TextView dateText;
 
