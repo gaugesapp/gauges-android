@@ -45,4 +45,9 @@ public interface GaugesConstants {
      * Clients URL
      */
     String URL_CLIENTS = URL_BASE + "clients";
+
+    /**
+     * Pusher authentication URL
+     */
+    String URL_PUSHER_AUTH = URL_BASE + "pusher/auth";
 }

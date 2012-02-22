@@ -17,10 +17,8 @@
 package com.github.mobile.gauges.ui.airtraffic;
 
 import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.FROYO;
 import static android.view.View.STATUS_BAR_HIDDEN;
 import static com.github.mobile.gauges.IntentConstants.GAUGES;
-import static com.github.mobile.gauges.R.layout.airtraffic_activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -32,6 +30,7 @@ import android.widget.TextView;
 import com.emorym.android_pusher.Pusher;
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
+import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.ui.GaugeListLoader;
 import com.google.inject.Inject;
@@ -51,7 +50,7 @@ import roboguice.inject.InjectView;
  */
 public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCallbacks<List<Gauge>> {
 
-    private static final String PUSHER_APP_KEY = "887bd32ce6b7c2049e0b";
+    private static final String CHANNEL_PREFIX = "private-";
 
     @Inject
     private GaugesServiceProvider serviceProvider;
@@ -72,15 +71,16 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
     private final Executor backgroundThread = Executors.newFixedThreadPool(1);
 
-    // Skip certificate validation on Froyo or below
-    private final Pusher pusher = new Pusher(PUSHER_APP_KEY, true, SDK_INT <= FROYO);
+    private Pusher pusher;
 
     private AirTrafficResourceProvider resourceProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(airtraffic_activity);
+        setContentView(layout.airtraffic_activity);
+
+        pusher = new GaugesPusher(serviceProvider);
 
         resourceProvider = new AirTrafficResourceProvider(getResources());
 
@@ -121,17 +121,17 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
     @Override
     public void onLoadFinished(Loader<List<Gauge>> listLoader, List<Gauge> gauges) {
+        unsubscribeFromGaugeChannels(gaugeTitles.keySet());
         loadGauges(gauges);
+        subscribeToGaugeChannels(gaugeTitles.keySet());
     }
 
     private void loadGauges(Collection<Gauge> gauges) {
-        unsubscribeFromGaugeChannels(gaugeTitles.keySet());
         Map<String, String> newGauges = new HashMap<String, String>();
         for (Gauge gauge : gauges)
             newGauges.put(gauge.getId(), gauge.getTitle());
         gaugeTitles = newGauges;
         resourceProvider.setGauges(gauges);
-        subscribeToGaugeChannels(gaugeTitles.keySet());
     }
 
     /**
@@ -221,7 +221,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
                     }
                 };
                 for (String gaugeId : subscribeIds)
-                    pusher.subscribe(gaugeId).bind("hit", callback);
+                    pusher.subscribe(CHANNEL_PREFIX + gaugeId).bind("hit", callback);
             }
         });
     }
@@ -233,7 +233,7 @@ public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCa
 
             public void run() {
                 for (String gaugeId : unsubscribeIds)
-                    pusher.unsubscribe(gaugeId);
+                    pusher.unsubscribe(CHANNEL_PREFIX + gaugeId);
             }
         });
     }

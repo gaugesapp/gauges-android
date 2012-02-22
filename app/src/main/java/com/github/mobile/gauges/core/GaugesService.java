@@ -19,6 +19,7 @@ package com.github.mobile.gauges.core;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_CLIENTS;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_EMBEDDED;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_GAUGES;
+import static com.github.mobile.gauges.core.GaugesConstants.URL_PUSHER_AUTH;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 
 import com.github.kevinsawicki.http.HttpRequest;
@@ -76,6 +77,11 @@ public class GaugesService {
     private static class GaugeWrapper {
 
         private Gauge gauge;
+    }
+
+    private static class AuthWrapper {
+
+        private String auth;
     }
 
     private static class JsonException extends IOException {
@@ -272,6 +278,28 @@ public class GaugesService {
             HttpRequest request = execute(HttpRequest.get(URL_GAUGES + gaugeId));
             GaugeWrapper response = fromJson(request, GaugeWrapper.class);
             return response != null ? response.gauge : null;
+        } catch (HttpRequestException e) {
+            throw e.getCause();
+        }
+    }
+
+    /**
+     * Get authentication credentials for pusher subscription to socket and channel
+     *
+     * @param socketId
+     * @param channelName
+     * @return authentication credentials
+     * @throws IOException
+     */
+    public String getPusherAuth(final String socketId, final String channelName) throws IOException {
+        try {
+            HttpRequest request = configure(HttpRequest.post(URL_PUSHER_AUTH));
+            request.form("socket_id", socketId);
+            request.form("channel_name", channelName);
+            if (!request.ok())
+                throw new IOException("Unexpected response code: " + request.code());
+            AuthWrapper response = fromJson(request, AuthWrapper.class);
+            return response != null ? response.auth : null;
         } catch (HttpRequestException e) {
             throw e.getCause();
         }
