@@ -44,6 +44,27 @@
         <developerConnection>scm:git:git@github.com:github/gauges-android.git</developerConnection>
     </scm>
 
+    <developers>
+        <developer>
+            <email>graham@github.com</email>
+            <name>Matt Graham</name>
+            <url>https://github.com/mattgraham</url>
+            <id>mattgraham</id>
+        </developer>
+        <developer>
+            <email>kevin@github.com</email>
+            <name>Kevin Sawicki</name>
+            <url>https://github.com/kevinsawicki</url>
+            <id>kevinsawicki</id>
+        </developer>
+        <developer>
+            <email>roberto@github.com</email>
+            <name>Roberto Tyley</name>
+            <url>https://github.com/rtyley</url>
+            <id>rtyley</id>
+        </developer>
+    </developers>
+
     <modules>
         <module>app</module>
         <module>integration-tests</module>
