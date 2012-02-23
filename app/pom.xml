@@ -31,16 +31,12 @@
     </parent>
 
     <properties>
-        <abs.version>4.0.0-SNAPSHOT</abs.version>
+        <abs.version>4.0.0-RC1</abs.version>
     </properties>
     <repositories>
         <repository>
             <id>jakewharton-release</id>
             <url>http://r.jakewharton.com/maven/release/</url>
-        </repository>
-        <repository>
-            <id>jakewharton-snapshot</id>
-            <url>http://r.jakewharton.com/maven/snapshot/</url>
         </repository>
     </repositories>
     <dependencies>
