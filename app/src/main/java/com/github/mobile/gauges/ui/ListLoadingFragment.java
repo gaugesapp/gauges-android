@@ -89,8 +89,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
             return;
 
         /* Attach a rotating ImageView to the refresh item as an ActionView */
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ImageView iv = (ImageView) inflater.inflate(layout.refresh_action_view, null);
+        ImageView iv = (ImageView) activity.getLayoutInflater().inflate(layout.refresh_action_view, null);
 
         Animation rotation = AnimationUtils.loadAnimation(activity, anim.clockwise_refresh);
         rotation.setRepeatCount(Animation.INFINITE);
