@@ -89,8 +89,8 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
     }
 
     protected ListAdapter adapterFor(List<Referrer> items) {
-        return new AlternatingColorListAdapter<Referrer>(getActivity().getResources(), items,
-                ViewInflator.viewInflatorFor(getActivity(), layout.referrer_list_item),
+        return new AlternatingColorListAdapter<Referrer>(getResources(), items, ViewInflator.viewInflatorFor(
+                getActivity(), layout.referrer_list_item),
                 ReflectiveHolderFactory.reflectiveFactoryFor(ReferrerViewHolder.class));
     }
 

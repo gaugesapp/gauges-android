@@ -158,8 +158,8 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
 
     @Override
     protected ListAdapter adapterFor(List<DatedViewSummary> items) {
-        return new AlternatingColorListAdapter<DatedViewSummary>(getActivity().getResources(), items,
-                ViewInflator.viewInflatorFor(getActivity(), layout.traffic_list_item),
+        return new AlternatingColorListAdapter<DatedViewSummary>(getResources(), items, ViewInflator.viewInflatorFor(
+                getActivity(), layout.traffic_list_item),
                 ReflectiveHolderFactory.reflectiveFactoryFor(TrafficViewHolder.class));
     }
 }

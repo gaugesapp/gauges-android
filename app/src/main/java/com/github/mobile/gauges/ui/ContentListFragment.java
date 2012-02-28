@@ -92,8 +92,8 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 
     @Override
     protected ListAdapter adapterFor(List<PageContent> items) {
-        return new AlternatingColorListAdapter<PageContent>(getActivity().getResources(), items,
-                ViewInflator.viewInflatorFor(getActivity(), layout.content_list_item),
+        return new AlternatingColorListAdapter<PageContent>(getResources(), items, ViewInflator.viewInflatorFor(
+                getActivity(), layout.content_list_item),
                 ReflectiveHolderFactory.reflectiveFactoryFor(ContentViewHolder.class));
     }
 
