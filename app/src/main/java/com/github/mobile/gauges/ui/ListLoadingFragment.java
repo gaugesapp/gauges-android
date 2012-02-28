@@ -26,9 +26,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
@@ -89,7 +89,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
             return;
 
         /* Attach a rotating ImageView to the refresh item as an ActionView */
-        ImageView iv = (ImageView) activity.getLayoutInflater().inflate(layout.refresh_action_view, null);
+        View iv = activity.getLayoutInflater().inflate(layout.refresh_action_view, null);
 
         Animation rotation = AnimationUtils.loadAnimation(activity, anim.clockwise_refresh);
         rotation.setRepeatCount(Animation.INFINITE);
