@@ -56,9 +56,14 @@ import java.util.Map;
  */
 public class AirTrafficResourceProvider {
 
-    private final Bitmap[] pins = new Bitmap[10];
+    /**
+     * Number of unique pin/ring representations
+     */
+    private static final int PIN_COUNT = 10;
 
-    private final Bitmap[] rings = new Bitmap[10];
+    private final Bitmap[] pins = new Bitmap[PIN_COUNT];
+
+    private final Bitmap[] rings = new Bitmap[PIN_COUNT];
 
     private final int pinHeight;
 
@@ -89,7 +94,7 @@ public class AirTrafficResourceProvider {
         // Load all the pin and ring images
         int[] pinDrawables = new int[] { pin0, pin1, pin2, pin3, pin4, pin5, pin6, pin7, pin8, pin9 };
         int[] ringDrawables = new int[] { ring0, ring1, ring2, ring3, ring4, ring5, ring6, ring7, ring8, ring9 };
-        for (int colourIndex = 0; colourIndex < 10; ++colourIndex) {
+        for (int colourIndex = 0; colourIndex < PIN_COUNT; ++colourIndex) {
             pins[colourIndex] = BitmapFactory.decodeResource(resources, pinDrawables[colourIndex], options);
             rings[colourIndex] = BitmapFactory.decodeResource(resources, ringDrawables[colourIndex], options);
         }
