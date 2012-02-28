@@ -16,6 +16,7 @@
 
 package com.github.mobile.gauges.ui;
 
+import static android.view.animation.Animation.INFINITE;
 import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
 import android.app.Activity;
 import android.content.Context;
@@ -92,7 +93,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
         View iv = activity.getLayoutInflater().inflate(layout.refresh_action_view, null);
 
         Animation rotation = AnimationUtils.loadAnimation(activity, anim.clockwise_refresh);
-        rotation.setRepeatCount(Animation.INFINITE);
+        rotation.setRepeatCount(INFINITE);
         iv.startAnimation(rotation);
 
         refreshItem.setActionView(iv);
