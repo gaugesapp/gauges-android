@@ -63,8 +63,6 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
         final Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
         return bundle;
-        // Log.d(AccountAuthenticatorService.TAG, "addAccount " + accountType +
-        // " authTokenType=" + authTokenType);
     }
 
     @Override
@@ -92,7 +90,7 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
             throw new NetworkErrorException(e);
         }
         String apiKey = client.getKey();
-        Log.d(TAG, "getAuthToken() called : apiKey=" + apiKey);
+        Log.d(TAG, "getAuthToken() called : apiKey=" + (apiKey == null ? null : apiKey.substring(0, 2) + "…"));
         Bundle bundle = new Bundle();
         bundle.putString(KEY_ACCOUNT_NAME, account.name);
         bundle.putString(KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
@@ -102,9 +100,8 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public String getAuthTokenLabel(String authTokenType) {
-        if (authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE)) {
+        if (authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE))
             return authTokenType;
-        }
         return null;
     }
 
