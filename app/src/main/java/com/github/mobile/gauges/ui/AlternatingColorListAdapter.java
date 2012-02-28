@@ -34,9 +34,9 @@ import java.util.List;
  */
 public class AlternatingColorListAdapter<V> extends ViewHoldingListAdapter<V> {
 
-    private int bgPrimary;
+    private final int bgPrimary;
 
-    private int bgSecondary;
+    private final int bgSecondary;
 
     /**
      * @param resources
