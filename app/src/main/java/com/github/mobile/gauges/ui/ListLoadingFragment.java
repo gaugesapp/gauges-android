@@ -18,16 +18,23 @@ package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
+import com.github.mobile.gauges.R.anim;
 import com.github.mobile.gauges.R.id;
+import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.menu;
 
 import java.util.List;
@@ -40,6 +47,8 @@ import roboguice.fragment.RoboListFragment;
  * @param <E>
  */
 public abstract class ListLoadingFragment<E> extends RoboListFragment implements LoaderCallbacks<List<E>> {
+
+    private MenuItem refreshItem;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -63,6 +72,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case id.refresh:
+            refreshItem = item;
             refresh();
             return true;
         default:
@@ -74,8 +84,19 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
      * Refresh the fragment's list
      */
     public void refresh() {
-        if (getActivity() != null)
+        if (getActivity() != null) {
+            /* Attach a rotating ImageView to the refresh item as an ActionView */
+            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            ImageView iv = (ImageView) inflater.inflate(layout.refresh_action_view, null);
+
+            Animation rotation = AnimationUtils.loadAnimation(getActivity(), anim.clockwise_refresh);
+            rotation.setRepeatCount(Animation.INFINITE);
+            iv.startAnimation(rotation);
+
+            refreshItem.setActionView(iv);
+
             getLoaderManager().restartLoader(0, null, this);
+        }
     }
 
     public void onLoadFinished(Loader<List<E>> loader, List<E> items) {
@@ -85,6 +106,11 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
             setListShown(true);
         else
             setListShownNoAnimation(true);
+
+        if (refreshItem != null && refreshItem.getActionView() != null) {
+            refreshItem.getActionView().clearAnimation();
+            refreshItem.setActionView(null);
+        }
     }
 
     /**
