@@ -84,19 +84,21 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
      * Refresh the fragment's list
      */
     public void refresh() {
-        if (getActivity() != null) {
-            /* Attach a rotating ImageView to the refresh item as an ActionView */
-            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            ImageView iv = (ImageView) inflater.inflate(layout.refresh_action_view, null);
+        final Activity activity = getActivity();
+        if(activity == null)
+            return;
 
-            Animation rotation = AnimationUtils.loadAnimation(getActivity(), anim.clockwise_refresh);
-            rotation.setRepeatCount(Animation.INFINITE);
-            iv.startAnimation(rotation);
+        /* Attach a rotating ImageView to the refresh item as an ActionView */
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ImageView iv = (ImageView) inflater.inflate(layout.refresh_action_view, null);
 
-            refreshItem.setActionView(iv);
+        Animation rotation = AnimationUtils.loadAnimation(activity, anim.clockwise_refresh);
+        rotation.setRepeatCount(Animation.INFINITE);
+        iv.startAnimation(rotation);
 
-            getLoaderManager().restartLoader(0, null, this);
-        }
+        refreshItem.setActionView(iv);
+
+        getLoaderManager().restartLoader(0, null, this);
     }
 
     public void onLoadFinished(Loader<List<E>> loader, List<E> items) {
