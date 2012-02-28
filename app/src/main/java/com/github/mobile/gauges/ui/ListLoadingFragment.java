@@ -19,7 +19,6 @@ package com.github.mobile.gauges.ui;
 import static android.view.animation.Animation.INFINITE;
 import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
