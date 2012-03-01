@@ -125,35 +125,37 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
 
         View barGraph = getListView().findViewById(id.ll_bars);
         if (!items.isEmpty()) {
-            final int dayCount = items.size();
-            final DatedViewSummary[] graphDays = items.toArray(new DatedViewSummary[dayCount]);
-            final long[][] data = new long[dayCount][];
-            final int[][] colors = new int[dayCount][];
-
-            final Calendar calendar = new GregorianCalendar();
-            final int[] weekdayColors = new int[] { getResources().getColor(color.traffic_views_weekday),
-                    getResources().getColor(color.traffic_people_weekday) };
-            final int[] weekendColors = new int[] { getResources().getColor(color.traffic_views_weekend),
-                    getResources().getColor(color.traffic_people_weekend) };
-
-            for (int i = 0; i < dayCount; i++) {
-                // Reverse entry order since entries are in reverse chronological order but graph is drawn left to right
-                int index = dayCount - 1 - i;
-
-                calendar.setTime(graphDays[i].getDate());
-                int dayOfWeek = calendar.get(DAY_OF_WEEK);
-                if (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY)
-                    colors[index] = weekendColors;
-                else
-                    colors[index] = weekdayColors;
-
-                data[index] = new long[] { graphDays[i].getViews(), graphDays[i].getPeople() };
-            }
-
+            barGraph.setBackgroundDrawable(barGraphDrawableFor(items));
             barGraph.setVisibility(VISIBLE);
-            barGraph.setBackgroundDrawable(new BarGraphDrawable(data, colors));
         } else
             barGraph.setVisibility(GONE);
+    }
+
+    private BarGraphDrawable barGraphDrawableFor(List<DatedViewSummary> graphDays) {
+        final int dayCount = graphDays.size();
+        final long[][] data = new long[dayCount][];
+        final int[][] colors = new int[dayCount][];
+
+        final Calendar calendar = new GregorianCalendar();
+        final int[] weekdayColors = new int[] { getResources().getColor(color.traffic_views_weekday),
+                getResources().getColor(color.traffic_people_weekday) };
+        final int[] weekendColors = new int[] { getResources().getColor(color.traffic_views_weekend),
+                getResources().getColor(color.traffic_people_weekend) };
+
+        for (int i = 0; i < dayCount; i++) {
+            // Reverse entry order since entries are in reverse chronological order but graph is drawn left to right
+            int index = dayCount - 1 - i;
+
+            DatedViewSummary graphDay = graphDays.get(i);
+            calendar.setTime(graphDay.getDate());
+
+            int dayOfWeek = calendar.get(DAY_OF_WEEK);
+
+            colors[index] = (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY) ? weekendColors : weekdayColors;
+            data[index] = new long[] { graphDay.getViews(), graphDay.getPeople() };
+        }
+
+        return new BarGraphDrawable(data, colors);
     }
 
     @Override
