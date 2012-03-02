@@ -117,6 +117,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
      * Allows you to update the list's items without using setListAdapter(), which makes the list jump back to the top.
      */
     private void setList(List<E> items) {
+        @SuppressWarnings("unchecked")
         ViewHoldingListAdapter<E> listAdapter = (ViewHoldingListAdapter<E>) getListAdapter();
         if (listAdapter == null) {
             setListAdapter(adapterFor(items));
