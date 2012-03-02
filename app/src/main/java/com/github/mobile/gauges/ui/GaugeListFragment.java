@@ -81,7 +81,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     }
 
     @Override
-    protected ViewHoldingListAdapter<Gauge> adapterFor(List<Gauge> items) {
+    protected ListAdapter adapterFor(List<Gauge> items) {
         return new ViewHoldingListAdapter<Gauge>(items, ViewInflator.viewInflatorFor(getActivity(),
                 layout.gauge_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(GaugeViewHolder.class,
                 getActivity().getResources()));

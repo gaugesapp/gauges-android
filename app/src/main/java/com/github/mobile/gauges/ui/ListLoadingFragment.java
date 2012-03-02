@@ -22,19 +22,20 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Toast;
-
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ListAdapter;
+import android.widget.Toast;
+
 import com.github.mobile.gauges.R.anim;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.menu;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 
 import java.util.List;
 
@@ -48,7 +49,6 @@ import roboguice.fragment.RoboListFragment;
 public abstract class ListLoadingFragment<E> extends RoboListFragment implements LoaderCallbacks<List<E>> {
 
     private MenuItem refreshItem;
-    private ViewHoldingListAdapter listAdapter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
     }
 
     public void onLoadFinished(Loader<List<E>> loader, List<E> items) {
-        setList(items);
+        setListAdapter(adapterFor(items));
 
         if (isResumed())
             setListShown(true);
@@ -115,23 +115,12 @@ public abstract class ListLoadingFragment<E> extends RoboListFragment implements
     }
 
     /**
-     * Allows you to update the list's items without using setListAdapter(), which makes the list jump back to the top.
-     */
-    private void setList(List<E> items) {
-        if (listAdapter == null) {
-            setListAdapter(listAdapter = adapterFor(items));
-        } else {
-            listAdapter.setList(items);
-        }
-    }
-
-    /**
      * Create adapter for list of items
      *
      * @param items
      * @return list adapter
      */
-    protected abstract ViewHoldingListAdapter<E> adapterFor(List<E> items);
+    protected abstract ListAdapter adapterFor(List<E> items);
 
     @Override
     public void onLoaderReset(Loader<List<E>> listLoader) {

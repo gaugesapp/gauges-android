@@ -39,7 +39,6 @@ import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
@@ -159,7 +158,7 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
     }
 
     @Override
-    protected ViewHoldingListAdapter<DatedViewSummary> adapterFor(List<DatedViewSummary> items) {
+    protected ListAdapter adapterFor(List<DatedViewSummary> items) {
         return new AlternatingColorListAdapter<DatedViewSummary>(getResources(), items, ViewInflator.viewInflatorFor(
                 getActivity(), layout.traffic_list_item),
                 ReflectiveHolderFactory.reflectiveFactoryFor(TrafficViewHolder.class));
