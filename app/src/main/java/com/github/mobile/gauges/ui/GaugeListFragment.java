@@ -31,6 +31,7 @@ import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.drawable;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
+import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
@@ -81,7 +82,7 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     }
 
     @Override
-    protected ListAdapter adapterFor(List<Gauge> items) {
+    protected ViewHoldingListAdapter<Gauge> adapterFor(List<Gauge> items) {
         return new ViewHoldingListAdapter<Gauge>(items, ViewInflator.viewInflatorFor(getActivity(),
                 layout.gauge_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(GaugeViewHolder.class,
                 getActivity().getResources()));
