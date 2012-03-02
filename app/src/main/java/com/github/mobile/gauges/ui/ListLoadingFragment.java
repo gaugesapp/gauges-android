@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
+
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -35,17 +36,16 @@ import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.menu;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
+import com.github.mobile.gauges.roboguice.RoboSherlockListFragment;
 
 import java.util.List;
-
-import roboguice.fragment.RoboListFragment;
 
 /**
  * List loading fragment for a specific type
  *
  * @param <E>
  */
-public abstract class ListLoadingFragment<E> extends RoboListFragment implements LoaderCallbacks<List<E>> {
+public abstract class ListLoadingFragment<E> extends RoboSherlockListFragment implements LoaderCallbacks<List<E>> {
 
     private MenuItem refreshItem;
 

@@ -31,7 +31,7 @@
     </parent>
 
     <properties>
-        <abs.version>4.0.0-RC1</abs.version>
+        <abs.version>4.0.0-SNAPSHOT</abs.version>
     </properties>
     <repositories>
         <repository>
