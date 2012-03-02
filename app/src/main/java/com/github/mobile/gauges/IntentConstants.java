@@ -16,12 +16,12 @@
 
 package com.github.mobile.gauges;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.github.mobile.gauges.core.Gauge;
 
 import java.util.Collection;
-
-import android.content.Intent;
-import android.os.Bundle;
 
 /**
  * Constants used for {@link Intent} and {@link Bundle} properties

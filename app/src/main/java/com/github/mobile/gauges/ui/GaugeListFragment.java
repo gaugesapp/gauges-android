@@ -31,7 +31,6 @@ import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.drawable;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
-import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ReflectiveHolderFactory;
