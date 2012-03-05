@@ -17,6 +17,7 @@
 package com.github.mobile.gauges.ui;
 
 import static java.util.Calendar.DAY_OF_WEEK;
+import static java.util.Calendar.DAY_OF_YEAR;
 import static java.util.Calendar.SATURDAY;
 import static java.util.Calendar.SUNDAY;
 import android.content.res.Resources;
@@ -100,6 +101,17 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
             index--;
             if (index < 0)
                 break;
+        }
+        // Fill in any days left if recent days reported less than 7
+        while (index >= 0) {
+            data[index] = new long[] { 0, 0 };
+            calendar.add(DAY_OF_YEAR, -1);
+            int dayOfWeek = calendar.get(DAY_OF_WEEK);
+            if (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY)
+                colors[index] = weekendColors;
+            else
+                colors[index] = weekdayColors;
+            index--;
         }
         barGraph.setBackgroundDrawable(new BarGraphDrawable(data, colors));
     }
