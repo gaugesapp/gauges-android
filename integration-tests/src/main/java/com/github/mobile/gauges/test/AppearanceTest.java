@@ -102,9 +102,6 @@ public class AppearanceTest extends ActivityInstrumentationTestCase2<GaugeListAc
         solo.sendKey(KEYCODE_B);
         poseForScreenshot();
 
-//        solo.clickOnView(signInActivity.findViewById(R.id.b_signin));
-//        poseForScreenshot();
-
         signInActivity.finish();
     }
 
