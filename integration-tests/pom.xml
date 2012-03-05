@@ -24,7 +24,7 @@
     <packaging>apk</packaging>
 
     <parent>
-        <version>1.2</version>
+        <version>1.3-SNAPSHOT</version>
         <groupId>com.github.github</groupId>
         <artifactId>gauges-android-parent</artifactId>
     </parent>
