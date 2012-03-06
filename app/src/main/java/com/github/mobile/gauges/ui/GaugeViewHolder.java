@@ -16,23 +16,15 @@
 
 package com.github.mobile.gauges.ui;
 
-import static java.util.Calendar.DAY_OF_WEEK;
-import static java.util.Calendar.DAY_OF_YEAR;
-import static java.util.Calendar.SATURDAY;
-import static java.util.Calendar.SUNDAY;
-import android.content.res.Resources;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.madgag.android.listviews.ViewHolder;
 
 import java.text.NumberFormat;
-import java.util.GregorianCalendar;
 
 /**
  * View holder for a {@link Gauge}
@@ -47,33 +39,19 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
 
     private final TextView peopleText;
 
-    private final LinearLayout barGraph;
-
-    private final int[] weekendColors;
-
-    private final int[] weekdayColors;
-
-    private final long[][] data;
-
-    private final int[][] colors;
+    private final GaugeGraphView barGraph;
 
     /**
      * Create view holder
      *
      * @param view
-     * @param resources
      */
-    public GaugeViewHolder(final View view, final Resources resources) {
+    public GaugeViewHolder(final View view) {
         nameText = (TextView) view.findViewById(id.tv_gauge_name);
         viewsText = (TextView) view.findViewById(id.tv_gauge_views);
         peopleText = (TextView) view.findViewById(id.tv_gauge_people);
-        barGraph = (LinearLayout) view.findViewById(id.ll_bars);
-        data = new long[7][];
-        colors = new int[7][];
-        weekdayColors = new int[] { resources.getColor(color.graph_views_weekday),
-                resources.getColor(color.graph_people_weekday) };
-        weekendColors = new int[] { resources.getColor(color.graph_views_weekend),
-                resources.getColor(color.graph_people_weekend) };
+        barGraph = (GaugeGraphView) view.findViewById(id.gauge_graph);
+        barGraph.setNumDays(7);
     }
 
     public void updateViewFor(final Gauge gauge) {
@@ -88,31 +66,7 @@ public class GaugeViewHolder implements ViewHolder<Gauge> {
 
         viewsText.setText(NUMBER_FORMAT.format(viewsToday));
         peopleText.setText(NUMBER_FORMAT.format(peopleToday));
-        int index = data.length - 1;
-        GregorianCalendar calendar = new GregorianCalendar();
-        for (DatedViewSummary day : gauge.getRecentDays()) {
-            data[index] = new long[] { day.getViews(), day.getPeople() };
-            calendar.setTime(day.getDate());
-            int dayOfWeek = calendar.get(DAY_OF_WEEK);
-            if (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY)
-                colors[index] = weekendColors;
-            else
-                colors[index] = weekdayColors;
-            index--;
-            if (index < 0)
-                break;
-        }
-        // Fill in any days left if recent days reported less than 7
-        while (index >= 0) {
-            data[index] = new long[] { 0, 0 };
-            calendar.add(DAY_OF_YEAR, -1);
-            int dayOfWeek = calendar.get(DAY_OF_WEEK);
-            if (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY)
-                colors[index] = weekendColors;
-            else
-                colors[index] = weekdayColors;
-            index--;
-        }
-        barGraph.setBackgroundDrawable(new BarGraphDrawable(data, colors));
+        barGraph.updateGraphWith(gauge.getRecentDays());
     }
+
 }

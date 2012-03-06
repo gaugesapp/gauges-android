@@ -20,6 +20,8 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGES;
 import static com.github.mobile.gauges.IntentConstants.VIEW_AIR_TRAFFIC;
 import static com.github.mobile.gauges.IntentConstants.VIEW_GAUGE;
+import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
+import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -33,9 +35,7 @@ import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
-import com.madgag.android.listviews.ReflectiveHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
-import com.madgag.android.listviews.ViewInflator;
 
 import java.io.Serializable;
 import java.util.List;
@@ -82,9 +82,8 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
 
     @Override
     protected ViewHoldingListAdapter<Gauge> adapterFor(List<Gauge> items) {
-        return new ViewHoldingListAdapter<Gauge>(items, ViewInflator.viewInflatorFor(getActivity(),
-                layout.gauge_list_item), ReflectiveHolderFactory.reflectiveFactoryFor(GaugeViewHolder.class,
-                getActivity().getResources()));
+        return new ViewHoldingListAdapter<Gauge>(items, viewInflatorFor(getActivity(), layout.gauge_list_item),
+                reflectiveFactoryFor(GaugeViewHolder.class));
     }
 
     @Override

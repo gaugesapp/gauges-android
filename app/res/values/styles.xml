@@ -59,4 +59,17 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="GaugeGraphDark">
+        <item name="viewsWeekdayColor">#53685E</item>
+        <item name="peopleWeekdayColor">#6E9180</item>
+        <item name="viewsWeekendColor">#3F544C</item>
+        <item name="peopleWeekendColor">#5B796B</item>
+    </style>
+
+    <style name="GaugeGraphLight">
+        <item name="viewsWeekdayColor">#BADDCC</item>
+        <item name="peopleWeekdayColor">#97CCB1</item>
+        <item name="viewsWeekendColor">#D1E6DC</item>
+        <item name="peopleWeekendColor">#BBDDCC</item>
+    </style>
 </resources>

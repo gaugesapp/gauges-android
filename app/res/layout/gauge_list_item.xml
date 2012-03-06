@@ -82,12 +82,12 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_bars"
+    <com.github.mobile.gauges.ui.GaugeGraphView
+        android:id="@+id/gauge_graph"
+        style="@style/GaugeGraphDark"
         android:layout_width="0dp"
         android:layout_height="fill_parent"
         android:layout_weight="25"
-        android:minHeight="20dp" >
-    </LinearLayout>
+        android:minHeight="20dp" />
 
 </LinearLayout>

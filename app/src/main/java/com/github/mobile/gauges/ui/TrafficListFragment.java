@@ -20,32 +20,25 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import static java.util.Calendar.DAY_OF_WEEK;
-import static java.util.Calendar.SATURDAY;
-import static java.util.Calendar.SUNDAY;
+import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
+import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
 import android.accounts.AccountsException;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
 
 import com.github.mobile.gauges.GaugesServiceProvider;
-import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
-import com.madgag.android.listviews.ReflectiveHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
-import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import roboguice.inject.InjectExtra;
@@ -120,48 +113,22 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
     }
 
     @Override
-    public void onLoadFinished(Loader<List<DatedViewSummary>> loader, List<DatedViewSummary> items) {
-        super.onLoadFinished(loader, items);
+    public void onLoadFinished(Loader<List<DatedViewSummary>> loader, List<DatedViewSummary> trafficData) {
+        super.onLoadFinished(loader, trafficData);
 
-        View barGraph = getListView().findViewById(id.ll_bars);
-        if (!items.isEmpty()) {
-            barGraph.setBackgroundDrawable(barGraphDrawableFor(items));
+        GaugeGraphView barGraph = (GaugeGraphView) getListView().findViewById(id.gauge_graph);
+        if (!trafficData.isEmpty()) {
+            barGraph.setNumDays(trafficData.size());
+            barGraph.updateGraphWith(trafficData);
             barGraph.setVisibility(VISIBLE);
         } else
             barGraph.setVisibility(GONE);
     }
 
-    private BarGraphDrawable barGraphDrawableFor(List<DatedViewSummary> graphDays) {
-        final int dayCount = graphDays.size();
-        final long[][] data = new long[dayCount][];
-        final int[][] colors = new int[dayCount][];
-
-        final Calendar calendar = new GregorianCalendar();
-        final int[] weekdayColors = new int[] { getResources().getColor(color.traffic_views_weekday),
-                getResources().getColor(color.traffic_people_weekday) };
-        final int[] weekendColors = new int[] { getResources().getColor(color.traffic_views_weekend),
-                getResources().getColor(color.traffic_people_weekend) };
-
-        for (int i = 0; i < dayCount; i++) {
-            // Reverse entry order since entries are in reverse chronological order but graph is drawn left to right
-            int index = dayCount - 1 - i;
-
-            DatedViewSummary graphDay = graphDays.get(i);
-            calendar.setTime(graphDay.getDate());
-
-            int dayOfWeek = calendar.get(DAY_OF_WEEK);
-
-            colors[index] = (dayOfWeek == SATURDAY || dayOfWeek == SUNDAY) ? weekendColors : weekdayColors;
-            data[index] = new long[] { graphDay.getViews(), graphDay.getPeople() };
-        }
-
-        return new BarGraphDrawable(data, colors);
-    }
-
     @Override
     protected ViewHoldingListAdapter<DatedViewSummary> adapterFor(List<DatedViewSummary> items) {
-        return new AlternatingColorListAdapter<DatedViewSummary>(getResources(), items, ViewInflator.viewInflatorFor(
-                getActivity(), layout.traffic_list_item),
-                ReflectiveHolderFactory.reflectiveFactoryFor(TrafficViewHolder.class));
+        return new AlternatingColorListAdapter<DatedViewSummary>(getResources(), items,
+                viewInflatorFor(getActivity(), layout.traffic_list_item),
+                reflectiveFactoryFor(TrafficViewHolder.class));
     }
 }

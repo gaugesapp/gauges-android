@@ -15,18 +15,11 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp" >
-
-    <com.github.mobile.gauges.ui.GaugeGraphView
-        android:id="@+id/gauge_graph"
-        style="@style/GaugeGraphLight"
-        android:layout_width="fill_parent"
-        android:layout_height="120dp" />
-
-</LinearLayout>
+<resources>
+    <declare-styleable name="GaugeGraphView">
+        <attr name="viewsWeekdayColor" format="color" />
+        <attr name="peopleWeekdayColor" format="color" />
+        <attr name="viewsWeekendColor" format="color" />
+        <attr name="peopleWeekendColor" format="color" />
+    </declare-styleable>
+</resources>
