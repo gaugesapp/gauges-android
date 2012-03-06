@@ -104,8 +104,7 @@ public class AirTrafficView extends View {
          * Draw ring on canvas
          *
          * @param canvas
-         * @param ringPaint
-         *            paint used for drawing rings, won't affect other UI elements
+         * @param ringPaint paint used for drawing rings, won't affect other UI elements
          */
         public void onDraw(final Canvas canvas, final Paint ringPaint) {
             if (state >= RING_SIZES.length)
