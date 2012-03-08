@@ -32,6 +32,7 @@ import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
+import com.github.mobile.gauges.roboguice.RoboSherlockFragmentActivity;
 import com.github.mobile.gauges.ui.GaugeListLoader;
 import com.google.inject.Inject;
 
@@ -42,13 +43,12 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 
 /**
  * Activity to display list of gauge summaries
  */
-public class AirTrafficActivity extends RoboFragmentActivity implements LoaderCallbacks<List<Gauge>> {
+public class AirTrafficActivity extends RoboSherlockFragmentActivity implements LoaderCallbacks<List<Gauge>> {
 
     private static final String CHANNEL_PREFIX = "private-";
 

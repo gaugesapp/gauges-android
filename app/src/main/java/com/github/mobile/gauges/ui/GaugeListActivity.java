@@ -19,13 +19,12 @@ package com.github.mobile.gauges.ui;
 import android.os.Bundle;
 
 import com.github.mobile.gauges.R.layout;
-
-import roboguice.activity.RoboFragmentActivity;
+import com.github.mobile.gauges.roboguice.RoboSherlockFragmentActivity;
 
 /**
  * Activity to display list of gauge summaries
  */
-public class GaugeListActivity extends RoboFragmentActivity {
+public class GaugeListActivity extends RoboSherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

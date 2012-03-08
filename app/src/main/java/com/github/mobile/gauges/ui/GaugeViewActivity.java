@@ -28,16 +28,16 @@ import com.actionbarsherlock.view.MenuItem;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
+import com.github.mobile.gauges.roboguice.RoboSherlockFragmentActivity;
 import com.viewpagerindicator.TitlePageIndicator;
 
-import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectExtra;
 import roboguice.inject.InjectView;
 
 /**
  * Activity to view a specific {@link Gauge}'s traffic, content, and referrer information
  */
-public class GaugeViewActivity extends RoboFragmentActivity {
+public class GaugeViewActivity extends RoboSherlockFragmentActivity {
 
     @InjectView(id.tpi_header)
     private TitlePageIndicator indicator;

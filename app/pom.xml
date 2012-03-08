@@ -31,7 +31,7 @@
     </parent>
 
     <properties>
-        <abs.version>4.0.0-RC1</abs.version>
+        <abs.version>4.0.0</abs.version>
     </properties>
     <repositories>
         <repository>
@@ -80,11 +80,6 @@
             <version>${abs.version}</version>
             <type>jar</type>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.actionbarsherlock</groupId>
-            <artifactId>plugin-support-lib</artifactId>
-            <version>${abs.version}</version>
         </dependency>
         <dependency>
             <groupId>com.madgag</groupId>
