@@ -13,7 +13,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
---><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="130" android:versionName="1.3-SNAPSHOT" package="com.github.mobile.gauges">
+--><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="140" android:versionName="1.4-SNAPSHOT" package="com.github.mobile.gauges">
     <!-- Note: This file will be auto-formatted by the build (specifically android:manifest-update goal) -->
 
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14"/>
