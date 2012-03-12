@@ -15,11 +15,10 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3</version>
     <groupId>com.github.github</groupId>
     <artifactId>gauges-android-parent</artifactId>
     <name>Gauges Android parent</name>
@@ -92,7 +91,7 @@
                             <config>../proguard.cfg</config>
                         </proguard>
                         <manifest>
-                            <versionName/>
+                            <versionName />
                             <!-- defaults to Maven project version -->
                             <versionCodeUpdateFromVersion>true</versionCodeUpdateFromVersion>
                         </manifest>
