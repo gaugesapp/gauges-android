@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package com.github.mobile.gauges.ui.airtraffic;
+package com.github.mobile.gauges.realtime;
 
 /**
  * Class to model a hit of traffic to a specific site
  */
 public class Hit {
 
-    final String title;
+    public final String title;
 
-    final String siteId;
+    public final String siteId;
 
-    final float lon;
+    public final float lon;
 
-    final float lat;
+    public final float lat;
 
-    final String city;
+    public final String city;
 
-    final String region;
+    public final String region;
 
-    final String country;
+    public final String country;
 
     /**
      * Create a hit for the given site

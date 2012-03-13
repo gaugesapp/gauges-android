@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.mobile.gauges.ui.airtraffic;
+package com.github.mobile.gauges.realtime;
 
 import static org.json.JSONObject.NULL;
 
@@ -25,7 +25,7 @@ import org.json.JSONObject;
 /**
  * Callback that delivers pushed air traffic events to an implemented {@link #onHit(Hit)} callback
  */
-public abstract class AirTrafficPusherCallback extends PusherCallback {
+public abstract class TrafficPusherCallback extends PusherCallback {
 
     /**
      * Process hit

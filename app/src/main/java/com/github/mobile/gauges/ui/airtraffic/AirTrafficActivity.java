@@ -19,6 +19,7 @@ package com.github.mobile.gauges.ui.airtraffic;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.view.View.STATUS_BAR_HIDDEN;
 import static com.github.mobile.gauges.IntentConstants.GAUGES;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -27,11 +28,14 @@ import android.support.v4.content.Loader;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.emorym.android_pusher.Pusher;
 import com.github.mobile.gauges.GaugesServiceProvider;
+import com.github.mobile.gauges.realtime.Hit;
+import com.github.mobile.gauges.realtime.HitListener;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
+import com.github.mobile.gauges.realtime.RealtimeTrafficService;
 import com.github.mobile.gauges.core.Gauge;
+import com.github.mobile.gauges.realtime.RealtimeTrafficServiceConnection;
 import com.github.mobile.gauges.ui.GaugeListLoader;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
@@ -40,15 +44,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import roboguice.inject.InjectView;
 
 /**
  * Activity to display list of gauge summaries
  */
-public class AirTrafficActivity extends RoboSherlockFragmentActivity implements LoaderCallbacks<List<Gauge>> {
+public class AirTrafficActivity extends RoboSherlockFragmentActivity implements LoaderCallbacks<List<Gauge>>,HitListener {
 
     private static final String CHANNEL_PREFIX = "private-";
 
@@ -69,9 +71,8 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
 
     private Map<String, String> gaugeTitles = new HashMap<String, String>();
 
-    private final Executor backgroundThread = Executors.newFixedThreadPool(1);
+    RealtimeTrafficServiceConnection conn = new RealtimeTrafficServiceConnection(this);
 
-    private Pusher pusher;
 
     private AirTrafficResourceProvider resourceProvider;
 
@@ -79,8 +80,6 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.airtraffic_activity);
-
-        pusher = new GaugesPusher(serviceProvider);
 
         resourceProvider = new AirTrafficResourceProvider(getResources());
 
@@ -101,17 +100,29 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        bindService(new Intent(this, RealtimeTrafficService.class), conn, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(conn);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        unsubscribeFromGaugeChannels(gaugeTitles.keySet());
+        conn.onPause();
         airTrafficView.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        conn.onResume();
         airTrafficView.resume();
-        subscribeToGaugeChannels(gaugeTitles.keySet());
     }
 
     @Override
@@ -121,9 +132,9 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
 
     @Override
     public void onLoadFinished(Loader<List<Gauge>> listLoader, List<Gauge> gauges) {
-        unsubscribeFromGaugeChannels(gaugeTitles.keySet());
+        // unsubscribeFromGaugeChannels(gaugeTitles.keySet());
         loadGauges(gauges);
-        subscribeToGaugeChannels(gaugeTitles.keySet());
+        // subscribeToGaugeChannels(gaugeTitles.keySet());
     }
 
     private void loadGauges(Collection<Gauge> gauges) {
@@ -183,57 +194,31 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
     public void onLoaderReset(Loader<List<Gauge>> listLoader) {
     }
 
-    private void subscribeToGaugeChannels(final Collection<String> subscribeIds) {
-        if (subscribeIds.isEmpty())
-            return;
-        backgroundThread.execute(new Runnable() {
+    @Override
+    public void observe(final Hit hit, Gauge gauge) {
+        airTrafficView.addHit(hit);
+
+        gaugeText.post(new Runnable() {
 
             public void run() {
-                final AirTrafficPusherCallback callback = new AirTrafficPusherCallback() {
+                String gaugeTitle = gaugeTitles.get(hit.siteId);
+                if (gaugeTitle == null)
+                    return;
 
-                    @Override
-                    protected void onHit(final Hit hit) {
-                        airTrafficView.addHit(hit);
+                Bitmap bitmap = resourceProvider.getPin(hit.siteId);
+                if (bitmap != null)
+                    pinImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
+                else
+                    pinImage.setBackgroundDrawable(null);
 
-                        gaugeText.post(new Runnable() {
+                gaugeLocation.setText(getLocation(hit));
 
-                            public void run() {
-                                String gaugeTitle = gaugeTitles.get(hit.siteId);
-                                if (gaugeTitle == null)
-                                    return;
+                String title = getTitle(hit);
+                if (title.length() > 0)
+                    gaugeText.setText(gaugeTitle + ": " + title);
+                else
+                    gaugeText.setText(gaugeTitle);
 
-                                Bitmap bitmap = resourceProvider.getPin(hit.siteId);
-                                if (bitmap != null)
-                                    pinImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
-                                else
-                                    pinImage.setBackgroundDrawable(null);
-
-                                gaugeLocation.setText(getLocation(hit));
-
-                                String title = getTitle(hit);
-                                if (title.length() > 0)
-                                    gaugeText.setText(gaugeTitle + ": " + title);
-                                else
-                                    gaugeText.setText(gaugeTitle);
-
-                            }
-                        });
-                    }
-                };
-                for (String gaugeId : subscribeIds)
-                    pusher.subscribe(CHANNEL_PREFIX + gaugeId).bind("hit", callback);
-            }
-        });
-    }
-
-    private void unsubscribeFromGaugeChannels(final Collection<String> unsubscribeIds) {
-        if (unsubscribeIds.isEmpty())
-            return;
-        backgroundThread.execute(new Runnable() {
-
-            public void run() {
-                for (String gaugeId : unsubscribeIds)
-                    pusher.unsubscribe(CHANNEL_PREFIX + gaugeId);
             }
         });
     }

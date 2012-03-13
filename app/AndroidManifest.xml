@@ -45,6 +45,9 @@
             </intent-filter>
         </activity>
 
+
+        <service android:name=".realtime.RealtimeTrafficService"/>
+
         <service android:name=".authenticator.AccountAuthenticatorService" android:process=":auth">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>

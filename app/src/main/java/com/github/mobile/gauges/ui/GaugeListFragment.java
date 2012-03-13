@@ -16,6 +16,7 @@
 
 package com.github.mobile.gauges.ui;
 
+import static android.content.Context.BIND_AUTO_CREATE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGES;
 import static com.github.mobile.gauges.IntentConstants.VIEW_AIR_TRAFFIC;
@@ -34,6 +35,10 @@ import com.github.mobile.gauges.R.drawable;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
+import com.github.mobile.gauges.realtime.Hit;
+import com.github.mobile.gauges.realtime.HitListener;
+import com.github.mobile.gauges.realtime.RealtimeTrafficService;
+import com.github.mobile.gauges.realtime.RealtimeTrafficServiceConnection;
 import com.google.inject.Inject;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
 
@@ -43,12 +48,15 @@ import java.util.List;
 /**
  * Fragment to display a list of gauges
  */
-public class GaugeListFragment extends ListLoadingFragment<Gauge> {
+public class GaugeListFragment extends ListLoadingFragment<Gauge> implements HitListener {
 
+    public static final String TAG = "GLF";
     private List<Gauge> gauges;
 
     @Inject
     private GaugesServiceProvider serviceProvider;
+
+    RealtimeTrafficServiceConnection conn = new RealtimeTrafficServiceConnection(this);
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -59,6 +67,30 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
         listView.setDivider(getResources().getDrawable(drawable.gauge_divider));
         listView.setDividerHeight(2);
         listView.setFastScrollEnabled(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().bindService(new Intent(getActivity(), RealtimeTrafficService.class), conn, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        conn.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        conn.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().unbindService(conn);
     }
 
     @Override
@@ -102,4 +134,11 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
         }
     }
 
+    @Override
+    public void observe(Hit hit, Gauge gauge) {
+        List<Gauge> gauges = conn.getGauges();
+        if (gauges!=null) {
+            setList(gauges);
+        }
+    }
 }

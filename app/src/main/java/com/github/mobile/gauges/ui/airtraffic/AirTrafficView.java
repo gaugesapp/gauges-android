@@ -35,6 +35,7 @@ import android.view.View;
 
 import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.drawable;
+import com.github.mobile.gauges.realtime.Hit;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;

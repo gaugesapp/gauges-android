@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.mobile.gauges.ui.airtraffic;
+package com.github.mobile.gauges.realtime;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.FROYO;
@@ -23,6 +23,7 @@ import android.accounts.AccountsException;
 import com.emorym.android_pusher.Pusher;
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.core.GaugesService;
+import com.google.inject.Provider;
 
 import java.io.IOException;
 
@@ -37,29 +38,21 @@ public class GaugesPusher extends Pusher {
 
     private static final int AUTH_TIMEOUT = 30 * 1000;
 
-    private final GaugesServiceProvider serviceProvider;
-
-    private GaugesService service;
+    private final Provider<GaugesService> serviceProvider;
 
     /**
      * Create pusher
      *
-     * @param provider
+     * @param serviceProvider
      */
-    public GaugesPusher(GaugesServiceProvider provider) {
+    public GaugesPusher(Provider<GaugesService> serviceProvider) {
         // Skip certificate validation on Froyo or below
         super(PUSHER_APP_KEY, true, SDK_INT <= FROYO);
-        serviceProvider = provider;
+        this.serviceProvider = serviceProvider;
     }
 
     @Override
     protected String authenticate(String channelName) throws IOException {
-        if (service == null)
-            try {
-                service = serviceProvider.getService();
-            } catch (AccountsException e) {
-                throw new IOException(e.getMessage());
-            }
         // Socket id is required before authentication can begin so wait
         // until it comes back on the connection_established event
         int slept = 0;
@@ -76,6 +69,6 @@ public class GaugesPusher extends Pusher {
             if (slept >= AUTH_TIMEOUT)
                 break;
         }
-        return mSocketId != null ? service.getPusherAuth(mSocketId, channelName) : null;
+        return mSocketId != null ? serviceProvider.get().getPusherAuth(mSocketId, channelName) : null;
     }
 }
