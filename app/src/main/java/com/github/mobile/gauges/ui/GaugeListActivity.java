@@ -19,7 +19,7 @@ package com.github.mobile.gauges.ui;
 import android.os.Bundle;
 
 import com.github.mobile.gauges.R.layout;
-import com.github.mobile.gauges.roboguice.RoboSherlockFragmentActivity;
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 
 /**
  * Activity to display list of gauge summaries

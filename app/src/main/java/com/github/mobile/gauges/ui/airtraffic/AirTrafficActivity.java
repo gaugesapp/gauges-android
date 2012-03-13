@@ -32,8 +32,8 @@ import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.Gauge;
-import com.github.mobile.gauges.roboguice.RoboSherlockFragmentActivity;
 import com.github.mobile.gauges.ui.GaugeListLoader;
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 
 import java.util.Collection;

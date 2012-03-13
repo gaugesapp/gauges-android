@@ -28,8 +28,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.menu;
+import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockListFragment;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
-import com.github.mobile.gauges.roboguice.RoboSherlockListFragment;
 
 import java.util.List;
 
