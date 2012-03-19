@@ -204,6 +204,9 @@
                                 <verbose>true</verbose>
                                 <outputApk>${project.build.directory}/${project.artifactId}-${project.version}-signed-aligned.apk</outputApk>
                             </zipalign>
+                            <manifest>
+                                <debuggable>false</debuggable>
+                            </manifest>
                         </configuration>
                         <executions>
                             <execution>
