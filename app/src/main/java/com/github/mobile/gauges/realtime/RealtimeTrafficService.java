@@ -17,6 +17,8 @@
 package com.github.mobile.gauges.realtime;
 
 
+import static android.util.Log.DEBUG;
+import static android.util.Log.isLoggable;
 import static com.github.mobile.gauges.authenticator.AuthConstants.AUTHTOKEN_TYPE;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static java.util.concurrent.Executors.newFixedThreadPool;
@@ -121,8 +123,10 @@ public class RealtimeTrafficService extends RoboService implements OnAccountsUpd
     }
 
     void broadcast(Hit hit, Gauge gauge) {
-        long views = gauge.getToday().getViews();
-        Log.d(TAG, "Broadcasting '" + gauge.getTitle() + "' views=" + views + " to " + hitListeners.size());
+        if (isLoggable(TAG, DEBUG)) {
+            long views = gauge.getToday().getViews();
+            Log.d(TAG, "Broadcasting '" + gauge.getTitle() + "' views=" + views + " to " + hitListeners.size());
+        }
         for (HitListener hitListener : hitListeners.keySet())
             hitListener.observe(hit, gauge);
     }
