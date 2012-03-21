@@ -62,7 +62,7 @@ public class GaugeGraphView extends LinearLayout {
 
     /**
      * This should be set before the graph is updated with traffic data, and will not take
-     * effect until {@link #updateGraphWith(List<DatedViewSummary>)} is called.
+     * effect until {@link #updateGraphWith(List)} is called.
      *
      * @param numDays the number of days to display in the graph, 1 bar per day
      */
