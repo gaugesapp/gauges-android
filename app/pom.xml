@@ -30,14 +30,8 @@
     </parent>
 
     <properties>
-        <abs.version>4.0.0</abs.version>
+        <abs.version>4.0.1</abs.version>
     </properties>
-    <repositories>
-        <repository>
-            <id>jakewharton-release</id>
-            <url>http://r.jakewharton.com/maven/release/</url>
-        </repository>
-    </repositories>
     <dependencies>
         <dependency>
             <groupId>com.google.android</groupId>
