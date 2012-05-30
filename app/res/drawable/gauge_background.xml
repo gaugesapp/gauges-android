@@ -13,15 +13,14 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@color/pager_footer" android:state_pressed="true"/>
+    <item>
+        <shape>
+            <gradient android:angle="270" android:endColor="@color/gauge_background_end" android:startColor="@color/gauge_background_start" />
+        </shape>
+    </item>
 
-    <gradient
-        android:angle="270"
-        android:endColor="@color/gauge_background_end"
-        android:startColor="@color/gauge_background_start" />
-
-    <corners android:radius="0dp" />
-
-</shape>
+</selector>

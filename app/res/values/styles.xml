@@ -13,7 +13,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 
 <resources>
 
@@ -40,13 +40,13 @@
 
     <style name="GaugeTitle" parent="ShadowText">
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/gauge_title_text</item>
+        <item name="android:textColor">@color/text_title_selector</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="GaugeNumericReadout" parent="ShadowText">
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/text_selector</item>
         <item name="android:textSize">25sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:includeFontPadding">false</item>
@@ -54,7 +54,7 @@
 
     <style name="GaugeNumericReadoutName" parent="ShadowText">
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textColor">@color/text_light_selector</item>
         <item name="android:textSize">13sp</item>
         <item name="android:includeFontPadding">false</item>
     </style>
@@ -72,4 +72,5 @@
         <item name="viewsWeekendColor">#D1E6DC</item>
         <item name="peopleWeekendColor">#BBDDCC</item>
     </style>
+
 </resources>
