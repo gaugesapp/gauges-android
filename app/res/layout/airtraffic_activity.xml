@@ -16,21 +16,21 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/background"
     android:keepScreenOn="true" >
 
     <com.github.mobile.gauges.ui.airtraffic.AirTrafficView
         android:id="@+id/air_traffic"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
     <FrameLayout
         android:id="@+id/fl_header_line"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -39,7 +39,7 @@
 
     <LinearLayout
         android:id="@+id/ll_header"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fl_header_line"
         android:background="@drawable/map_header_background"
@@ -79,7 +79,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@id/ll_header"
         android:background="@color/header_background_bottom" >

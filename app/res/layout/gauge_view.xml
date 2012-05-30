@@ -17,14 +17,14 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.github.mobile.gauges"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/pager_background"
     android:orientation="vertical" >
 
     <com.viewpagerindicator.TitlePageIndicator
         android:id="@+id/tpi_header"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         textColor="@color/text_light"
         android:background="@drawable/stripe_repeat"
@@ -37,7 +37,7 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_pages"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
