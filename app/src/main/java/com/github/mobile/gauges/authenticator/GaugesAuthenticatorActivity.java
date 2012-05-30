@@ -319,6 +319,7 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     /**
      * Hide progress dialog
      */
+    @SuppressWarnings("deprecation")
     protected void hideProgress() {
         dismissDialog(0);
     }
@@ -326,6 +327,7 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     /**
      * Show progress dialog
      */
+    @SuppressWarnings("deprecation")
     protected void showProgress() {
         showDialog(0);
     }
