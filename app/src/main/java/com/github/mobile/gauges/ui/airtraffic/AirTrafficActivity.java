@@ -88,9 +88,7 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
 
         getSupportActionBar().hide();
 
-        if (SDK_INT >= 14)
-            // On ICS this equivalent to SYSTEM_UI_FLAG_LOW_PROFILE - the dimmed-menu-buttons mode
-            getWindow().getDecorView().setSystemUiVisibility(STATUS_BAR_HIDDEN);
+        updateSystemUi();
 
         @SuppressWarnings("unchecked")
         Collection<Gauge> intentGauges = (Collection<Gauge>) getIntent().getSerializableExtra(GAUGES);
@@ -98,6 +96,13 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
             loadGauges(intentGauges);
         else
             getSupportLoaderManager().initLoader(0, null, this);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void updateSystemUi() {
+        if (SDK_INT >= 14)
+            // On ICS this equivalent to SYSTEM_UI_FLAG_LOW_PROFILE - the dimmed-menu-buttons mode
+            getWindow().getDecorView().setSystemUiVisibility(STATUS_BAR_HIDDEN);
     }
 
     @Override
