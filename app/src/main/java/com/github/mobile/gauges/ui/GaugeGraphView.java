@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.R.styleable.GaugeGraphView_peopleWeekdayColor;
@@ -48,10 +47,16 @@ public class GaugeGraphView extends LinearLayout {
 
     private int[][] colors;
 
-    public GaugeGraphView(Context ctx, AttributeSet attrs) {
-        super(ctx, attrs);
-        TypedArray array = ctx.obtainStyledAttributes(attrs, R.styleable.GaugeGraphView);
+    /**
+     * Create graph view from context and attributes
+     *
+     * @param context
+     * @param attrs
+     */
+    public GaugeGraphView(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.GaugeGraphView);
         weekdayColors = new int[] { array.getColor(GaugeGraphView_viewsWeekdayColor, 0),
                 array.getColor(GaugeGraphView_peopleWeekdayColor, 0) };
         weekendColors = new int[] { array.getColor(GaugeGraphView_viewsWeekendColor, 0),
@@ -61,10 +66,11 @@ public class GaugeGraphView extends LinearLayout {
     }
 
     /**
-     * This should be set before the graph is updated with traffic data, and will not take
-     * effect until {@link #updateGraphWith(List)} is called.
+     * This should be set before the graph is updated with traffic data, and will not take effect until
+     * {@link #updateGraphWith(List)} is called.
      *
-     * @param numDays the number of days to display in the graph, 1 bar per day
+     * @param numDays
+     *            the number of days to display in the graph, 1 bar per day
      */
     public void setNumDays(int numDays) {
         data = new long[numDays][];
@@ -72,10 +78,11 @@ public class GaugeGraphView extends LinearLayout {
     }
 
     /**
-     * Updates the graph to display the supplied data, which will be padded or truncated
-     * to match the number of days specifed with {@link #setNumDays(int)}.
+     * Updates the graph to display the supplied data, which will be padded or truncated to match the number of days
+     * specifed with {@link #setNumDays(int)}.
      *
-     * @param trafficData a list of traffic data by day in reverse-chronological order
+     * @param trafficData
+     *            a list of traffic data by day in reverse-chronological order
      */
     public void updateGraphWith(List<DatedViewSummary> trafficData) {
         setBackgroundDrawable(createBarGraphDrawableFor(trafficData));
