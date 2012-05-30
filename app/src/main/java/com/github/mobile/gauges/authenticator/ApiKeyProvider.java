@@ -37,6 +37,7 @@ public class ApiKeyProvider {
 
     @Inject
     private Activity activity;
+
     @Inject
     private AccountManager accountManager;
 
