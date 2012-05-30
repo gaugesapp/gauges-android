@@ -29,8 +29,8 @@
         textColor="@color/text_light"
         android:background="@drawable/stripe_repeat"
         app:footerColor="@color/pager_footer"
-        app:footerIndicatorHeight="4dp"
-        app:footerIndicatorStyle="underline"
+        app:footerIndicatorHeight="5dp"
+        app:footerIndicatorStyle="triangle"
         app:footerLineHeight="4dp"
         app:selectedBold="true"
         app:selectedColor="@color/pager_selected_text" />
