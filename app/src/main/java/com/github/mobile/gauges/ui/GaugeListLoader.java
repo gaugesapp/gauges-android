@@ -18,6 +18,7 @@ package com.github.mobile.gauges.ui;
 
 import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
 import android.accounts.AccountsException;
+import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.util.Log;
 import android.widget.Toast;
@@ -71,6 +72,8 @@ public class GaugeListLoader extends AsyncLoader<List<Gauge>> {
             return serviceProvider.getService().getGauges();
         } catch (IOException e) {
             showError(e);
+        } catch (OperationCanceledException e) {
+            activity.finish();
         } catch (AccountsException e) {
             showError(e);
         }

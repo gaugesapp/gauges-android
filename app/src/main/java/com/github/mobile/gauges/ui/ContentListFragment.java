@@ -19,6 +19,8 @@ package com.github.mobile.gauges.ui;
 import static android.content.Intent.ACTION_VIEW;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import android.accounts.AccountsException;
+import android.accounts.OperationCanceledException;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -81,6 +83,10 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting page content", e);
                     showError(string.error_loading_contents);
+                } catch (OperationCanceledException e) {
+                    Activity activity = getActivity();
+                    if (activity != null)
+                        activity.finish();
                 } catch (AccountsException e) {
                     Log.d(TAG, "Exception getting page content", e);
                     showError(string.error_loading_contents);

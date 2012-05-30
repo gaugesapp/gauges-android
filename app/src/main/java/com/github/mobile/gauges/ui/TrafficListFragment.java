@@ -23,6 +23,8 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
 import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
 import android.accounts.AccountsException;
+import android.accounts.OperationCanceledException;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
 import android.util.Log;
@@ -97,6 +99,10 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting gauge", e);
                     showError(string.error_loading_traffic);
+                } catch (OperationCanceledException e) {
+                    Activity activity = getActivity();
+                    if (activity != null)
+                        activity.finish();
                 } catch (AccountsException e) {
                     Log.d(TAG, "Exception getting gauge", e);
                     showError(string.error_loading_traffic);
