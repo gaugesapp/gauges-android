@@ -20,7 +20,7 @@ import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mobile.gauges.R.color;
+import com.github.mobile.gauges.R.drawable;
 import com.madgag.android.listviews.ViewCreator;
 import com.madgag.android.listviews.ViewHolderFactory;
 import com.madgag.android.listviews.ViewHoldingListAdapter;
@@ -34,10 +34,6 @@ import java.util.List;
  */
 public class AlternatingColorListAdapter<V> extends ViewHoldingListAdapter<V> {
 
-    private final int bgPrimary;
-
-    private final int bgSecondary;
-
     /**
      * @param resources
      * @param items
@@ -47,8 +43,6 @@ public class AlternatingColorListAdapter<V> extends ViewHoldingListAdapter<V> {
     public AlternatingColorListAdapter(final Resources resources, final List<V> items, final ViewCreator creator,
             final ViewHolderFactory<V> holderFactory) {
         super(items, creator, holderFactory);
-        bgPrimary = resources.getColor(color.pager_background);
-        bgSecondary = resources.getColor(color.pager_background_alternate);
     }
 
     /**
@@ -61,17 +55,15 @@ public class AlternatingColorListAdapter<V> extends ViewHoldingListAdapter<V> {
     public AlternatingColorListAdapter(int primaryColor, int secondaryColor, final List<V> itemList,
             final ViewCreator c, final ViewHolderFactory<V> vhf) {
         super(itemList, c, vhf);
-        bgPrimary = primaryColor;
-        bgSecondary = secondaryColor;
     }
 
     @Override
     public View getView(int index, View convertView, ViewGroup parent) {
         View view = super.getView(index, convertView, parent);
         if (index % 2 != 0)
-            view.setBackgroundColor(bgPrimary);
+            view.setBackgroundResource(drawable.table_background_selector);
         else
-            view.setBackgroundColor(bgSecondary);
+            view.setBackgroundResource(drawable.table_background_alternate_selector);
         return view;
     }
 }

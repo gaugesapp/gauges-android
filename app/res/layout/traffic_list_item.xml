@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="40"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/table_text_light" />
+        android:textColor="@color/table_text_light_selector" />
 
     <TextView
         android:id="@+id/tv_traffic_views"
@@ -39,7 +39,7 @@
         android:layout_weight="30"
         android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/table_text" />
+        android:textColor="@color/table_text_selector" />
 
     <TextView
         android:id="@+id/tv_traffic_people"
@@ -48,6 +48,6 @@
         android:layout_weight="30"
         android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/table_text" />
+        android:textColor="@color/table_text_selector" />
 
 </LinearLayout>

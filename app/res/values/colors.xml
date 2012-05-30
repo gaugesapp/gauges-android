@@ -27,6 +27,7 @@
     <color name="pager_background_alternate">#E7E7E7</color>
     <color name="text_link">#20A465</color>
     <color name="table_text">#484848</color>
+    <color name="table_text_inverted">#FFFFFF</color>
     <color name="table_text_light">#A6A6A6</color>
     <color name="table_text_header">#636363</color>
     <color name="gauge_background_start">#373737</color>
