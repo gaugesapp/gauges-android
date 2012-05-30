@@ -13,13 +13,11 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
-
+-->
 <resources>
 
     <style name="Theme.Gauges" parent="@style/Theme.Sherlock">
         <item name="android:windowBackground">@color/background</item>
-
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
     </style>

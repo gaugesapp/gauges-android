@@ -13,13 +13,15 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 
 <resources>
+
     <declare-styleable name="GaugeGraphView">
         <attr name="viewsWeekdayColor" format="color" />
         <attr name="peopleWeekdayColor" format="color" />
         <attr name="viewsWeekendColor" format="color" />
         <attr name="peopleWeekendColor" format="color" />
     </declare-styleable>
+
 </resources>

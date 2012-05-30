@@ -12,12 +12,9 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
-
+-->
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
-                       android:accountType="com.github.gauges"
-                       android:icon="@drawable/icon"
-                       android:smallIcon="@drawable/icon"
-                       android:label="@string/app_name"
-        />
-
+    android:accountType="com.github.gauges"
+    android:icon="@drawable/icon"
+    android:label="@string/app_name"
+    android:smallIcon="@drawable/icon" />

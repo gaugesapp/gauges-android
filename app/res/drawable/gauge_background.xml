@@ -19,7 +19,10 @@
     <item android:drawable="@color/pager_footer" android:state_pressed="true"/>
     <item>
         <shape>
-            <gradient android:angle="270" android:endColor="@color/gauge_background_end" android:startColor="@color/gauge_background_start" />
+            <gradient
+                android:angle="270"
+                android:endColor="@color/gauge_background_end"
+                android:startColor="@color/gauge_background_start" />
         </shape>
     </item>
 
