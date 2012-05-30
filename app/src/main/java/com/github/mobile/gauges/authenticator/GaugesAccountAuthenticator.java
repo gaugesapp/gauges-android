@@ -16,9 +16,13 @@
 
 package com.github.mobile.gauges.authenticator;
 
+import static android.accounts.AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE;
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
+import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
+import static android.accounts.AccountManager.KEY_INTENT;
+import static com.github.mobile.gauges.authenticator.AuthConstants.AUTHTOKEN_TYPE;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.authenticator.GaugesAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE;
 import android.accounts.AbstractAccountAuthenticator;
@@ -29,7 +33,6 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.github.mobile.gauges.core.Client;
 import com.github.mobile.gauges.core.GaugesService;
@@ -38,15 +41,14 @@ import java.io.IOException;
 
 class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
 
-    private static final String TAG = "GaugesAccountAuth";
-
     private static final String DESCRIPTION_CLIENT = "Gaug.es for Android";
 
-    private Context mContext;
+    private final Context context;
 
     public GaugesAccountAuthenticator(Context context) {
         super(context);
-        mContext = context;
+
+        this.context = context;
     }
 
     /*
@@ -57,11 +59,11 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType,
             String[] requiredFeatures, Bundle options) throws NetworkErrorException {
-        final Intent intent = new Intent(mContext, GaugesAuthenticatorActivity.class);
+        final Intent intent = new Intent(context, GaugesAuthenticatorActivity.class);
         intent.putExtra(PARAM_AUTHTOKEN_TYPE, authTokenType);
-        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+        intent.putExtra(KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         final Bundle bundle = new Bundle();
-        bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+        bundle.putParcelable(KEY_INTENT, intent);
         return bundle;
     }
 
@@ -78,8 +80,7 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType,
             Bundle options) throws NetworkErrorException {
-        Log.d(TAG, "getAuthToken() called : authTokenType=" + authTokenType);
-        String password = AccountManager.get(mContext).getPassword(account);
+        String password = AccountManager.get(context).getPassword(account);
         Client client;
         try {
             GaugesService service = new GaugesService(account.name, password);
@@ -89,27 +90,24 @@ class GaugesAccountAuthenticator extends AbstractAccountAuthenticator {
         } catch (IOException e) {
             throw new NetworkErrorException(e);
         }
-        String apiKey = client.getKey();
-        Log.d(TAG, "getAuthToken() called : apiKey=" + (apiKey == null ? null : apiKey.substring(0, 2) + "…"));
+
         Bundle bundle = new Bundle();
         bundle.putString(KEY_ACCOUNT_NAME, account.name);
         bundle.putString(KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
-        bundle.putString(KEY_AUTHTOKEN, apiKey);
+        bundle.putString(KEY_AUTHTOKEN, client.getKey());
         return bundle;
     }
 
     @Override
     public String getAuthTokenLabel(String authTokenType) {
-        if (authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE))
-            return authTokenType;
-        return null;
+        return authTokenType.equals(AUTHTOKEN_TYPE) ? authTokenType : null;
     }
 
     @Override
     public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features)
             throws NetworkErrorException {
         final Bundle result = new Bundle();
-        result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, false);
+        result.putBoolean(KEY_BOOLEAN_RESULT, false);
         return result;
     }
 

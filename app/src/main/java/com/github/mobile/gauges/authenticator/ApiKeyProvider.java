@@ -24,7 +24,6 @@ import android.accounts.AccountManagerFuture;
 import android.accounts.AccountsException;
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.github.mobile.gauges.core.GaugesService;
 import com.google.inject.Inject;
@@ -35,8 +34,6 @@ import java.io.IOException;
  * Bridge class that obtains a gaug.es API key for the currently configured account
  */
 public class ApiKeyProvider {
-
-    private static final String TAG = "AKP";
 
     @Inject
     private Activity activity;
@@ -54,9 +51,6 @@ public class ApiKeyProvider {
         AccountManagerFuture<Bundle> accountManagerFuture = accountManager.getAuthTokenByFeatures(GAUGES_ACCOUNT_TYPE,
                 AUTHTOKEN_TYPE, new String[0], activity, null, null, null, null);
 
-        Bundle result = accountManagerFuture.getResult();
-        String authToken = result.getString(KEY_AUTHTOKEN);
-        Log.d(TAG, "Got authToken " + (authToken == null ? null : authToken.substring(0, 2) + "…"));
-        return authToken;
+        return accountManagerFuture.getResult().getString(KEY_AUTHTOKEN);
     }
 }
