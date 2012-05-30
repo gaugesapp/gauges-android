@@ -209,7 +209,7 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
 
                                 Bitmap bitmap = resourceProvider.getPin(hit.siteId);
                                 if (bitmap != null)
-                                    pinImage.setBackgroundDrawable(new BitmapDrawable(bitmap));
+                                    pinImage.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
                                 else
                                     pinImage.setBackgroundDrawable(null);
 
