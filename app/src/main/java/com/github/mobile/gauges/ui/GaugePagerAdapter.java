@@ -26,12 +26,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
-import com.viewpagerindicator.TitleProvider;
 
 /**
  * Pager adapter for a gauge
  */
-public class GaugePagerAdapter extends FragmentPagerAdapter implements TitleProvider {
+public class GaugePagerAdapter extends FragmentPagerAdapter {
 
     private final Resources resources;
 
@@ -78,7 +77,8 @@ public class GaugePagerAdapter extends FragmentPagerAdapter implements TitleProv
         }
     }
 
-    public String getTitle(int position) {
+    @Override
+    public CharSequence getPageTitle(int position) {
         switch (position) {
         case 0:
             return resources.getString(string.page_content);

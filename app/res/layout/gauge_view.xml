@@ -13,7 +13,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.github.mobile.gauges"
@@ -26,14 +26,14 @@
         android:id="@+id/tpi_header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        textColor="@color/text_light"
         android:background="@drawable/stripe_repeat"
         app:footerColor="@color/pager_footer"
         app:footerIndicatorHeight="4dp"
         app:footerIndicatorStyle="underline"
         app:footerLineHeight="4dp"
         app:selectedBold="true"
-        app:selectedColor="@color/pager_selected_text"
-        app:textColor="@color/text_light" />
+        app:selectedColor="@color/pager_selected_text" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_pages"
