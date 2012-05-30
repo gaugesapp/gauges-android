@@ -20,6 +20,7 @@ import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.actionbarsherlock.R.color;
 import com.github.mobile.gauges.R.drawable;
 import com.madgag.android.listviews.ViewCreator;
 import com.madgag.android.listviews.ViewHolderFactory;
@@ -34,6 +35,10 @@ import java.util.List;
  */
 public class AlternatingColorListAdapter<V> extends ViewHoldingListAdapter<V> {
 
+    private final int primaryResource;
+
+    private final int secondaryResource;
+
     /**
      * @param resources
      * @param items
@@ -42,28 +47,36 @@ public class AlternatingColorListAdapter<V> extends ViewHoldingListAdapter<V> {
      */
     public AlternatingColorListAdapter(final Resources resources, final List<V> items, final ViewCreator creator,
             final ViewHolderFactory<V> holderFactory) {
-        super(items, creator, holderFactory);
+        this(resources, items, creator, holderFactory, true);
     }
 
     /**
-     * @param primaryColor
-     * @param secondaryColor
-     * @param itemList
-     * @param c
-     * @param vhf
+     * @param resources
+     * @param items
+     * @param creator
+     * @param holderFactory
+     * @param selectable
      */
-    public AlternatingColorListAdapter(int primaryColor, int secondaryColor, final List<V> itemList,
-            final ViewCreator c, final ViewHolderFactory<V> vhf) {
-        super(itemList, c, vhf);
+    public AlternatingColorListAdapter(final Resources resources, final List<V> items, final ViewCreator creator,
+            final ViewHolderFactory<V> holderFactory, boolean selectable) {
+        super(items, creator, holderFactory);
+
+        if (selectable) {
+            primaryResource = drawable.table_background_selector;
+            secondaryResource = drawable.table_background_alternate_selector;
+        } else {
+            primaryResource = color.pager_background;
+            secondaryResource = color.pager_background_alternate;
+        }
     }
 
     @Override
     public View getView(int index, View convertView, ViewGroup parent) {
         View view = super.getView(index, convertView, parent);
         if (index % 2 != 0)
-            view.setBackgroundResource(drawable.table_background_selector);
+            view.setBackgroundResource(primaryResource);
         else
-            view.setBackgroundResource(drawable.table_background_alternate_selector);
+            view.setBackgroundResource(secondaryResource);
         return view;
     }
 }

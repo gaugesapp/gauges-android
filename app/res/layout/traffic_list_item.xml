@@ -13,7 +13,7 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+-->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="40"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/table_text_light_selector" />
+        android:textColor="@color/table_text_light" />
 
     <TextView
         android:id="@+id/tv_traffic_views"
@@ -39,7 +39,7 @@
         android:layout_weight="30"
         android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/table_text_selector" />
+        android:textColor="@color/table_text" />
 
     <TextView
         android:id="@+id/tv_traffic_people"
@@ -48,6 +48,6 @@
         android:layout_weight="30"
         android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/table_text_selector" />
+        android:textColor="@color/table_text" />
 
 </LinearLayout>
