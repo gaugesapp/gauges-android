@@ -29,7 +29,7 @@ public class GaugeListTest extends ActivityInstrumentationTestCase2<GaugeListAct
      * Create test for {@link GaugeListActivity}
      */
     public GaugeListTest() {
-        super("com.github.mobile.gauges.ui", GaugeListActivity.class);
+        super(GaugeListActivity.class);
     }
 
     /**

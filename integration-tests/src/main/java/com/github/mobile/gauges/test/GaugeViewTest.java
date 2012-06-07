@@ -32,7 +32,7 @@ public class GaugeViewTest extends ActivityInstrumentationTestCase2<GaugeViewAct
      * Create test for {@link GaugeViewActivity}
      */
     public GaugeViewTest() {
-        super("com.github.mobile.gauges.ui", GaugeViewActivity.class);
+        super(GaugeViewActivity.class);
     }
 
     /**

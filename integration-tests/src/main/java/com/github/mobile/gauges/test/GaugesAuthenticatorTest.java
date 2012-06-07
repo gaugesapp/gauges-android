@@ -32,7 +32,7 @@ public class GaugesAuthenticatorTest extends ActivityInstrumentationTestCase2<Ga
      * Create test for {@link GaugesAuthenticatorActivity}
      */
     public GaugesAuthenticatorTest() {
-        super("com.github.mobile.gauges.authenticator", GaugesAuthenticatorActivity.class);
+        super(GaugesAuthenticatorActivity.class);
     }
 
     /**
