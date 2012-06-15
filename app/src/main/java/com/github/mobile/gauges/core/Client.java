@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.core;
 
 import java.io.Serializable;
@@ -23,7 +22,6 @@ import java.io.Serializable;
  */
 public class Client implements Serializable {
 
-    /** serialVersionUID */
     private static final long serialVersionUID = -1449954462631918663L;
 
     private String key;

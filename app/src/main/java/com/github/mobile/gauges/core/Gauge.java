@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.core;
 
 import java.io.Serializable;
@@ -25,7 +24,6 @@ import java.util.List;
  */
 public class Gauge implements Serializable {
 
-    /** serialVersionUID */
     private static final long serialVersionUID = -8423297822694434626L;
 
     private DatedViewSummary today;
@@ -49,7 +47,8 @@ public class Gauge implements Serializable {
      * @return recentDays
      */
     public List<DatedViewSummary> getRecentDays() {
-        return recentDays != null ? recentDays : Collections.<DatedViewSummary> emptyList();
+        return recentDays != null ? recentDays : Collections
+                .<DatedViewSummary> emptyList();
     }
 
     /**
