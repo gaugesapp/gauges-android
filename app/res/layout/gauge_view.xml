@@ -27,12 +27,14 @@
         android:layout_height="wrap_content"
         textColor="@color/text_light"
         android:background="@drawable/stripe_repeat"
+        app:clipPadding="10dp"
         app:footerColor="@color/pager_footer"
         app:footerIndicatorHeight="5dp"
         app:footerIndicatorStyle="triangle"
         app:footerLineHeight="4dp"
         app:selectedBold="true"
-        app:selectedColor="@color/pager_selected_text" />
+        app:selectedColor="@color/pager_selected_text"
+        app:titlePadding="10dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_pages"
