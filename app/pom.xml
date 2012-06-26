@@ -155,7 +155,7 @@
             </build>
         </profile>
         <profile>
-            <id>release-to-market</id>
+            <id>release</id>
             <!-- via this activation the profile is automatically used when the release is done with the maven release
             plugin -->
             <activation>
