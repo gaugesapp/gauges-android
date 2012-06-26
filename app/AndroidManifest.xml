@@ -17,7 +17,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.mobile.gauges"
     android:versionCode="140"
-    android:versionName="1.4-SNAPSHOT" >
+    android:versionName="1.4" >
 
     <uses-sdk
         android:minSdkVersion="8"
