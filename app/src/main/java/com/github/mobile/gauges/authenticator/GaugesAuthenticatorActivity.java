@@ -17,8 +17,6 @@
 package com.github.mobile.gauges.authenticator;
 
 import static android.R.layout.simple_dropdown_item_1line;
-import static android.accounts.AccountManager.ERROR_CODE_CANCELED;
-import static android.accounts.AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE;
 import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
@@ -30,7 +28,6 @@ import static com.github.kevinsawicki.http.HttpRequest.post;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
 import android.accounts.Account;
-import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -58,18 +55,19 @@ import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.ui.TextWatcherAdapter;
 import com.github.mobile.gauges.ui.ToastUtil;
+import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockAccountAuthenticatorActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import roboguice.activity.RoboFragmentActivity;
 import roboguice.inject.InjectView;
 import roboguice.util.RoboAsyncTask;
 
 /**
  * Activity to authenticate the user against gaug.es
  */
-public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
+public class GaugesAuthenticatorActivity extends
+        RoboSherlockAccountAuthenticatorActivity {
 
     /**
      * PARAM_CONFIRMCREDENTIALS
@@ -110,12 +108,9 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     private String authToken;
     private String authTokenType;
 
-    private AccountAuthenticatorResponse accountAuthenticatorResponse = null;
-    private Bundle resultBundle = null;
-
     /**
-     * If set we are just checking that the user knows their credentials; this doesn't cause the user's password to be
-     * changed on the device.
+     * If set we are just checking that the user knows their credentials; this
+     * doesn't cause the user's password to be changed on the device.
      */
     private Boolean confirmCredentials = false;
 
@@ -131,26 +126,25 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        accountAuthenticatorResponse = getIntent().getParcelableExtra(KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
 
-        if (accountAuthenticatorResponse != null)
-            accountAuthenticatorResponse.onRequestContinued();
         accountManager = AccountManager.get(this);
         final Intent intent = getIntent();
         email = intent.getStringExtra(PARAM_USERNAME);
         authTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
         requestNewAccount = email == null;
-        confirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS, false);
+        confirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,
+                false);
 
         setContentView(layout.login_activity);
 
-        emailText.setAdapter(new ArrayAdapter<String>(this, simple_dropdown_item_1line, userEmailAccounts()));
+        emailText.setAdapter(new ArrayAdapter<String>(this,
+                simple_dropdown_item_1line, userEmailAccounts()));
 
         passwordText.setOnKeyListener(new OnKeyListener() {
 
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event != null && ACTION_DOWN == event.getAction() && keyCode == KEYCODE_ENTER
-                        && signinButton.isEnabled()) {
+                if (event != null && ACTION_DOWN == event.getAction()
+                        && keyCode == KEYCODE_ENTER && signinButton.isEnabled()) {
                     handleLogin(signinButton);
                     return true;
                 }
@@ -160,7 +154,8 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
 
         passwordText.setOnEditorActionListener(new OnEditorActionListener() {
 
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            public boolean onEditorAction(TextView v, int actionId,
+                    KeyEvent event) {
                 if (actionId == IME_ACTION_DONE && signinButton.isEnabled()) {
                     handleLogin(signinButton);
                     return true;
@@ -225,7 +220,8 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     }
 
     /**
-     * Handles onClick event on the Submit button. Sends username/password to the server for authentication.
+     * Handles onClick event on the Submit button. Sends username/password to
+     * the server for authentication.
      * <p/>
      * Specified by android:onClick="handleLogin" in the layout xml
      *
@@ -242,7 +238,8 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
 
         authenticationTask = new RoboAsyncTask<Boolean>(this) {
             public Boolean call() throws Exception {
-                HttpRequest request = post(URL_AUTH).form("email", email).form("password", password);
+                HttpRequest request = post(URL_AUTH).form("email", email).form(
+                        "password", password);
                 Log.d(TAG, "response=" + request.code());
                 return request.ok();
             }
@@ -253,12 +250,15 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
 
                 String message;
                 // A 401 is returned as an IOException with this message
-                if ("Received authentication challenge is null".equals(cause.getMessage()))
-                    message = getResources().getString(string.message_bad_credentials);
+                if ("Received authentication challenge is null".equals(cause
+                        .getMessage()))
+                    message = getResources().getString(
+                            string.message_bad_credentials);
                 else
                     message = cause.getMessage();
 
-                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this, message);
+                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this,
+                        message);
             }
 
             @Override
@@ -276,8 +276,9 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     }
 
     /**
-     * Called when response is received from the server for confirm credentials request. See onAuthenticationResult().
-     * Sets the AccountAuthenticatorResult which is sent back to the caller.
+     * Called when response is received from the server for confirm credentials
+     * request. See onAuthenticationResult(). Sets the
+     * AccountAuthenticatorResult which is sent back to the caller.
      *
      * @param result
      */
@@ -293,9 +294,10 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
     }
 
     /**
-     * Called when response is received from the server for authentication request. See onAuthenticationResult(). Sets
-     * the AccountAuthenticatorResult which is sent back to the caller. Also sets the authToken in AccountManager for
-     * this account.
+     * Called when response is received from the server for authentication
+     * request. See onAuthenticationResult(). Sets the
+     * AccountAuthenticatorResult which is sent back to the caller. Also sets
+     * the authToken in AccountManager for this account.
      */
 
     protected void finishLogin() {
@@ -309,7 +311,8 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         authToken = password;
         intent.putExtra(KEY_ACCOUNT_NAME, email);
         intent.putExtra(KEY_ACCOUNT_TYPE, GAUGES_ACCOUNT_TYPE);
-        if (authTokenType != null && authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE))
+        if (authTokenType != null
+                && authTokenType.equals(AuthConstants.AUTHTOKEN_TYPE))
             intent.putExtra(KEY_AUTHTOKEN, authToken);
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
@@ -346,36 +349,11 @@ public class GaugesAuthenticatorActivity extends RoboFragmentActivity {
         else {
             Log.e(TAG, "onAuthenticationResult: failed to authenticate");
             if (requestNewAccount)
-                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this, string.message_auth_failed_new_account);
+                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this,
+                        string.message_auth_failed_new_account);
             else
-                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this, string.message_auth_failed);
+                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this,
+                        string.message_auth_failed);
         }
-    }
-
-    /**
-     * Set the result that is to be sent as the result of the request that caused this Activity to be launched. If
-     * result is null or this method is never called then the request will be canceled.
-     *
-     * @param result
-     *            this is returned as the result of the AbstractAccountAuthenticator request
-     */
-    public final void setAccountAuthenticatorResult(Bundle result) {
-        resultBundle = result;
-    }
-
-    /**
-     * Sends the result or a Constants.ERROR_CODE_CANCELED error if a result isn't present.
-     */
-    public void finish() {
-        if (accountAuthenticatorResponse != null) {
-            // send the result bundle back if set, otherwise send an error.
-            if (resultBundle != null)
-                accountAuthenticatorResponse.onResult(resultBundle);
-            else
-                accountAuthenticatorResponse.onError(ERROR_CODE_CANCELED, "canceled");
-
-            accountAuthenticatorResponse = null;
-        }
-        super.finish();
     }
 }
