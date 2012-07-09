@@ -7,7 +7,7 @@ Please see the [issues](https://github.com/github/gauges-android/issues) section
 to report any bugs or feature requests and to see the list of known issues.
 
 <a href="https://play.google.com/store/apps/details?id=com.github.mobile.gauges" alt="Download from Google Play">
-  <img src="http://img.skitch.com/20120709-kmtkmc3k3ib8tjym8eesxrs39r.png".
+  <img src="http://img.skitch.com/20120709-kmtkmc3k3ib8tjym8eesxrs39r.png">
 </a>
 
 ## License
