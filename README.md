@@ -6,7 +6,7 @@ Android app available from [Google Play](https://play.google.com/store/apps/deta
 Please see the [issues](https://github.com/github/gauges-android/issues) section
 to report any bugs or feature requests and to see the list of known issues.
 
-![](http://f.cl.ly/items/0j2o2e2T1s2q1g0B250s/Gauges_AndroidMarket.png)
+![](http://img.skitch.com/20120709-kmtkmc3k3ib8tjym8eesxrs39r.png)
 
 ## License
 
