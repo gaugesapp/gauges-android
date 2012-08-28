@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.ui;
 
-import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -26,6 +23,7 @@ import android.widget.Toast;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.menu;
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockListFragment;
@@ -38,7 +36,8 @@ import java.util.List;
  *
  * @param <E>
  */
-public abstract class ListLoadingFragment<E> extends RoboSherlockListFragment implements LoaderCallbacks<List<E>> {
+public abstract class ListLoadingFragment<E> extends RoboSherlockListFragment
+        implements LoaderCallbacks<List<E>> {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -87,7 +86,8 @@ public abstract class ListLoadingFragment<E> extends RoboSherlockListFragment im
     }
 
     /**
-     * Allows you to update the list's items without using setListAdapter(), which makes the list jump back to the top.
+     * Allows you to update the list's items without using setListAdapter(),
+     * which makes the list jump back to the top.
      */
     private void setList(List<E> items) {
         @SuppressWarnings("unchecked")
@@ -114,13 +114,12 @@ public abstract class ListLoadingFragment<E> extends RoboSherlockListFragment im
     /**
      * Show message via a {@link Toast}
      * <p>
-     * This method ensures the {@link Toast} is displayed on the UI thread and so it may be called from any thread
+     * This method ensures the {@link Toast} is displayed on the UI thread and
+     * so it may be called from any thread
      *
      * @param message
      */
     protected void showError(final int message) {
-        final Activity activity = getActivity();
-        if (activity != null)
-            toastOnUiThread(activity, getString(message));
+        Toaster.showLong(getActivity(), message);
     }
 }

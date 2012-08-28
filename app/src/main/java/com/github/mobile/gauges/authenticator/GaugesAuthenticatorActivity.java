@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.authenticator;
 
 import static android.R.layout.simple_dropdown_item_1line;
@@ -50,11 +49,11 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.github.kevinsawicki.http.HttpRequest;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.ui.TextWatcherAdapter;
-import com.github.mobile.gauges.ui.ToastUtil;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockAccountAuthenticatorActivity;
 
 import java.util.ArrayList;
@@ -257,8 +256,7 @@ public class GaugesAuthenticatorActivity extends
                 else
                     message = cause.getMessage();
 
-                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this,
-                        message);
+                Toaster.showLong(GaugesAuthenticatorActivity.this, message);
             }
 
             @Override
@@ -349,10 +347,10 @@ public class GaugesAuthenticatorActivity extends
         else {
             Log.e(TAG, "onAuthenticationResult: failed to authenticate");
             if (requestNewAccount)
-                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this,
+                Toaster.showLong(GaugesAuthenticatorActivity.this,
                         string.message_auth_failed_new_account);
             else
-                ToastUtil.toastOnUiThread(GaugesAuthenticatorActivity.this,
+                Toaster.showLong(GaugesAuthenticatorActivity.this,
                         string.message_auth_failed);
         }
     }

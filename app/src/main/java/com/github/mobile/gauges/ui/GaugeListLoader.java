@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.ui;
 
-import static com.github.mobile.gauges.ui.ToastUtil.toastOnUiThread;
 import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
@@ -44,26 +42,28 @@ public class GaugeListLoader extends AsyncLoader<List<Gauge>> {
     private final GaugesServiceProvider serviceProvider;
 
     /**
-     * Creates a gauge list loader using the given {@link Activity} and {@link GaugesServiceProvider}
+     * Creates a gauge list loader using the given {@link Activity} and
+     * {@link GaugesServiceProvider}
      *
      * @param activity
      * @param serviceProvider
      */
     @Inject
-    public GaugeListLoader(final Activity activity, final GaugesServiceProvider serviceProvider) {
+    public GaugeListLoader(final Activity activity,
+            final GaugesServiceProvider serviceProvider) {
         super(activity);
         this.activity = activity;
         this.serviceProvider = serviceProvider;
     }
 
     /**
-     * Show {@link Toast} and log given exception
+     * Display and log the given exception
      *
      * @param e
      */
     protected void showError(final Exception e) {
         Log.d(TAG, "Exception getting gauges", e);
-        toastOnUiThread(activity, activity.getString(string.error_loading_gauges));
+        Toaster.showLong(activity, string.error_loading_gauges);
     }
 
     @Override
