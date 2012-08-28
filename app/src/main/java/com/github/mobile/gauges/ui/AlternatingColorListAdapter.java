@@ -13,18 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.ui;
 
-import android.content.res.Resources;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.LayoutInflater;
 
 import com.actionbarsherlock.R.color;
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.mobile.gauges.R.drawable;
-import com.madgag.android.listviews.ViewCreator;
-import com.madgag.android.listviews.ViewHolderFactory;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 
 import java.util.List;
 
@@ -33,33 +28,36 @@ import java.util.List;
  *
  * @param <V>
  */
-public class AlternatingColorListAdapter<V> extends ViewHoldingListAdapter<V> {
+public abstract class AlternatingColorListAdapter<V> extends
+        SingleTypeAdapter<V> {
 
     private final int primaryResource;
 
     private final int secondaryResource;
 
     /**
-     * @param resources
+     * Create adapter with alternating row colors
+     *
+     * @param layoutId
+     * @param inflater
      * @param items
-     * @param creator
-     * @param holderFactory
      */
-    public AlternatingColorListAdapter(final Resources resources, final List<V> items, final ViewCreator creator,
-            final ViewHolderFactory<V> holderFactory) {
-        this(resources, items, creator, holderFactory, true);
+    public AlternatingColorListAdapter(final int layoutId,
+            final LayoutInflater inflater, final List<V> items) {
+        this(layoutId, inflater, items, true);
     }
 
     /**
-     * @param resources
+     * Create adapter with alternating row colors
+     *
+     * @param layoutId
+     * @param inflater
      * @param items
-     * @param creator
-     * @param holderFactory
      * @param selectable
      */
-    public AlternatingColorListAdapter(final Resources resources, final List<V> items, final ViewCreator creator,
-            final ViewHolderFactory<V> holderFactory, boolean selectable) {
-        super(items, creator, holderFactory);
+    public AlternatingColorListAdapter(final int layoutId,
+            LayoutInflater inflater, final List<V> items, boolean selectable) {
+        super(inflater, layoutId);
 
         if (selectable) {
             primaryResource = drawable.table_background_selector;
@@ -68,15 +66,15 @@ public class AlternatingColorListAdapter<V> extends ViewHoldingListAdapter<V> {
             primaryResource = color.pager_background;
             secondaryResource = color.pager_background_alternate;
         }
+
+        setItems(items);
     }
 
     @Override
-    public View getView(int index, View convertView, ViewGroup parent) {
-        View view = super.getView(index, convertView, parent);
-        if (index % 2 != 0)
+    protected void update(final int position, final V item) {
+        if (position % 2 != 0)
             view.setBackgroundResource(primaryResource);
         else
             view.setBackgroundResource(secondaryResource);
-        return view;
     }
 }

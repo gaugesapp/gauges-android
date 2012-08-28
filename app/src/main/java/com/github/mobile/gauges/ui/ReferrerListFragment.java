@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.ui;
 
 import static android.content.Intent.ACTION_VIEW;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
-import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
 import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
@@ -31,12 +28,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Referrer;
 import com.google.inject.Inject;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -57,13 +54,16 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
         super.onActivityCreated(savedInstanceState);
 
         ListView listView = getListView();
-        listView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
+        listView.setCacheColorHint(getResources().getColor(
+                android.R.color.transparent));
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
 
         if (getListAdapter() == null)
-            listView.addHeaderView(getActivity().getLayoutInflater().inflate(layout.referrer_list_item_labels, null),
-                    null, false);
+            listView.addHeaderView(
+                    getActivity().getLayoutInflater().inflate(
+                            layout.referrer_list_item_labels, null), null,
+                    false);
     }
 
     @Override
@@ -77,7 +77,8 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
 
             public List<Referrer> loadInBackground() {
                 try {
-                    return serviceProvider.getService().getReferrers(getArguments().getString(GAUGE_ID));
+                    return serviceProvider.getService().getReferrers(
+                            getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting referrers", e);
                     showError(string.error_loading_referrers);
@@ -94,9 +95,9 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
         };
     }
 
-    protected ViewHoldingListAdapter<Referrer> adapterFor(List<Referrer> items) {
-        return new AlternatingColorListAdapter<Referrer>(getResources(), items, viewInflatorFor(getActivity(),
-                layout.referrer_list_item), reflectiveFactoryFor(ReferrerViewHolder.class));
+    @Override
+    protected SingleTypeAdapter<Referrer> adapterFor(List<Referrer> items) {
+        return new ReferrerListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {

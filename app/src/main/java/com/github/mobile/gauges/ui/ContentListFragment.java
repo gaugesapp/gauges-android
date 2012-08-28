@@ -29,15 +29,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.core.PageContent;
 import com.google.inject.Inject;
-import com.madgag.android.listviews.ReflectiveHolderFactory;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
-import com.madgag.android.listviews.ViewInflator;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -58,13 +56,15 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
         super.onActivityCreated(savedInstanceState);
 
         ListView listView = getListView();
-        listView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
+        listView.setCacheColorHint(getResources().getColor(
+                android.R.color.transparent));
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
 
         if (getListAdapter() == null)
-            listView.addHeaderView(getActivity().getLayoutInflater().inflate(layout.content_list_item_labels, null),
-                    null, false);
+            listView.addHeaderView(
+                    getActivity().getLayoutInflater().inflate(
+                            layout.content_list_item_labels, null), null, false);
     }
 
     @Override
@@ -79,7 +79,8 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
 
             public List<PageContent> loadInBackground() {
                 try {
-                    return serviceProvider.getService().getContent(getArguments().getString(GAUGE_ID));
+                    return serviceProvider.getService().getContent(
+                            getArguments().getString(GAUGE_ID));
                 } catch (IOException e) {
                     Log.d(TAG, "Exception getting page content", e);
                     showError(string.error_loading_contents);
@@ -97,10 +98,8 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
     }
 
     @Override
-    protected ViewHoldingListAdapter<PageContent> adapterFor(List<PageContent> items) {
-        return new AlternatingColorListAdapter<PageContent>(getResources(), items, ViewInflator.viewInflatorFor(
-                getActivity(), layout.content_list_item),
-                ReflectiveHolderFactory.reflectiveFactoryFor(ContentViewHolder.class));
+    protected SingleTypeAdapter<PageContent> adapterFor(List<PageContent> items) {
+        return new ContentListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     @Override

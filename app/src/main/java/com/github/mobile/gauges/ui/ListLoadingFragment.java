@@ -23,11 +23,11 @@ import android.widget.Toast;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.menu;
 import com.github.rtyley.android.sherlock.roboguice.fragment.RoboSherlockListFragment;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 
 import java.util.List;
 
@@ -91,12 +91,11 @@ public abstract class ListLoadingFragment<E> extends RoboSherlockListFragment
      */
     private void setList(List<E> items) {
         @SuppressWarnings("unchecked")
-        ViewHoldingListAdapter<E> listAdapter = (ViewHoldingListAdapter<E>) getListAdapter();
-        if (listAdapter == null) {
+        SingleTypeAdapter<E> listAdapter = (SingleTypeAdapter<E>) getListAdapter();
+        if (listAdapter == null)
             setListAdapter(adapterFor(items));
-        } else {
-            listAdapter.setList(items);
-        }
+        else
+            listAdapter.setItems(items);
     }
 
     /**
@@ -105,7 +104,7 @@ public abstract class ListLoadingFragment<E> extends RoboSherlockListFragment
      * @param items
      * @return list adapter
      */
-    protected abstract ViewHoldingListAdapter<E> adapterFor(List<E> items);
+    protected abstract SingleTypeAdapter<E> adapterFor(List<E> items);
 
     @Override
     public void onLoaderReset(Loader<List<E>> listLoader) {

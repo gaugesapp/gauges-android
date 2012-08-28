@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.ui;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import static com.madgag.android.listviews.ReflectiveHolderFactory.reflectiveFactoryFor;
-import static com.madgag.android.listviews.ViewInflator.viewInflatorFor;
 import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
@@ -30,6 +27,7 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
@@ -37,7 +35,6 @@ import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
-import com.madgag.android.listviews.ViewHoldingListAdapter;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -71,14 +68,16 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
         ListView listView = getListView();
 
         if (getListAdapter() == null) {
-            listView.addHeaderView(getLayoutInflater(savedInstanceState).inflate(layout.traffic_graph, null), null,
+            listView.addHeaderView(getLayoutInflater(savedInstanceState)
+                    .inflate(layout.traffic_graph, null), null, false);
+            listView.addHeaderView(getLayoutInflater(savedInstanceState)
+                    .inflate(layout.traffic_list_item_labels, null), null,
                     false);
-            listView.addHeaderView(
-                    getLayoutInflater(savedInstanceState).inflate(layout.traffic_list_item_labels, null), null, false);
         }
 
         listView.setSelector(android.R.color.transparent);
-        listView.setCacheColorHint(getResources().getColor(android.R.color.transparent));
+        listView.setCacheColorHint(getResources().getColor(
+                android.R.color.transparent));
         listView.setDrawSelectorOnTop(false);
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
@@ -93,7 +92,8 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                 if (current != null)
                     return current.getRecentDays();
                 try {
-                    Gauge latest = serviceProvider.getService().getGauge(gaugeId);
+                    Gauge latest = serviceProvider.getService().getGauge(
+                            gaugeId);
                     if (latest != null)
                         return latest.getRecentDays();
                 } catch (IOException e) {
@@ -119,10 +119,12 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
     }
 
     @Override
-    public void onLoadFinished(Loader<List<DatedViewSummary>> loader, List<DatedViewSummary> trafficData) {
+    public void onLoadFinished(Loader<List<DatedViewSummary>> loader,
+            List<DatedViewSummary> trafficData) {
         super.onLoadFinished(loader, trafficData);
 
-        GaugeGraphView barGraph = (GaugeGraphView) getListView().findViewById(id.gauge_graph);
+        GaugeGraphView barGraph = (GaugeGraphView) getListView().findViewById(
+                id.gauge_graph);
         if (!trafficData.isEmpty()) {
             barGraph.setNumDays(trafficData.size());
             barGraph.updateGraphWith(trafficData);
@@ -132,8 +134,8 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
     }
 
     @Override
-    protected ViewHoldingListAdapter<DatedViewSummary> adapterFor(List<DatedViewSummary> items) {
-        return new AlternatingColorListAdapter<DatedViewSummary>(getResources(), items, viewInflatorFor(getActivity(),
-                layout.traffic_list_item), reflectiveFactoryFor(TrafficViewHolder.class), false);
+    protected SingleTypeAdapter<DatedViewSummary> adapterFor(
+            List<DatedViewSummary> items) {
+        return new TrafficListAdapter(getActivity().getLayoutInflater(), items);
     }
 }
