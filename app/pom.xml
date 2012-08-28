@@ -92,6 +92,7 @@
             <groupId>com.github.kevinsawicki</groupId>
             <artifactId>wishlist</artifactId>
             <version>0.3</version>
+            <type>apklib</type>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
