@@ -16,7 +16,6 @@
 -->
 <resources>
 
-    <color name="background">#3B3B3B</color>
     <color name="text">#FCFCFC</color>
     <color name="text_light">#999999</color>
     <color name="text_inverted">#FFFFFF</color>

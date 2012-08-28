@@ -15,68 +15,51 @@
  */
 package com.github.mobile.gauges.ui;
 
-import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
-import android.util.Log;
 
-import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.mobile.gauges.GaugesServiceProvider;
-import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Class to load a list of gauges
  */
-public class GaugeListLoader extends AsyncLoader<List<Gauge>> {
-
-    private final static String TAG = "GLL";
+public class GaugeListLoader extends ThrowableLoader<List<Gauge>> {
 
     private final Activity activity;
 
     private final GaugesServiceProvider serviceProvider;
+
+    private final List<Gauge> gauges;
 
     /**
      * Creates a gauge list loader using the given {@link Activity} and
      * {@link GaugesServiceProvider}
      *
      * @param activity
+     * @param gauges
      * @param serviceProvider
      */
     @Inject
-    public GaugeListLoader(final Activity activity,
+    public GaugeListLoader(final Activity activity, final List<Gauge> gauges,
             final GaugesServiceProvider serviceProvider) {
-        super(activity);
+        super(activity, gauges);
+
+        this.gauges = gauges;
         this.activity = activity;
         this.serviceProvider = serviceProvider;
     }
 
-    /**
-     * Display and log the given exception
-     *
-     * @param e
-     */
-    protected void showError(final Exception e) {
-        Log.d(TAG, "Exception getting gauges", e);
-        Toaster.showLong(activity, string.error_loading_gauges);
-    }
-
     @Override
-    public List<Gauge> loadInBackground() {
+    public List<Gauge> loadData() throws Exception {
         try {
             return serviceProvider.getService().getGauges();
-        } catch (IOException e) {
-            showError(e);
         } catch (OperationCanceledException e) {
             activity.finish();
-        } catch (AccountsException e) {
-            showError(e);
+            return gauges;
         }
-        return Collections.emptyList();
     }
 }

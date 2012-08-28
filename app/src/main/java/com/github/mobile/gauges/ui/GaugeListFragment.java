@@ -20,6 +20,7 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGES;
 import static com.github.mobile.gauges.IntentConstants.VIEW_AIR_TRAFFIC;
 import static com.github.mobile.gauges.IntentConstants.VIEW_GAUGE;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
@@ -29,8 +30,8 @@ import android.widget.ListView;
 import com.actionbarsherlock.view.MenuItem;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.mobile.gauges.GaugesServiceProvider;
-import com.github.mobile.gauges.R.drawable;
 import com.github.mobile.gauges.R.id;
+import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
 
@@ -40,9 +41,7 @@ import java.util.List;
 /**
  * Fragment to display a list of gauges
  */
-public class GaugeListFragment extends ListLoadingFragment<Gauge> {
-
-    private List<Gauge> gauges;
+public class GaugeListFragment extends ItemListFragment<Gauge> {
 
     @Inject
     private GaugesServiceProvider serviceProvider;
@@ -51,23 +50,19 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ListView listView = getListView();
-        listView.setCacheColorHint(getResources().getColor(
-                android.R.color.transparent));
-        listView.setDivider(getResources().getDrawable(drawable.gauge_divider));
-        listView.setDividerHeight(2);
+        setEmptyText(string.no_gauges);
+    }
+
+    @Override
+    protected void configureList(Activity activity, ListView listView) {
+        super.configureList(activity, listView);
+
         listView.setFastScrollEnabled(true);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Gauge>> loader, List<Gauge> items) {
-        super.onLoadFinished(loader, items);
-        gauges = items;
-    }
-
-    @Override
     public Loader<List<Gauge>> onCreateLoader(int id, Bundle args) {
-        return new GaugeListLoader(getActivity(), serviceProvider);
+        return new GaugeListLoader(getActivity(), items, serviceProvider);
     }
 
     @Override
@@ -79,18 +74,13 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
     }
 
     @Override
-    protected SingleTypeAdapter<Gauge> adapterFor(List<Gauge> items) {
-        return new GaugeListAdapter(getActivity().getLayoutInflater(), items);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case id.air_traffic:
             if (getActivity() != null) {
                 Intent intent = new Intent(VIEW_AIR_TRAFFIC);
-                if (gauges != null && !gauges.isEmpty())
-                    intent.putExtra(GAUGES, (Serializable) gauges);
+                if (items != null && !items.isEmpty())
+                    intent.putExtra(GAUGES, (Serializable) items);
                 startActivity(intent);
             }
             return true;
@@ -99,4 +89,13 @@ public class GaugeListFragment extends ListLoadingFragment<Gauge> {
         }
     }
 
+    @Override
+    protected int getErrorMessage(Exception exception) {
+        return string.error_loading_gauges;
+    }
+
+    @Override
+    protected SingleTypeAdapter<Gauge> createAdapter(List<Gauge> items) {
+        return new GaugeListAdapter(getActivity().getLayoutInflater(), items);
+    }
 }

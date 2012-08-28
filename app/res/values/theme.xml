@@ -17,7 +17,7 @@
 <resources>
 
     <style name="Theme.Gauges" parent="@style/Theme.Sherlock">
-        <item name="android:windowBackground">@color/background</item>
+        <item name="android:windowBackground">@color/pager_background</item>
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
     </style>

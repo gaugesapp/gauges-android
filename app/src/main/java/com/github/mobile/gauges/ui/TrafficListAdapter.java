@@ -66,4 +66,9 @@ public class TrafficListAdapter extends
         setNumber(id.tv_traffic_views, item.getViews());
         setNumber(id.tv_traffic_people, item.getPeople());
     }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
 }

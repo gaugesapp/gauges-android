@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.ui;
 
 import static android.content.Intent.ACTION_VIEW;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -37,68 +34,63 @@ import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.core.PageContent;
 import com.google.inject.Inject;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Fragment to load page content information for a {@link Gauge}
  */
-public class ContentListFragment extends ListLoadingFragment<PageContent> {
-
-    private static final String TAG = "CLA";
+public class ContentListFragment extends ItemListFragment<PageContent> {
 
     @Inject
     private GaugesServiceProvider serviceProvider;
 
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ListView listView = getListView();
-        listView.setCacheColorHint(getResources().getColor(
-                android.R.color.transparent));
+        setEmptyText(string.no_contents);
+    }
+
+    protected void configureList(Activity activity, ListView listView) {
+        super.configureList(activity, listView);
+
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
 
-        if (getListAdapter() == null)
-            listView.addHeaderView(
-                    getActivity().getLayoutInflater().inflate(
-                            layout.content_list_item_labels, null), null, false);
+        getListAdapter().addHeader(
+                activity.getLayoutInflater().inflate(
+                        layout.content_list_item_labels, null));
     }
 
     @Override
     public void onDestroyView() {
         setListAdapter(null);
+
         super.onDestroyView();
     }
 
     @Override
     public Loader<List<PageContent>> onCreateLoader(int id, Bundle args) {
-        return new AsyncLoader<List<PageContent>>(getActivity()) {
+        final List<PageContent> initialItems = items;
+        return new ThrowableLoader<List<PageContent>>(getActivity(), items) {
 
-            public List<PageContent> loadInBackground() {
+            @Override
+            public List<PageContent> loadData() throws Exception {
                 try {
                     return serviceProvider.getService().getContent(
                             getArguments().getString(GAUGE_ID));
-                } catch (IOException e) {
-                    Log.d(TAG, "Exception getting page content", e);
-                    showError(string.error_loading_contents);
                 } catch (OperationCanceledException e) {
                     Activity activity = getActivity();
                     if (activity != null)
                         activity.finish();
-                } catch (AccountsException e) {
-                    Log.d(TAG, "Exception getting page content", e);
-                    showError(string.error_loading_contents);
+                    return initialItems;
                 }
-                return Collections.emptyList();
             }
         };
     }
 
     @Override
-    protected SingleTypeAdapter<PageContent> adapterFor(List<PageContent> items) {
+    protected SingleTypeAdapter<PageContent> createAdapter(
+            List<PageContent> items) {
         return new ContentListAdapter(getActivity().getLayoutInflater(), items);
     }
 
@@ -106,5 +98,10 @@ public class ContentListFragment extends ListLoadingFragment<PageContent> {
     public void onListItemClick(ListView l, View v, int position, long id) {
         String url = ((PageContent) l.getItemAtPosition(position)).getUrl();
         startActivity(new Intent(ACTION_VIEW, Uri.parse(url)));
+    }
+
+    @Override
+    protected int getErrorMessage(Exception exception) {
+        return string.error_loading_contents;
     }
 }

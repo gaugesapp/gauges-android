@@ -28,15 +28,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.emorym.android_pusher.Pusher;
+import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
+import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
 import com.github.mobile.gauges.ui.GaugeListLoader;
+import com.github.mobile.gauges.ui.ThrowableLoader;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 import com.google.inject.Inject;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +52,8 @@ import roboguice.inject.InjectView;
 /**
  * Activity to display list of gauge summaries
  */
-public class AirTrafficActivity extends RoboSherlockFragmentActivity implements LoaderCallbacks<List<Gauge>> {
+public class AirTrafficActivity extends RoboSherlockFragmentActivity implements
+        LoaderCallbacks<List<Gauge>> {
 
     private static final String CHANNEL_PREFIX = "private-";
 
@@ -84,14 +89,16 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
 
         resourceProvider = new AirTrafficResourceProvider(getResources());
 
-        airTrafficView.setResourceProvider(resourceProvider).setLabelHeight(gaugeText.getTextSize() * 3 / 2);
+        airTrafficView.setResourceProvider(resourceProvider).setLabelHeight(
+                gaugeText.getTextSize() * 3 / 2);
 
         getSupportActionBar().hide();
 
         updateSystemUi();
 
         @SuppressWarnings("unchecked")
-        Collection<Gauge> intentGauges = (Collection<Gauge>) getIntent().getSerializableExtra(GAUGES);
+        Collection<Gauge> intentGauges = (Collection<Gauge>) getIntent()
+                .getSerializableExtra(GAUGES);
         if (intentGauges != null && !intentGauges.isEmpty())
             loadGauges(intentGauges);
         else
@@ -101,7 +108,8 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
     @SuppressWarnings("deprecation")
     private void updateSystemUi() {
         if (SDK_INT >= 14)
-            // On ICS this equivalent to SYSTEM_UI_FLAG_LOW_PROFILE - the dimmed-menu-buttons mode
+            // On ICS this equivalent to SYSTEM_UI_FLAG_LOW_PROFILE - the
+            // dimmed-menu-buttons mode
             getWindow().getDecorView().setSystemUiVisibility(STATUS_BAR_HIDDEN);
     }
 
@@ -121,11 +129,20 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
 
     @Override
     public Loader<List<Gauge>> onCreateLoader(int id, Bundle args) {
-        return new GaugeListLoader(this, serviceProvider);
+        return new GaugeListLoader(this, Collections.<Gauge> emptyList(),
+                serviceProvider);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Gauge>> listLoader, List<Gauge> gauges) {
+    public void onLoadFinished(Loader<List<Gauge>> listLoader,
+            List<Gauge> gauges) {
+        if (listLoader instanceof ThrowableLoader) {
+            Exception exception = ((ThrowableLoader<?>) listLoader)
+                    .clearException();
+            if (exception != null)
+                Toaster.showLong(this, string.error_loading_gauges);
+        }
+
         unsubscribeFromGaugeChannels(gaugeTitles.keySet());
         loadGauges(gauges);
         subscribeToGaugeChannels(gaugeTitles.keySet());
@@ -154,7 +171,8 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
         String region = hit.region != null ? hit.region : "";
 
         String location;
-        if (region.length() > 0 && ("United States".equals(country) || "Canada".equals(country)))
+        if (region.length() > 0
+                && ("United States".equals(country) || "Canada".equals(country)))
             location = region;
         else
             location = country;
@@ -207,9 +225,11 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
                                 if (gaugeTitle == null)
                                     return;
 
-                                Bitmap bitmap = resourceProvider.getPin(hit.siteId);
+                                Bitmap bitmap = resourceProvider
+                                        .getPin(hit.siteId);
                                 if (bitmap != null)
-                                    pinImage.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
+                                    pinImage.setBackgroundDrawable(new BitmapDrawable(
+                                            getResources(), bitmap));
                                 else
                                     pinImage.setBackgroundDrawable(null);
 
@@ -217,7 +237,8 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
 
                                 String title = getTitle(hit);
                                 if (title.length() > 0)
-                                    gaugeText.setText(gaugeTitle + ": " + title);
+                                    gaugeText
+                                            .setText(gaugeTitle + ": " + title);
                                 else
                                     gaugeText.setText(gaugeTitle);
 
@@ -226,12 +247,14 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements 
                     }
                 };
                 for (String gaugeId : subscribeIds)
-                    pusher.subscribe(CHANNEL_PREFIX + gaugeId).bind("hit", callback);
+                    pusher.subscribe(CHANNEL_PREFIX + gaugeId).bind("hit",
+                            callback);
             }
         });
     }
 
-    private void unsubscribeFromGaugeChannels(final Collection<String> unsubscribeIds) {
+    private void unsubscribeFromGaugeChannels(
+            final Collection<String> unsubscribeIds) {
         if (unsubscribeIds.isEmpty())
             return;
         backgroundThread.execute(new Runnable() {

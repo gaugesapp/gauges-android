@@ -15,19 +15,17 @@
  */
 package com.github.mobile.gauges.ui;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.github.kevinsawicki.wishlist.ViewUtils;
 import com.github.mobile.gauges.GaugesServiceProvider;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
@@ -36,7 +34,6 @@ import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
 import com.google.inject.Inject;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,9 +42,7 @@ import roboguice.inject.InjectExtra;
 /**
  * Fragment to display list of recent traffic
  */
-public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
-
-    private static final String TAG = "TLF";
+public class TrafficListFragment extends ItemListFragment<DatedViewSummary> {
 
     @Inject
     private GaugesServiceProvider serviceProvider;
@@ -58,6 +53,24 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
     @InjectExtra(value = GAUGE_ID, optional = true)
     private String gaugeId;
 
+    private GaugeGraphView barGraph;
+
+    @Override
+    protected void configureList(Activity activity, ListView listView) {
+        super.configureList(activity, listView);
+
+        listView.setFastScrollEnabled(true);
+        listView.setDividerHeight(0);
+
+        View graph = activity.getLayoutInflater().inflate(layout.traffic_graph,
+                null);
+        barGraph = (GaugeGraphView) graph.findViewById(id.gauge_graph);
+        getListAdapter().addHeader(graph);
+        getListAdapter().addHeader(
+                activity.getLayoutInflater().inflate(
+                        layout.traffic_list_item_labels, null));
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -65,29 +78,16 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
         if (gauge != null && gaugeId == null)
             gaugeId = gauge.getId();
 
-        ListView listView = getListView();
-
-        if (getListAdapter() == null) {
-            listView.addHeaderView(getLayoutInflater(savedInstanceState)
-                    .inflate(layout.traffic_graph, null), null, false);
-            listView.addHeaderView(getLayoutInflater(savedInstanceState)
-                    .inflate(layout.traffic_list_item_labels, null), null,
-                    false);
-        }
-
-        listView.setSelector(android.R.color.transparent);
-        listView.setCacheColorHint(getResources().getColor(
-                android.R.color.transparent));
-        listView.setDrawSelectorOnTop(false);
-        listView.setFastScrollEnabled(true);
-        listView.setDividerHeight(0);
+        setEmptyText(string.no_traffic);
     }
 
     @Override
     public Loader<List<DatedViewSummary>> onCreateLoader(int id, Bundle args) {
-        return new AsyncLoader<List<DatedViewSummary>>(getActivity()) {
+        final List<DatedViewSummary> initialItems = items;
+        return new ThrowableLoader<List<DatedViewSummary>>(getActivity(), items) {
 
-            public List<DatedViewSummary> loadInBackground() {
+            @Override
+            public List<DatedViewSummary> loadData() throws Exception {
                 final Gauge current = gauge;
                 if (current != null)
                     return current.getRecentDays();
@@ -96,18 +96,14 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
                             gaugeId);
                     if (latest != null)
                         return latest.getRecentDays();
-                } catch (IOException e) {
-                    Log.d(TAG, "Exception getting gauge", e);
-                    showError(string.error_loading_traffic);
+                    else
+                        return Collections.emptyList();
                 } catch (OperationCanceledException e) {
                     Activity activity = getActivity();
                     if (activity != null)
                         activity.finish();
-                } catch (AccountsException e) {
-                    Log.d(TAG, "Exception getting gauge", e);
-                    showError(string.error_loading_traffic);
+                    return initialItems;
                 }
-                return Collections.emptyList();
             }
         };
     }
@@ -115,6 +111,7 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
     @Override
     public void refresh() {
         gauge = null;
+
         super.refresh();
     }
 
@@ -123,18 +120,21 @@ public class TrafficListFragment extends ListLoadingFragment<DatedViewSummary> {
             List<DatedViewSummary> trafficData) {
         super.onLoadFinished(loader, trafficData);
 
-        GaugeGraphView barGraph = (GaugeGraphView) getListView().findViewById(
-                id.gauge_graph);
         if (!trafficData.isEmpty()) {
             barGraph.setNumDays(trafficData.size());
             barGraph.updateGraphWith(trafficData);
-            barGraph.setVisibility(VISIBLE);
+            ViewUtils.setGone(barGraph, false);
         } else
-            barGraph.setVisibility(GONE);
+            ViewUtils.setGone(barGraph, true);
     }
 
     @Override
-    protected SingleTypeAdapter<DatedViewSummary> adapterFor(
+    protected int getErrorMessage(Exception exception) {
+        return string.error_loading_traffic;
+    }
+
+    @Override
+    protected SingleTypeAdapter<DatedViewSummary> createAdapter(
             List<DatedViewSummary> items) {
         return new TrafficListAdapter(getActivity().getLayoutInflater(), items);
     }

@@ -72,4 +72,29 @@
         <item name="peopleWeekendColor">#BBDDCC</item>
     </style>
 
+    <style name="ListView">
+        <item name="android:dividerHeight">2px</item>
+        <item name="android:divider">@drawable/gauge_divider</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+    </style>
+
+    <style name="ListSubtitleText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/table_text_light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="Spinner">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateDrawable">@drawable/spinner</item>
+        <item name="android:indeterminateDuration">2000</item>
+        <item name="android:indeterminateOnly">true</item>
+    </style>
+
+    <style name="ListSpinner" parent="Spinner">
+        <item name="android:layout_width">64dp</item>
+        <item name="android:layout_height">64dp</item>
+    </style>
+
 </resources>

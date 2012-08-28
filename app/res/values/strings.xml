@@ -45,5 +45,9 @@
     <string name="message_bad_credentials">Email Address or Password is incorrect</string>
     <string name="message_auth_failed">Please enter a valid password</string>
     <string name="message_auth_failed_new_account">Please enter a valid email address &amp; password</string>
+    <string name="no_gauges">No Gauges</string>
+    <string name="no_traffic">No Traffic</string>
+    <string name="no_contents">No Contents</string>
+    <string name="no_referrers">No referrers</string>
 
 </resources>

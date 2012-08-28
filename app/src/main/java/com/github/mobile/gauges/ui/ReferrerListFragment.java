@@ -17,34 +17,29 @@ package com.github.mobile.gauges.ui;
 
 import static android.content.Intent.ACTION_VIEW;
 import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
-import android.accounts.AccountsException;
 import android.accounts.OperationCanceledException;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.mobile.gauges.GaugesServiceProvider;
+import com.github.mobile.gauges.R;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Referrer;
 import com.google.inject.Inject;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Fragment to display a list of {@link Referrer} instances
  */
-public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
-
-    private static final String TAG = "RLF";
+public class ReferrerListFragment extends ItemListFragment<Referrer> {
 
     @Inject
     private GaugesServiceProvider serviceProvider;
@@ -53,55 +48,59 @@ public class ReferrerListFragment extends ListLoadingFragment<Referrer> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ListView listView = getListView();
-        listView.setCacheColorHint(getResources().getColor(
-                android.R.color.transparent));
+        setEmptyText(R.string.no_referrers);
+    }
+
+    @Override
+    protected void configureList(Activity activity, ListView listView) {
+        super.configureList(activity, listView);
+
         listView.setFastScrollEnabled(true);
         listView.setDividerHeight(0);
 
-        if (getListAdapter() == null)
-            listView.addHeaderView(
-                    getActivity().getLayoutInflater().inflate(
-                            layout.referrer_list_item_labels, null), null,
-                    false);
+        getListAdapter().addHeader(
+                activity.getLayoutInflater().inflate(
+                        layout.referrer_list_item_labels, null));
     }
 
     @Override
     public void onDestroyView() {
         setListAdapter(null);
+
         super.onDestroyView();
     }
 
     public Loader<List<Referrer>> onCreateLoader(int id, Bundle args) {
-        return new AsyncLoader<List<Referrer>>(getActivity()) {
+        final List<Referrer> initialItems = items;
+        return new ThrowableLoader<List<Referrer>>(getActivity(), items) {
 
-            public List<Referrer> loadInBackground() {
+            @Override
+            public List<Referrer> loadData() throws Exception {
                 try {
                     return serviceProvider.getService().getReferrers(
                             getArguments().getString(GAUGE_ID));
-                } catch (IOException e) {
-                    Log.d(TAG, "Exception getting referrers", e);
-                    showError(string.error_loading_referrers);
                 } catch (OperationCanceledException e) {
                     Activity activity = getActivity();
                     if (activity != null)
                         activity.finish();
-                } catch (AccountsException e) {
-                    Log.d(TAG, "Exception getting referrers", e);
-                    showError(string.error_loading_referrers);
+                    return initialItems;
                 }
-                return Collections.emptyList();
             }
         };
     }
 
     @Override
-    protected SingleTypeAdapter<Referrer> adapterFor(List<Referrer> items) {
+    protected SingleTypeAdapter<Referrer> createAdapter(List<Referrer> items) {
         return new ReferrerListAdapter(getActivity().getLayoutInflater(), items);
     }
 
     public void onListItemClick(ListView l, View v, int position, long id) {
         String url = ((Referrer) l.getItemAtPosition(position)).getUrl();
         startActivity(new Intent(ACTION_VIEW, Uri.parse(url)));
+    }
+
+    @Override
+    protected int getErrorMessage(Exception exception) {
+        return string.error_loading_referrers;
     }
 }
