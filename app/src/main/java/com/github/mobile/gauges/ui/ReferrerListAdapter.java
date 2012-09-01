@@ -51,8 +51,8 @@ public class ReferrerListAdapter extends AlternatingColorListAdapter<Referrer> {
     protected void update(int position, Referrer item) {
         super.update(position, item);
 
-        setText(id.tv_referrer_host, item.getHost());
-        setText(id.tv_referrer_path, item.getPath());
-        setNumber(id.tv_referrer_views, item.getViews());
+        setText(0, item.getHost());
+        setText(1, item.getPath());
+        setNumber(2, item.getViews());
     }
 }

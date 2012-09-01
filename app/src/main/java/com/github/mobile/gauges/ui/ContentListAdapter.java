@@ -57,8 +57,8 @@ public class ContentListAdapter extends
     protected void update(int position, PageContent item) {
         super.update(position, item);
 
-        setText(id.tv_content_title, item.getTitle());
-        setText(id.tv_content_path, item.getPath());
-        setNumber(id.tv_content_views, item.getViews());
+        setText(0, item.getTitle());
+        setText(1, item.getPath());
+        setNumber(2, item.getViews());
     }
 }

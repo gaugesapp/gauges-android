@@ -62,9 +62,9 @@ public class TrafficListAdapter extends
     protected void update(int position, DatedViewSummary item) {
         super.update(position, item);
 
-        setText(id.tv_traffic_date, DATE_FORMAT.format(item.getDate()));
-        setNumber(id.tv_traffic_views, item.getViews());
-        setNumber(id.tv_traffic_people, item.getPeople());
+        setText(0, DATE_FORMAT.format(item.getDate()));
+        setNumber(1, item.getViews());
+        setNumber(2, item.getPeople());
     }
 
     @Override

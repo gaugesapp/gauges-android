@@ -46,7 +46,7 @@ public class GaugeListAdapter extends SingleTypeAdapter<Gauge> {
     protected View initialize(View view) {
         view = super.initialize(view);
 
-        GaugeGraphView graph = view(view, id.gauge_graph);
+        GaugeGraphView graph = view(view, 3);
         graph.setNumDays(7);
         return view;
     }
@@ -59,7 +59,7 @@ public class GaugeListAdapter extends SingleTypeAdapter<Gauge> {
 
     @Override
     protected void update(final int position, final Gauge gauge) {
-        setText(id.tv_gauge_name, gauge.getTitle());
+        setText(0, gauge.getTitle());
 
         DatedViewSummary today = gauge.getToday();
         long views;
@@ -71,10 +71,10 @@ public class GaugeListAdapter extends SingleTypeAdapter<Gauge> {
             views = 0;
             people = 0;
         }
-        setNumber(id.tv_gauge_views, views);
-        setNumber(id.tv_gauge_people, people);
+        setNumber(1, views);
+        setNumber(2, people);
 
-        GaugeGraphView graph = view(id.gauge_graph);
+        GaugeGraphView graph = view(3);
         graph.updateGraphWith(gauge.getRecentDays());
     }
 }
