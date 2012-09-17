@@ -58,7 +58,9 @@ public class GaugesPusher extends Pusher {
             try {
                 service = serviceProvider.getService();
             } catch (AccountsException e) {
-                throw new IOException(e.getMessage());
+                IOException io = new IOException("Account lookup failed");
+                io.initCause(e);
+                throw io;
             }
         // Socket id is required before authentication can begin so wait
         // until it comes back on the connection_established event
@@ -76,6 +78,7 @@ public class GaugesPusher extends Pusher {
             if (slept >= AUTH_TIMEOUT)
                 break;
         }
-        return mSocketId != null ? service.getPusherAuth(mSocketId, channelName) : null;
+        return mSocketId != null ? service
+                .getPusherAuth(mSocketId, channelName) : null;
     }
 }
