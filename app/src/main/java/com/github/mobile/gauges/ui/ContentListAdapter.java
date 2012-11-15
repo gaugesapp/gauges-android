@@ -17,9 +17,9 @@ package com.github.mobile.gauges.ui;
 
 import android.view.LayoutInflater;
 
+import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.PageContent;
-import com.viewpagerindicator.R.id;
 
 import java.util.List;
 

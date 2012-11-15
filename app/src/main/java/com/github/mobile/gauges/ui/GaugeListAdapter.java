@@ -19,10 +19,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.core.DatedViewSummary;
 import com.github.mobile.gauges.core.Gauge;
-import com.viewpagerindicator.R.id;
 
 import java.util.Collection;
 

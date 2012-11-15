@@ -17,8 +17,8 @@ package com.github.mobile.gauges.ui;
 
 import android.view.LayoutInflater;
 
-import com.actionbarsherlock.R.color;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
+import com.github.mobile.gauges.R.color;
 import com.github.mobile.gauges.R.drawable;
 
 import java.util.List;
