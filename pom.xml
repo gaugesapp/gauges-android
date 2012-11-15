@@ -83,7 +83,7 @@
                     <extensions>true</extensions>
                     <configuration>
                         <sdk>
-                            <platform>15</platform>
+                            <platform>16</platform>
                         </sdk>
                         <undeployBeforeDeploy>true</undeployBeforeDeploy>
                         <proguard>
