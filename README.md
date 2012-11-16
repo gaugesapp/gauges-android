@@ -1,6 +1,4 @@
-# Gaug.es Android App
-
-[![Build Status](https://travis-ci.org/github/gauges-android.png)](https://travis-ci.org/github/gauges-android)
+# Gaug.es Android App [![Build Status](https://travis-ci.org/github/gauges-android.png)](https://travis-ci.org/github/gauges-android)
 
 This repository contains the source code for the [Gaug.es](http://get.gaug.es/)
 Android app available from [Google Play](https://play.google.com/store/apps/details?id=com.github.mobile.gauges).
