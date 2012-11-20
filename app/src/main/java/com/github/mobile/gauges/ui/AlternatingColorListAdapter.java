@@ -73,8 +73,8 @@ public abstract class AlternatingColorListAdapter<V> extends
     @Override
     protected void update(final int position, final V item) {
         if (position % 2 != 0)
-            view.setBackgroundResource(primaryResource);
+            updater.view.setBackgroundResource(primaryResource);
         else
-            view.setBackgroundResource(secondaryResource);
+            updater.view.setBackgroundResource(secondaryResource);
     }
 }
