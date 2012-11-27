@@ -15,13 +15,14 @@
   ~ limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/actionbar_background" >
 
-    <fragment
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.github.mobile.gauges.ui.GaugeListFragment" />
+  <fragment
+    android:id="@android:id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    class="com.github.mobile.gauges.ui.GaugeListFragment" />
 
 </FrameLayout>
