@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.github.mobile.gauges.ui;
 
 import android.os.Bundle;
@@ -29,6 +28,7 @@ public class GaugeListActivity extends RoboSherlockFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(layout.gauge_list);
     }
 }
