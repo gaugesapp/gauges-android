@@ -15,6 +15,8 @@
  */
 package com.github.mobile.gauges.ui;
 
+import static android.view.animation.Animation.INFINITE;
+import static android.view.animation.Animation.RESTART;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -22,9 +24,11 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -36,6 +40,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.github.kevinsawicki.wishlist.SingleTypeAdapter;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.kevinsawicki.wishlist.ViewUtils;
+import com.github.mobile.gauges.R.anim;
+import com.github.mobile.gauges.R.drawable;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
 import com.github.mobile.gauges.R.menu;
@@ -89,6 +95,11 @@ public abstract class ItemListFragment<E> extends RoboSherlockFragment
      * Is the list currently shown?
      */
     protected boolean listShown;
+
+    /**
+     * Refresh menu item
+     */
+    protected MenuItem refreshItem;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -168,10 +179,37 @@ public abstract class ItemListFragment<E> extends RoboSherlockFragment
         switch (item.getItemId()) {
         case id.refresh:
             forceRefresh();
+            showRefreshAnimation(item);
             return true;
         default:
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void hideRefreshAnimation() {
+        if (refreshItem != null) {
+            View view = refreshItem.getActionView();
+            if (view != null) {
+                view.clearAnimation();
+                refreshItem.setActionView(null);
+            }
+        }
+    }
+
+    private void showRefreshAnimation(MenuItem item) {
+        hideRefreshAnimation();
+
+        refreshItem = item;
+
+        ImageView refreshActionView = (ImageView) getActivity()
+                .getLayoutInflater().inflate(layout.action_view, null);
+        refreshActionView.setImageResource(drawable.ic_action_refresh);
+        refreshItem.setActionView(refreshActionView);
+        Animation animation = AnimationUtils.loadAnimation(getActivity(),
+                anim.refresh);
+        animation.setRepeatMode(RESTART);
+        animation.setRepeatCount(INFINITE);
+        refreshActionView.startAnimation(animation);
     }
 
     /**
@@ -216,6 +254,7 @@ public abstract class ItemListFragment<E> extends RoboSherlockFragment
         this.items = items;
         getListAdapter().getWrappedAdapter().setItems(items.toArray());
         showList();
+        hideRefreshAnimation();
     }
 
     /**
