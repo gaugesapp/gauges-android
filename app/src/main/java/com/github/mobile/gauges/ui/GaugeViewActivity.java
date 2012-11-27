@@ -59,6 +59,7 @@ public class GaugeViewActivity extends PagerActivity {
 
         adapter = new GaugePagerAdapter(gauge, this);
         pager.setAdapter(adapter);
+        pager.setOnPageChangeListener(this);
         indicator.setViewPager(pager);
         pager.scheduleSetItem(1);
     }
