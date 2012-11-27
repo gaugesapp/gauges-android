@@ -20,9 +20,6 @@ import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_ACCOUNT_TYPE;
 import static android.accounts.AccountManager.KEY_AUTHTOKEN;
 import static android.accounts.AccountManager.KEY_BOOLEAN_RESULT;
-import static android.view.KeyEvent.ACTION_DOWN;
-import static android.view.KeyEvent.KEYCODE_ENTER;
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static com.github.kevinsawicki.http.HttpRequest.post;
 import static com.github.mobile.gauges.authenticator.AuthConstants.GAUGES_ACCOUNT_TYPE;
 import static com.github.mobile.gauges.core.GaugesConstants.URL_AUTH;
@@ -38,20 +35,20 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.github.kevinsawicki.http.HttpRequest;
+import com.github.kevinsawicki.wishlist.EditTextUtils;
+import com.github.kevinsawicki.wishlist.EditTextUtils.BooleanRunnable;
 import com.github.kevinsawicki.wishlist.Toaster;
 import com.github.mobile.gauges.R.id;
 import com.github.mobile.gauges.R.layout;
+import com.github.mobile.gauges.R.menu;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.ui.TextWatcherAdapter;
 import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockAccountAuthenticatorActivity;
@@ -98,8 +95,7 @@ public class GaugesAuthenticatorActivity extends
     @InjectView(id.et_password)
     private EditText passwordText;
 
-    @InjectView(id.b_signin)
-    private Button signinButton;
+    private MenuItem signInItem;
 
     private TextWatcher watcher = validationTextWatcher();
 
@@ -139,24 +135,12 @@ public class GaugesAuthenticatorActivity extends
         emailText.setAdapter(new ArrayAdapter<String>(this,
                 simple_dropdown_item_1line, userEmailAccounts()));
 
-        passwordText.setOnKeyListener(new OnKeyListener() {
+        EditTextUtils.onDone(passwordText, new BooleanRunnable() {
 
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event != null && ACTION_DOWN == event.getAction()
-                        && keyCode == KEYCODE_ENTER && signinButton.isEnabled()) {
-                    handleLogin(signinButton);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        passwordText.setOnEditorActionListener(new OnEditorActionListener() {
-
-            public boolean onEditorAction(TextView v, int actionId,
-                    KeyEvent event) {
-                if (actionId == IME_ACTION_DONE && signinButton.isEnabled()) {
-                    handleLogin(signinButton);
+            @Override
+            public boolean run() {
+                if (signInItem != null && signInItem.isEnabled()) {
+                    handleLogin();
                     return true;
                 }
                 return false;
@@ -191,16 +175,33 @@ public class GaugesAuthenticatorActivity extends
     @Override
     protected void onResume() {
         super.onResume();
+
         updateUIWithValidation();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu optionsMenu) {
+        getSupportMenuInflater().inflate(menu.login, optionsMenu);
+        signInItem = optionsMenu.findItem(id.m_login);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        updateUIWithValidation();
+
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private void updateUIWithValidation() {
         boolean populated = populated(emailText) && populated(passwordText);
-        signinButton.setEnabled(populated);
+        if (signInItem != null)
+            signInItem.setEnabled(populated);
     }
 
     private boolean populated(EditText editText) {
-        return editText.length() > 0;
+        return editText != null && editText.length() > 0;
     }
 
     @Override
@@ -221,12 +222,8 @@ public class GaugesAuthenticatorActivity extends
     /**
      * Handles onClick event on the Submit button. Sends username/password to
      * the server for authentication.
-     * <p/>
-     * Specified by android:onClick="handleLogin" in the layout xml
-     *
-     * @param view
      */
-    public void handleLogin(View view) {
+    public void handleLogin() {
         if (authenticationTask != null)
             return;
 

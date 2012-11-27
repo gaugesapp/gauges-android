@@ -83,21 +83,6 @@
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:typeface="monospace" />
-
-            <Button
-                android:id="@+id/b_signin"
-                style="@style/ShadowText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/button_background_states"
-                android:gravity="center"
-                android:onClick="handleLogin"
-                android:padding="10dp"
-                android:text="@string/label_sign_in"
-                android:textColor="@color/text"
-                android:textSize="20sp"
-                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 
