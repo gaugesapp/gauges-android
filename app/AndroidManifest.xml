@@ -55,6 +55,7 @@
         <activity
             android:name=".ui.airtraffic.AirTrafficActivity"
             android:label="@string/airtraffic"
+            android:launchMode="singleTop"
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="com.github.mobile.gauges.airtraffic.VIEW" />
