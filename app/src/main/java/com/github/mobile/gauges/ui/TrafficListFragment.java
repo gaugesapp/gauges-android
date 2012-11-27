@@ -109,6 +109,13 @@ public class TrafficListFragment extends ItemListFragment<DatedViewSummary> {
     }
 
     @Override
+    protected void forceRefresh() {
+        gauge = null;
+
+        super.forceRefresh();
+    }
+
+    @Override
     public void refresh() {
         gauge = null;
 
