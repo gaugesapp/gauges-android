@@ -21,9 +21,8 @@ import static com.github.mobile.gauges.IntentConstants.GAUGE_ID;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.github.mobile.gauges.R.string;
 import com.github.mobile.gauges.core.Gauge;
 
@@ -39,13 +38,13 @@ public class GaugePagerAdapter extends FragmentPagerAdapter {
     /**
      * Create pager adapter
      *
-     * @param resources
      * @param gauge
-     * @param fragmentManager
+     * @param activity
      */
-    public GaugePagerAdapter(Resources resources, Gauge gauge, FragmentManager fragmentManager) {
-        super(fragmentManager);
-        this.resources = resources;
+    public GaugePagerAdapter(Gauge gauge, SherlockFragmentActivity activity) {
+        super(activity);
+
+        this.resources = activity.getResources();
         this.gauge = gauge;
     }
 
