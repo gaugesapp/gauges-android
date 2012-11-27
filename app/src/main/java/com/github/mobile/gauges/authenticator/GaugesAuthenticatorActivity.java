@@ -194,6 +194,17 @@ public class GaugesAuthenticatorActivity extends
         return super.onPrepareOptionsMenu(menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case id.m_login:
+            handleLogin();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void updateUIWithValidation() {
         boolean populated = populated(emailText) && populated(passwordText);
         if (signInItem != null)
