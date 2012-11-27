@@ -20,6 +20,8 @@
         <item name="android:windowBackground">@color/pager_background</item>
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <item name="actionBarItemBackground">@drawable/actionbar_item_background</item>
+        <item name="android:actionBarItemBackground">@drawable/actionbar_item_background</item>
     </style>
 
     <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.ActionBar.Solid">
