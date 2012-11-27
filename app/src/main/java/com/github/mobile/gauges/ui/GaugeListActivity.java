@@ -17,18 +17,34 @@ package com.github.mobile.gauges.ui;
 
 import android.os.Bundle;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.github.mobile.gauges.R.layout;
-import com.github.rtyley.android.sherlock.roboguice.activity.RoboSherlockFragmentActivity;
 
 /**
  * Activity to display list of gauge summaries
  */
-public class GaugeListActivity extends RoboSherlockFragmentActivity {
+public class GaugeListActivity extends PagerActivity implements
+        FragmentProvider {
+
+    private SherlockFragment selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(layout.gauge_list);
+    }
+
+    @Override
+    protected FragmentProvider getProvider() {
+        return this;
+    }
+
+    @Override
+    public SherlockFragment getSelected() {
+        if (selected == null)
+            selected = (SherlockFragment) getSupportFragmentManager()
+                    .findFragmentById(android.R.id.list);
+        return selected;
     }
 }
