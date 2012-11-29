@@ -17,10 +17,7 @@
 package com.github.mobile.gauges.test;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.View;
-import android.widget.Button;
 
-import com.github.mobile.gauges.R;
 import com.github.mobile.gauges.authenticator.GaugesAuthenticatorActivity;
 
 /**
@@ -40,15 +37,5 @@ public class GaugesAuthenticatorTest extends ActivityInstrumentationTestCase2<Ga
      */
     public void testActivityExists() {
         assertNotNull(getActivity());
-    }
-
-    /**
-     * Verify sign in button is initially disabled
-     */
-    public void testSignInDisabled() {
-        View view = getActivity().findViewById(R.id.b_signin);
-        assertNotNull(view);
-        assertTrue(view instanceof Button);
-        assertFalse(((Button) view).isEnabled());
     }
 }
