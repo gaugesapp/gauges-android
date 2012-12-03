@@ -83,6 +83,7 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(layout.airtraffic_activity);
 
         pusher = new GaugesPusher(serviceProvider);
@@ -220,6 +221,7 @@ public class AirTrafficActivity extends RoboSherlockFragmentActivity implements
 
                         gaugeText.post(new Runnable() {
 
+                            @SuppressWarnings("deprecation")
                             public void run() {
                                 String gaugeTitle = gaugeTitles.get(hit.siteId);
                                 if (gaugeTitle == null)

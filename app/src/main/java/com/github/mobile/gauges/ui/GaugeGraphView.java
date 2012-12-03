@@ -84,6 +84,7 @@ public class GaugeGraphView extends LinearLayout {
      * @param trafficData
      *            a list of traffic data by day in reverse-chronological order
      */
+    @SuppressWarnings("deprecation")
     public void updateGraphWith(List<DatedViewSummary> trafficData) {
         setBackgroundDrawable(createBarGraphDrawableFor(trafficData));
     }
