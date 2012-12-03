@@ -259,12 +259,10 @@ public class GaugesAuthenticatorActivity extends
                 // A 401 is returned as an IOException with this message
                 if ("Received authentication challenge is null".equals(cause
                         .getMessage()))
-                    message = getResources().getString(
-                            string.message_bad_credentials);
+                    message = getString(string.message_bad_credentials);
                 else if ("No authentication challenges found".equals(cause
                         .getMessage()))
-                    message = getResources().getString(
-                            string.message_bad_credentials);
+                    message = getString(string.message_bad_credentials);
                 else
                     message = cause.getMessage();
 
