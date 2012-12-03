@@ -261,6 +261,10 @@ public class GaugesAuthenticatorActivity extends
                         .getMessage()))
                     message = getResources().getString(
                             string.message_bad_credentials);
+                else if ("No authentication challenges found".equals(cause
+                        .getMessage()))
+                    message = getResources().getString(
+                            string.message_bad_credentials);
                 else
                     message = cause.getMessage();
 
