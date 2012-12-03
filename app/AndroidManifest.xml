@@ -79,13 +79,7 @@
 
         <activity
             android:name=".authenticator.GaugesAuthenticatorActivity"
-            android:excludeFromRecents="true" >
-
-            <!--
-                No intent-filter here! This activity is only ever launched by
-                someone who explicitly knows the class name
-            -->
-        </activity>
+            android:excludeFromRecents="true" />
     </application>
 
 </manifest>
