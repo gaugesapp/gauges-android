@@ -36,7 +36,8 @@
     android:theme="@style/Theme.Gauges" >
     <activity
       android:name=".ui.GaugeListActivity"
-      android:configChanges="orientation|keyboardHidden|screenSize" >
+      android:configChanges="orientation|keyboardHidden|screenSize"
+      android:hardwareAccelerated="true" >
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -45,7 +46,8 @@
     </activity>
     <activity
       android:name=".ui.GaugeViewActivity"
-      android:configChanges="orientation|keyboardHidden|screenSize" >
+      android:configChanges="orientation|keyboardHidden|screenSize"
+      android:hardwareAccelerated="true" >
       <intent-filter>
         <action android:name="com.github.mobile.gauges.gauge.VIEW" />
 
@@ -54,6 +56,7 @@
     </activity>
     <activity
       android:name=".ui.airtraffic.AirTrafficActivity"
+      android:hardwareAccelerated="true"
       android:label="@string/airtraffic"
       android:launchMode="singleTop"
       android:screenOrientation="landscape" >
