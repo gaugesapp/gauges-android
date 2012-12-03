@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
 -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="SignInEditText">
         <item name="android:layout_width">match_parent</item>
@@ -76,6 +76,7 @@
         <item name="android:dividerHeight">2px</item>
         <item name="android:divider">@drawable/gauge_divider</item>
         <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:fadingEdge">none</item>
     </style>
 
     <style name="ListSubtitleText">
