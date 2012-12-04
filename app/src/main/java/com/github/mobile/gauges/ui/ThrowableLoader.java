@@ -18,6 +18,8 @@ package com.github.mobile.gauges.ui;
 import android.content.Context;
 import android.util.Log;
 
+import com.github.kevinsawicki.wishlist.AsyncLoader;
+
 /**
  * Loader that support throwing an exception when loading in the background
  *
